@@ -269,7 +269,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="nntv_sp.ico" />
     <None Include="Resources\right.png" />
     <None Include="Resources\left.png" />
     <None Include="Resources\close2.png" />
