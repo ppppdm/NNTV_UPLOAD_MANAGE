@@ -368,14 +368,15 @@ Partial Class TapeReceive
         Me.ListBoxTapeName.ItemHeight = 12
         Me.ListBoxTapeName.Location = New System.Drawing.Point(89, 40)
         Me.ListBoxTapeName.Name = "ListBoxTapeName"
-        Me.ListBoxTapeName.Size = New System.Drawing.Size(121, 16)
+        Me.ListBoxTapeName.Size = New System.Drawing.Size(231, 16)
         Me.ListBoxTapeName.TabIndex = 34
+        Me.ListBoxTapeName.Visible = False
         '
         'TapeReceive
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(346, 384)
+        Me.ClientSize = New System.Drawing.Size(338, 379)
         Me.Controls.Add(Me.ListBoxTapeName)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TextBoxRecvTime)

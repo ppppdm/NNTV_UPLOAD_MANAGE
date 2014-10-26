@@ -588,5 +588,61 @@ Public Class TapeReceive
             
         End If
     End Sub
+
+    '鼠标点击，选定
+    Private Sub ListBoxTapeName_MouseClick(ByVal sender As Object, ByVal e As MouseEventArgs) Handles ListBoxTapeName.MouseClick
+        ListToText()
+    End Sub
+  
+    '选定的磁带名填入磁带名框
+    Private Sub ListToText()
+        TextBoxTapeName.Text = ListBoxTapeName.Text
+        ListBoxTapeName.Hide()
+
+        '如果磁带名如“六位日期+节目名称”则自动填入已知信息
+        If IsNumeric(Mid(TextBoxTapeName.Text, 1, 6)) And Mid(TextBoxTapeName.Text, 7, 1) <> "" Then
+            Dim truename = Mid(TextBoxTapeName.Text, 7)
+            Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
+            Dim sqlstr = "SELECT TOP 2 channel, start_timecode, length FROM tape Where tape_name LIKE '%" + truename + "' ORDER by in_bc_time DESC;"
+            Dim command As New SqlCommand(sqlstr, sqlconn)
+            Dim reader As SqlDataReader = command.ExecuteReader()
+            Dim Achannel(2) As String
+            Dim Astart(2) As String
+            Dim Alength(2) As String
+            Dim i = 0
+            While reader.Read()
+                Achannel(i) = reader(0)
+                Astart(i) = reader(1)
+                Alength(i) = reader(2)
+                i += 1
+            End While
+            reader.Close()
+
+            '若最后2次收到该节目的频道、时码、长度相同，则自动填入
+            If Achannel(0) = Achannel(1) Then
+                ComboBoxChannel.Text = Achannel(0)
+            Else
+                ComboBoxChannel.Text = ""
+            End If
+            If Astart(0) = Astart(1) Then
+                TextBoxStartTimeH.Text = Mid(Astart(0), 1, 2)
+                TextBoxStartTimeM.Text = Mid(Astart(0), 3, 2)
+                TextBoxStartTimeS.Text = Mid(Astart(0), 5, 2)
+                TextBoxStartTimeF.Text = Mid(Astart(0), 7, 2)
+            Else
+                SetStartTimeZero()
+            End If
+            If Alength(0) = Alength(1) Then
+                TextBoxLengthH.Text = Mid(Alength(0), 1, 2)
+                TextBoxLengthM.Text = Mid(Alength(0), 3, 2)
+                TextBoxLengthS.Text = Mid(Alength(0), 5, 2)
+                TextBoxLengthF.Text = Mid(Alength(0), 7, 2)
+            Else
+                SetLengthZero()
+            End If
+            TextBoxTapeName.Focus()
+            TextBoxTapeName.SelectionLength = 6 '选中前6个字符，即日期
+        End If
+    End Sub
 End Class
 
