@@ -57,6 +57,7 @@ Partial Class TapeReceive
         Me.TextBoxRecvTime = New System.Windows.Forms.TextBox
         Me.LabelRecvTapeTime = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
+        Me.ListBoxTapeName = New System.Windows.Forms.ListBox
         Me.SuspendLayout()
         '
         'LabelTapeName
@@ -361,11 +362,21 @@ Partial Class TapeReceive
         Me.Label2.TabIndex = 18
         Me.Label2.Text = "(* 这里是节目时长）"
         '
+        'ListBoxTapeName
+        '
+        Me.ListBoxTapeName.FormattingEnabled = True
+        Me.ListBoxTapeName.ItemHeight = 12
+        Me.ListBoxTapeName.Location = New System.Drawing.Point(89, 40)
+        Me.ListBoxTapeName.Name = "ListBoxTapeName"
+        Me.ListBoxTapeName.Size = New System.Drawing.Size(121, 16)
+        Me.ListBoxTapeName.TabIndex = 34
+        '
         'TapeReceive
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(346, 384)
+        Me.Controls.Add(Me.ListBoxTapeName)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TextBoxRecvTime)
         Me.Controls.Add(Me.LabelRecvTapeTime)
@@ -443,4 +454,5 @@ Partial Class TapeReceive
     Friend WithEvents TextBoxRecvTime As System.Windows.Forms.TextBox
     Friend WithEvents LabelRecvTapeTime As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents ListBoxTapeName As System.Windows.Forms.ListBox
 End Class

@@ -551,5 +551,42 @@ Public Class TapeReceive
         ComboBoxMediaType.Focus()
     End Sub
 
+    Private Sub TextBoxSendPerson_TextChanged _
+        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
+        Handles TextBoxSendPerson.TextChanged
+        If TextBoxTapeName.Text = "" Then
+            Dim sendPerson As String = TextBoxSendPerson.Text
+            Dim queryString As String = "SELECT TOP 10 * from tape WHERE in_bc_send_per = '" & _
+                                        sendPerson & _
+                                        "' ORDER by in_bc_time DESC"
+            Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
+            Dim sqlcom As SqlCommand = New SqlCommand(queryString, sqlconn)
+
+            Try
+                sqlconn.Open()
+                Dim reader As SqlDataReader = sqlcom.ExecuteReader()
+
+                ListBoxTapeName.Items.Clear()
+                While reader.Read()
+                    ListBoxTapeName.Items.Add(reader("tape_name"))
+                End While
+                reader.Close()
+
+                If ListBoxTapeName.Items.Count <> 0 Then
+                    ListBoxTapeName.Height = ListBoxTapeName.Items.Count * ListBoxTapeName.ItemHeight + 4
+                    ListBoxTapeName.Show()
+                Else
+                    'ListBoxTapeName.Height = ListBoxTapeName.ItemHeight
+                    ListBoxTapeName.Hide()
+                End If
+
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            Finally
+                sqlconn.Close()
+            End Try
+            
+        End If
+    End Sub
 End Class
 
