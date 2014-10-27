@@ -146,11 +146,11 @@ Public Class QueryForm
         '获得需要查询的列
         For i = 0 To Swo.GetLength(0) - 1
             If Swo(i, SwoValue) = True Then
-                If Swo(i, SwoDbColumnName) = "tape_status" Then
-                    selectStr += "tape_status.status,"
-                Else
-                    selectStr += Swo(i, SwoDbColumnName) + ","
-                End If
+                    If Swo(i, SwoDbColumnName) = "tape_status" Then
+                        selectStr += "tape_status.tape_status,"
+                    Else
+                        selectStr += Swo(i, SwoDbColumnName) + ","
+                    End If
             End If
         Next
         selectStr = selectStr.Remove(selectStr.Length - 1)
@@ -169,7 +169,7 @@ Public Class QueryForm
             For i = 0 To SwoMaterial.GetLength(0) - 1
                 If SwoMaterial(i, SwoValue) = True Then
                     If SwoMaterial(i, SwoDbColumnName) = "status" Then
-                        selectStr += "tape_status.status,"
+                        selectStr += "tape_status.material_status,"
                     Else
                         selectStr += SwoMaterial(i, SwoDbColumnName) + ","
                     End If
@@ -260,9 +260,18 @@ Public Class QueryForm
                     row.DefaultCellStyle.BackColor = Color.Yellow
                 End If
 
-                If row.Cells("状态").Value = "已采集,未审核" Then
+                If row.Cells("状态").Value = "正在采集" Then
+                    row.DefaultCellStyle.BackColor = Color.Yellow
+                End If
+
+                If row.Cells("状态").Value = "未审核" Then
                     row.DefaultCellStyle.BackColor = Color.DarkGray
                 End If
+
+                If row.Cells("状态").Value = "正在审核" Then
+                    row.DefaultCellStyle.BackColor = Color.Green
+                End If
+
             Catch ex As Exception
                 Console.WriteLine(ex.Message)
             End Try
