@@ -8,6 +8,11 @@ Public Class Check
     Private _checkupId As Guid = Nothing
     Private _workAcq As AccessControlQuery
 
+    Private Const _paramKeyF5 As Integer = 100
+    Private Const _paramKeyF6 As Integer = 200
+    Private Const _paramKeyF7 As Integer = 300
+    Private Const _paramKeyF8 As Integer = 400
+
     Private cutflag1 As Integer
     Private cutflag2 As Integer
     Private cutflag3 As Integer
@@ -66,6 +71,12 @@ Public Class Check
         '取消后台线程
         BackgroundWorker1.CancelAsync()
 
+        '注销热键
+        UnregisterHotKey(Me.Handle, _paramKeyF5)
+        UnregisterHotKey(Me.Handle, _paramKeyF6)
+        UnregisterHotKey(Me.Handle, _paramKeyF7)
+        UnregisterHotKey(Me.Handle, _paramKeyF8)
+
         '主界面恢复
         QueryForm.WindowState = FormWindowState.Normal
     End Sub
@@ -106,6 +117,49 @@ Public Class Check
         ButtonScreenShotHead.Enabled = False
         ButtonScreenShotMid.Enabled = False
         ButtonScreenShotTail.Enabled = False
+
+        '注册热键
+        RegisterHotKey(Me.Handle, _paramKeyF5, KeyModifiers.None, Keys.F5)
+        RegisterHotKey(Me.Handle, _paramKeyF6, KeyModifiers.None, Keys.F6)
+        RegisterHotKey(Me.Handle, _paramKeyF7, KeyModifiers.None, Keys.F7)
+        RegisterHotKey(Me.Handle, _paramKeyF8, KeyModifiers.None, Keys.F8)
+    End Sub
+
+    Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
+        If m.Msg = WM_HOTKEY Then
+            Dim id As IntPtr = m.WParam
+            Select Case id
+                Case _paramKeyF5
+                    DoScreenShot(PictureBox1, "check_point1_screenshot")
+                Case _paramKeyF6
+                    DoScreenShot(PictureBox2, "check_point2_screenshot")
+                Case _paramKeyF7
+                    DoScreenShot(PictureBox3, "check_point3_screenshot")
+                Case _paramKeyF8
+                    DoScreenShot(PictureBox4, "episode_screenshot")
+            End Select
+        End If
+        MyBase.WndProc(m)
+    End Sub
+
+    Private Sub DoScreenShot(ByVal picBox As PictureBox, ByVal dbcolumn As String)
+        WindowState = 1  '最小化程序窗口
+        '获取屏幕截图bmp图片
+        Dim w As Integer = Screen.PrimaryScreen.WorkingArea.Width
+        Dim h As Integer = Screen.PrimaryScreen.WorkingArea.Height
+        Dim bmp As New Bitmap(w, h)
+        Dim gs As Graphics = Graphics.FromImage(bmp)
+
+        gs.CopyFromScreen(0, 0, 0, 0, My.Computer.Screen.WorkingArea.Size)
+        picBox.Image = bmp
+
+        '图片存储到数据库中
+        StoreImgToDb(bmp, dbcolumn)
+
+        Sleep(100) '延迟0.1秒
+        WindowState = 0
+
+        ButtonFinishCheck.Enabled = True
     End Sub
 
     '设置窗体素材信息
@@ -310,7 +364,7 @@ Public Class Check
 
         cutflag3 = 1
         If _
-            (cutflag1 = 1 And cutflag2 = 1 And cutflag3 = 1 And cutflag4 = 1 ) Then
+            (cutflag1 = 1 And cutflag2 = 1 And cutflag3 = 1 And cutflag4 = 1) Then
             ButtonFinishCheck.Enabled = True
         End If
     End Sub
@@ -341,7 +395,7 @@ Public Class Check
         CheckBoxDateEpisodeCheck.Checked = True
         cutflag4 = 1
         If _
-            (cutflag1 = 1 And cutflag2 = 1 And cutflag3 = 1 And cutflag4 = 1 ) Then
+            (cutflag1 = 1 And cutflag2 = 1 And cutflag3 = 1 And cutflag4 = 1) Then
             ButtonFinishCheck.Enabled = True
         End If
     End Sub
@@ -351,7 +405,7 @@ Public Class Check
     (ByVal sender As Object, ByVal e As EventArgs) _
     Handles ButtonStartCheck.Click
 
-        
+
         If (CheckBoxNameCheck.Checked = False) Then
             MessageBox.Show("请核对节目名称！！")
         ElseIf (CheckBoxLenCheck.Checked = False) Then

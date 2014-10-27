@@ -1,8 +1,10 @@
-﻿Module GlobalValues
+﻿Imports System.Runtime.InteropServices
+
+Module GlobalValues
     Public Xuhao As Integer '用来表征项目的序号
     Public Declare Function CreateWnd Lib "MyDll" () As Double
     Public Declare Function CloseWnd Lib "MyDll" () As Double
-    Public Declare Function ClearGraphs Lib "MyDll"() As Double
+    Public Declare Function ClearGraphs Lib "MyDll" () As Double
     Public Declare Function OnpStillCapture Lib "MyDll" _
         (ByVal hwnd As Long) As Double
     Public Declare Function InitStillGraph Lib "MyDll" _
@@ -65,22 +67,42 @@
         ByRef lParam As Long) As Boolean
 
     Public Const WM_QUIT As Integer = &H12
+    Public Const WM_HOTKEY As Integer = &H312
+
+    Public Declare Function RegisterHotKey Lib "user32.dll" _
+        (ByVal id As Integer, _
+        ByVal id As Integer, _
+        ByVal fsModifiers As Integer, _
+        ByVal vk As Integer) As Integer
+
+    Public Declare Function UnregisterHotKey Lib "user32.dll" _
+        (ByVal hwnd As Integer, _
+        ByVal id As Integer) As Integer
+
+    Public Enum KeyModifiers As Integer
+        None = 0
+        Alt = 1
+        Ctrl = 2
+        Shift = 4
+        WindowsKey = 8
+        CtrlAndShift = 6
+    End Enum
 
 
-    'Public Declare Sub Sleep Lib "kernel32" Alias "Sleep" (ByVal dwMilliseconds As Long)
-    'Public ppid As Integer '用来表征项目编号，唯一标识
-    'Public flag As Integer '用来表征是操作的第几步
-    'Public upcutflag As Integer '用来表征上载截图是否按下
-    'Public cutpicsrc As Integer '用来表征和截屏幕截图是否按下
-    'Public pid As Integer '用来表征节目的序号，唯一标识
-    'Public cutcount As Integer '用来表征截图按钮是否被按下，按下为1，没按下为0
-    'Public cutcountsrc As Integer '用来表征屏幕截图按钮是否被按下，按下为1，没按下为0
-    'Public updown As Integer  '用来表征点击“下一步”是第一次走还是通过点击“上一步”再点击的“下一步”，前者为0，后者为1
-    'Public picflag As Integer '用来表征数据库中是否已有截图，如果有则为1，没有则为0.当其为1时，在点击“下一步”时，不用截图
-    'Public lookflag = 1  '用来表征回看项目到哪一步了，默认为1，在第一步
+        'Public Declare Sub Sleep Lib "kernel32" Alias "Sleep" (ByVal dwMilliseconds As Long)
+        'Public ppid As Integer '用来表征项目编号，唯一标识
+        'Public flag As Integer '用来表征是操作的第几步
+        'Public upcutflag As Integer '用来表征上载截图是否按下
+        'Public cutpicsrc As Integer '用来表征和截屏幕截图是否按下
+        'Public pid As Integer '用来表征节目的序号，唯一标识
+        'Public cutcount As Integer '用来表征截图按钮是否被按下，按下为1，没按下为0
+        'Public cutcountsrc As Integer '用来表征屏幕截图按钮是否被按下，按下为1，没按下为0
+        'Public updown As Integer  '用来表征点击“下一步”是第一次走还是通过点击“上一步”再点击的“下一步”，前者为0，后者为1
+        'Public picflag As Integer '用来表征数据库中是否已有截图，如果有则为1，没有则为0.当其为1时，在点击“下一步”时，不用截图
+        'Public lookflag = 1  '用来表征回看项目到哪一步了，默认为1，在第一步
 
 
-    'tape, material状态(必须很数据库status表一致)
+        'tape, material状态(必须很数据库status表一致)
     Public StatusNotUpload As Integer = 1
     Public StatusNotCheckUp As Integer = 2   'haveUpload
     Public StatusHaveCheckUp As Integer = 3
