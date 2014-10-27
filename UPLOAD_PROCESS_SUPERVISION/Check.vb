@@ -131,12 +131,16 @@ Public Class Check
             Select Case id
                 Case _paramKeyF5
                     DoScreenShot(PictureBox1, "check_point1_screenshot")
+                    Dim toast As New MyToast("片头已截图", 2000)
                 Case _paramKeyF6
                     DoScreenShot(PictureBox2, "check_point2_screenshot")
+                    Dim toast As New MyToast("片中已截图", 2000)
                 Case _paramKeyF7
                     DoScreenShot(PictureBox3, "check_point3_screenshot")
+                    Dim toast As New MyToast("片尾已截图", 2000)
                 Case _paramKeyF8
                     DoScreenShot(PictureBox4, "episode_screenshot")
+                    Dim toast As New MyToast("落副已截图", 2000)
             End Select
         End If
         MyBase.WndProc(m)

@@ -104,6 +104,12 @@
     <Compile Include="ImageViewer.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MyToast.Designer.vb">
+      <DependentUpon>MyToast.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MyToast.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PictrueLarge.Designer.vb">
       <DependentUpon>PictrueLarge.vb</DependentUpon>
     </Compile>
@@ -202,6 +208,10 @@
     <EmbeddedResource Include="ImageViewer.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ImageViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyToast.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MyToast.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PictrueLarge.resx">
       <SubType>Designer</SubType>
