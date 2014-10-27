@@ -29,13 +29,13 @@ Partial Class ImageViewer
         'Panel1
         '
         Me.Panel1.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Panel1.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Panel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.Panel1.Controls.Add(Me.Button3)
         Me.Panel1.Controls.Add(Me.Button2)
         Me.Panel1.Controls.Add(Me.Button1)
-        Me.Panel1.Location = New System.Drawing.Point(211, 39)
+        Me.Panel1.Location = New System.Drawing.Point(55, 39)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(459, 412)
+        Me.Panel1.Size = New System.Drawing.Size(764, 412)
         Me.Panel1.TabIndex = 2
         '
         'Button3
@@ -47,7 +47,7 @@ Partial Class ImageViewer
         Me.Button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
         Me.Button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.Button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button3.Location = New System.Drawing.Point(401, 203)
+        Me.Button3.Location = New System.Drawing.Point(706, 203)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(55, 55)
         Me.Button3.TabIndex = 3
@@ -77,7 +77,7 @@ Partial Class ImageViewer
         Me.Button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
         Me.Button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button1.Location = New System.Drawing.Point(419, 0)
+        Me.Button1.Location = New System.Drawing.Point(724, 0)
         Me.Button1.Name = "Button1"
         Me.Button1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Button1.Size = New System.Drawing.Size(40, 40)
@@ -93,7 +93,7 @@ Partial Class ImageViewer
         Me.Controls.Add(Me.Panel1)
         Me.KeyPreview = True
         Me.Name = "ImageViewer"
-        Me.Text = "ImageViewer"
+        Me.Text = "图片查看"
         Me.Panel1.ResumeLayout(False)
         Me.ResumeLayout(False)
 

@@ -99,18 +99,23 @@ Public Class WatchUpload
 
     End Sub
 
-    Private Sub PictureBoxScreenshot_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles PictureBoxScreenshot.MouseHover
+    Private Sub PictureBoxScreenshot_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxScreenshot.MouseDoubleClick
         If Not PictureBoxScreenshot.Image Is Nothing Then
-            PictrueBmp = PictureBoxScreenshot.Image
-            PictrueLarge.Show()
+            ImageViewer.PictrueBmpList.Add(PictureBoxScreenshot.Image)
         End If
-    End Sub
-
-    Private Sub PictureBoxCamera_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles PictureBoxCamera.MouseHover
         If Not PictureBoxCamera.Image Is Nothing Then
-            PictrueBmp = PictureBoxCamera.Image
-            PictrueLarge.Show()
+            ImageViewer.PictrueBmpList.Add(PictureBoxCamera.Image)
         End If
+        ImageViewer.Show()
     End Sub
 
+    Private Sub PictureBoxCamera_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxCamera.MouseDoubleClick
+        If Not PictureBoxScreenshot.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxScreenshot.Image)
+        End If
+        If Not PictureBoxCamera.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxCamera.Image)
+        End If
+        ImageViewer.Show()
+    End Sub
 End Class

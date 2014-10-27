@@ -2,6 +2,8 @@ Public Class ImageViewer
 
     Public PictrueBmpList As List(Of System.Drawing.Image) = New List(Of System.Drawing.Image)()
     Private count As Integer = 0
+    Private _movePanel As Boolean = False
+    Private _downX, _downY As Integer
 
     Private Sub ImageViewer_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
         PictrueBmpList.Clear()
@@ -12,8 +14,6 @@ Public Class ImageViewer
 
         If PictrueBmpList.Count = 0 Then
             PictrueBmpList.Add(UploadProcessSupervision.My.Resources.Resources.car)
-            'PictrueBmpList.Add(Supervision_Process.My.Resources.Resources._1)
-            'PictrueBmpList.Add(Supervision_Process.My.Resources.Resources._2)
         End If
 
         Panel1.BackgroundImage = PictrueBmpList.Item(count)
@@ -73,6 +73,19 @@ Public Class ImageViewer
         Button2.BackgroundImage = Nothing
     End Sub
 
+    Private Sub Panel1_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel1.MouseDown
+        _downX = e.Location.X
+        _downY = e.Location.Y
+
+    End Sub
+
+    Private Sub Panel1_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel1.MouseMove
+        If e.Button = Forms.MouseButtons.Left Then
+            Panel1.Left += e.Location.X - _downX
+            Panel1.Top += e.Location.Y - _downY
+        End If
+    End Sub
+
     Private Sub Panel1_MouseWheel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel1.MouseWheel
         Dim scale As Double = 1
         If Panel1.Height + e.Delta > 0 Then
@@ -93,11 +106,5 @@ Public Class ImageViewer
         End If
     End Sub
 
-    Private Function GetRectangleLeftTopPoint(ByVal center As Point, ByVal width As Integer, ByVal height As Integer) As Point
 
-        Dim halfWidth As Integer = (width / 2)
-        Dim halfHeight As Integer = (height / 2)
-        Dim leftTop As Point = New Point(center.X - halfWidth, center.Y - halfHeight)
-        Return leftTop
-    End Function
 End Class

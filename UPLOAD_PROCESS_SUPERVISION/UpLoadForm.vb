@@ -1157,21 +1157,21 @@ Public Class UpLoadForm
         If Timer1.Enabled = False Then Timer1.Enabled = True
     End Sub
 
-    Private Sub PictureBoxScreenShotOfDaYangUpload_MouseHover _
-        (ByVal sender As Object, ByVal e As System.EventArgs) _
-        Handles PictureBoxScreenShotOfDaYangUpload.MouseHover
+    Private Sub PictureBoxScreenShotOfDaYangUpload_MouseDoubleClick _
+        (ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) _
+        Handles PictureBoxScreenShotOfDaYangUpload.MouseDoubleClick
         If Not PictureBoxScreenShotOfDaYangUpload.Image Is Nothing Then
-            PictrueBmp = PictureBoxScreenShotOfDaYangUpload.Image
-            PictrueLarge.Show()
+            ImageViewer.PictrueBmpList.Add(PictureBoxScreenShotOfDaYangUpload.Image)
+            ImageViewer.Show()
         End If
     End Sub
 
-    Private Sub PictureBoxScreenShotOfCamera_MouseHover _
-        (ByVal sender As Object, ByVal e As System.EventArgs) _
-        Handles PictureBoxScreenShotOfCamera.MouseHover
-        If Not PictureBoxScreenShotOfCamera.Image Is Nothing Then
-            PictrueBmp = PictureBoxScreenShotOfCamera.Image
-            PictrueLarge.Show()
+    Private Sub PictureBoxScreenShotOfCamera_MouseDoubleClick _
+        (ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) _
+        Handles PictureBoxScreenShotOfCamera.MouseDoubleClick
+        If Not PictureBoxScreenShotOfDaYangUpload.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxScreenShotOfDaYangUpload.Image)
+            ImageViewer.Show()
         End If
     End Sub
 

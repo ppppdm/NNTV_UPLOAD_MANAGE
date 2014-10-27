@@ -88,31 +88,84 @@ Public Class WatchCheck
         End Try
     End Sub
 
-    Private Sub PictureBoxCheckPoint1_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles PictureBoxCheckPoint1.MouseHover
+    Private Sub PictureBoxCheckPoint1_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxCheckPoint1.MouseDoubleClick
         If Not PictureBoxCheckPoint1.Image Is Nothing Then
-            PictrueBmp = PictureBoxCheckPoint1.Image
-            PictrueLarge.Show()
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint1.Image)
         End If
-    End Sub
 
-    Private Sub PictureBoxCheckPoint2_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles PictureBoxCheckPoint2.MouseHover
         If Not PictureBoxCheckPoint2.Image Is Nothing Then
-            PictrueBmp = PictureBoxCheckPoint2.Image
-            PictrueLarge.Show()
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint2.Image)
         End If
-    End Sub
 
-    Private Sub PictureBoxCheckPoint3_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles PictureBoxCheckPoint3.MouseHover
         If Not PictureBoxCheckPoint3.Image Is Nothing Then
-            PictrueBmp = PictureBoxCheckPoint3.Image
-            PictrueLarge.Show()
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint3.Image)
         End If
+
+        If Not PictureBoxEpisode.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxEpisode.Image)
+        End If
+
+        ImageViewer.Show()
     End Sub
 
-    Private Sub PictureBoxEpisode_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles PictureBoxEpisode.MouseHover
-        If Not PictureBoxEpisode.Image Is Nothing Then
-            PictrueBmp = PictureBoxEpisode.Image
-            PictrueLarge.Show()
+ 
+    Private Sub PictureBoxCheckPoint2_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxCheckPoint2.MouseDoubleClick
+        If Not PictureBoxCheckPoint1.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint1.Image)
         End If
+
+        If Not PictureBoxCheckPoint2.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint2.Image)
+        End If
+
+        If Not PictureBoxCheckPoint3.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint3.Image)
+        End If
+
+        If Not PictureBoxEpisode.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxEpisode.Image)
+        End If
+
+        ImageViewer.Show()
+    End Sub
+
+    Private Sub PictureBoxCheckPoint3_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxCheckPoint3.MouseDoubleClick
+        If Not PictureBoxCheckPoint1.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint1.Image)
+        End If
+
+        If Not PictureBoxCheckPoint2.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint2.Image)
+        End If
+
+        If Not PictureBoxCheckPoint3.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint3.Image)
+        End If
+
+        If Not PictureBoxEpisode.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxEpisode.Image)
+        End If
+
+        ImageViewer.Show()
+    End Sub
+
+    Private Sub PictureBoxEpisode_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxEpisode.MouseDoubleClick
+        If Not PictureBoxCheckPoint1.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint1.Image)
+        End If
+
+        If Not PictureBoxCheckPoint2.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint2.Image)
+        End If
+
+        If Not PictureBoxCheckPoint3.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint3.Image)
+        End If
+
+        If Not PictureBoxEpisode.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBoxEpisode.Image)
+        End If
+
+        ImageViewer.Show()
     End Sub
 End Class

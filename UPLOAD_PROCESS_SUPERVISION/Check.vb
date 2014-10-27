@@ -752,5 +752,84 @@ Public Class Check
         End If
     End Sub
 
+    Private Sub PictureBox1_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox1.MouseDoubleClick
+        If Not PictureBox1.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox1.Image)
+        End If
+
+        If Not PictureBox2.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox2.Image)
+        End If
+
+        If Not PictureBox3.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox3.Image)
+        End If
+
+        If Not PictureBox4.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox4.Image)
+        End If
+
+        ImageViewer.Show()
+    End Sub
+
+    Private Sub PictureBox2_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox2.MouseDoubleClick
+        If Not PictureBox1.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox1.Image)
+        End If
+
+        If Not PictureBox2.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox2.Image)
+        End If
+
+        If Not PictureBox3.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox3.Image)
+        End If
+
+        If Not PictureBox4.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox4.Image)
+        End If
+
+        ImageViewer.Show()
+    End Sub
+
+    Private Sub PictureBox3_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox3.MouseDoubleClick
+        If Not PictureBox1.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox1.Image)
+        End If
+
+        If Not PictureBox2.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox2.Image)
+        End If
+
+        If Not PictureBox3.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox3.Image)
+        End If
+
+        If Not PictureBox4.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox4.Image)
+        End If
+
+        ImageViewer.Show()
+    End Sub
+
+    Private Sub PictureBox4_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox4.MouseDoubleClick
+        If Not PictureBox1.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox1.Image)
+        End If
+
+        If Not PictureBox2.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox2.Image)
+        End If
+
+        If Not PictureBox3.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox3.Image)
+        End If
+
+        If Not PictureBox4.Image Is Nothing Then
+            ImageViewer.PictrueBmpList.Add(PictureBox4.Image)
+        End If
+
+        ImageViewer.Show()
+    End Sub
 End Class
 '
