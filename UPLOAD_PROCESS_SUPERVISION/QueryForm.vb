@@ -38,7 +38,7 @@ Public Class QueryForm
     Private Sub SendTapeToolStripMenuItem_Click(ByVal sender As Object, _
                                                 ByVal e As EventArgs) _
         Handles SendTapeToolStripMenuItem.Click
-        tape_send.Show()
+        TapeSend.Show()
     End Sub
 
     Private Sub WatchUploadToolStripMenuItem_Click(ByVal sender As Object, _
