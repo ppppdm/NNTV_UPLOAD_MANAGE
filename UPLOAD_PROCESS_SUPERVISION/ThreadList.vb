@@ -3,7 +3,16 @@ Imports System.Threading
 Public Class ThreadList
     Inherits List(Of Thread)
 
-    Declare Function GetExitCodeThread Lib "kernel32" Alias "GetExitCodeThread" (ByVal hThread As Long, ByVal lpExitCode As Long) As Long
+    Declare Function GetExitCodeThread Lib "kernel32" Alias "GetExitCodeThread"( _
+                                                                                ByVal _
+                                                                                   hThread _
+                                                                                   As _
+                                                                                   Long, _
+                                                                                ByVal _
+                                                                                   lpExitCode _
+                                                                                   As _
+                                                                                   Long) _
+        As Long
 
     Public Sub PostThreadsQuitMessage()
         Dim em As Enumerator = Me.GetEnumerator()
@@ -16,7 +25,6 @@ Public Class ThreadList
                 Me.Remove(t)
             End If
         End While
-
     End Sub
 
     Public Sub TerminalThreads()
@@ -29,5 +37,4 @@ Public Class ThreadList
             Me.Remove(t)
         End While
     End Sub
-
 End Class

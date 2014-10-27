@@ -1,17 +1,18 @@
 ﻿Imports System.Data.SqlClient
 Imports System.ComponentModel
 
-Public Class tape_send
-
+Public Class TapeSend
     Private _tapeId As Guid
 
     Dim _workAcq As AccessControlQuery
 
-    Private Sub ButtonCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonCancel.Click
+    Private Sub ButtonCancel_Click(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles ButtonCancel.Click
         Dispose()
     End Sub
 
-    Private Sub ButtonOK_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonOK.Click
+    Private Sub ButtonOK_Click(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles ButtonOK.Click
         Dim tapeName = TextBoxTapeName.Text
         Dim outBcTime = TextBoxSendTime.Text
         Dim outBcRecvPer = TextBoxRecvPerson.Text
@@ -32,25 +33,24 @@ Public Class tape_send
                 connection.Open()
 
                 Const queryString As String = "update tape set " & _
-                                            "out_bc_time = @out_bc_time, " & _
-                                            "out_bc_send_per = @out_bc_send_per, " & _
-                                            "out_bc_recv_per = @out_bc_recv_per, " & _
-                                            "tape_status = @tape_status " & _
-                                            "where " & _
-                                            "tape_name = @tape_name"
+                                              "out_bc_time = @out_bc_time, " & _
+                                              "out_bc_send_per = @out_bc_send_per, " & _
+                                              "out_bc_recv_per = @out_bc_recv_per, " & _
+                                              "tape_status = @tape_status " & _
+                                              "where " & _
+                                              "tape_name = @tape_name"
 
                 'Console.WriteLine(queryString)
 
                 Dim command As New SqlCommand(queryString, connection)
 
 
-                Dim paras() As SqlParameter = { _
-                   New SqlParameter("@tape_name", tapeName), _
-                   New SqlParameter("@out_bc_time", outBcTime), _
-                   New SqlParameter("@out_bc_send_per", outBcSendPer), _
-                   New SqlParameter("@out_bc_recv_per", outBcRecvPer), _
-                   New SqlParameter("@tape_status", StatusSendedOut) _
-                   }
+                Dim paras() As SqlParameter = _
+                        {New SqlParameter("@tape_name", tapeName), _
+                         New SqlParameter("@out_bc_time", outBcTime), _
+                         New SqlParameter("@out_bc_send_per", outBcSendPer), _
+                         New SqlParameter("@out_bc_recv_per", outBcRecvPer), _
+                         New SqlParameter("@tape_status", StatusSendedOut)}
                 command.Parameters.AddRange(paras)
 
                 'Console.WriteLine(command.CommandText)
@@ -66,12 +66,14 @@ Public Class tape_send
         End If
     End Sub
 
-    Private Sub tape_send_Disposed(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Disposed
+    Private Sub tape_send_Disposed(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles Me.Disposed
         '取消后台线程
         BackgroundWorker1.CancelAsync()
     End Sub
 
-    Private Sub tape_send_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+    Private Sub tape_send_Load(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles MyBase.Load
         _tapeId = QueryForm.TapeId
         Dim connection As New SqlConnection(ConnStr)
         Const queryString As String = _
@@ -91,23 +93,24 @@ Public Class tape_send
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
-        connection.Close()
+            connection.Close()
         End Try
 
         TextBoxSendTime.Text = Now
         StartThread()
     End Sub
 
-    Private Sub BackgroundWorker1_ProgressChanged _
-        (ByVal sender As Object, ByVal e As ProgressChangedEventArgs) _
+    Private Sub BackgroundWorker1_ProgressChanged(ByVal sender As Object, _
+                                                  ByVal e As  _
+                                                     ProgressChangedEventArgs) _
         Handles BackgroundWorker1.ProgressChanged
 
         ' This event handler is called after the background thread
         ' reads a line from the source file.
         ' This method runs on the main thread.
 
-        Dim result As AccessControlQuery.AccessControlResult = CType _
-            (e.UserState, AccessControlQuery.AccessControlResult)
+        Dim result As AccessControlQuery.AccessControlResult = CType(e.UserState,  _
+                                                                     AccessControlQuery.AccessControlResult)
 
         '查询数据库 根据name获取信息
 
@@ -144,8 +147,8 @@ Public Class tape_send
         End Try
     End Sub
 
-    Private Sub BackgroundWorker1_DoWork _
-        (ByVal sender As Object, ByVal e As DoWorkEventArgs) _
+    Private Sub BackgroundWorker1_DoWork(ByVal sender As Object, _
+                                         ByVal e As DoWorkEventArgs) _
         Handles BackgroundWorker1.DoWork
 
         ' This event handler is where the actual work is done.
@@ -156,8 +159,7 @@ Public Class tape_send
         worker = CType(sender, BackgroundWorker)
 
         ' Get the Works object and call the main method.
-        Dim workAcq As AccessControlQuery = CType _
-            (e.Argument, AccessControlQuery)
+        Dim workAcq As AccessControlQuery = CType(e.Argument, AccessControlQuery)
         workAcq.StartAccessControl(worker)
     End Sub
 
@@ -176,5 +178,4 @@ Public Class tape_send
     Sub EndThread()
         _workAcq.EndAccessControl()
     End Sub
-
 End Class

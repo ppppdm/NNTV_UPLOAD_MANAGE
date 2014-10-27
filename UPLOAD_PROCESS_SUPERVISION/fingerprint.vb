@@ -1,16 +1,19 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Data.OleDb
 
 Public Class fingerprint
-
-    Private Sub fingerprint_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub fingerprint_Load(ByVal sender As Object, _
+                                 ByVal e As EventArgs) _
+        Handles MyBase.Load
         Label2.Text = "请输入指纹，完成后请点确认键"
     End Sub
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(ByVal sender As Object, _
+                              ByVal e As EventArgs) Handles Button1.Click
         'a:设置sql数据库连接
         '初始化sql server 2005数据库连接SqlConnectio对象
-        ConnStr = "Server=" & DbServer & ";Database=" & DbDbNamme & _
-                          ";User ID=" & DbUser & ";Password=" & DbPawd & ";"
+        ConnStr = "Server=" & DbServer & ";Database=" & DbDbNamme & ";User ID=" & _
+                  DbUser & ";Password=" & DbPawd & ";"
         Dim sql2005 As SqlConnection = New SqlConnection(ConnStr)
         '打开连接
         sql2005.Open()
@@ -23,9 +26,10 @@ Public Class fingerprint
 
         'b:设置access数据库连接
         '初始化Access 2000数据库连接OleDbConnection对象
-        Dim conn1 As New OleDb.OleDbConnection
-        conn1.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Program Files\ZKTime5.0\att2000.mdb;Persist Security Info=False"
-        Dim com As OleDb.OleDbCommand = New OleDb.OleDbCommand
+        Dim conn1 As New OleDbConnection
+        conn1.ConnectionString = _
+            "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Program Files\ZKTime5.0\att2000.mdb;Persist Security Info=False"
+        Dim com As OleDbCommand = New OleDbCommand
         com.Connection = conn1
         conn1.Open()
         Dim timeb As String
@@ -34,7 +38,8 @@ Public Class fingerprint
         timeb = DateAdd("n", -1, timet)  '将现在当前时间减去1分钟，用于取得最新当前打指纹的人的时间
         timee = DateAdd("n", 1, timet) '将现在当前时间加上1分钟
         '设置CommandText属性，该属性指定要执行的SQL语句或存储过程。如增删查改等等。
-        com.CommandText = "select USERINFO.Name,CHECKINOUT.CHECKTIME from CHECKINOUT,USERINFO where CHECKINOUT.USERID=USERINFO.USERID  order by CHECKINOUT.CHECKTIME desc"
+        com.CommandText = _
+            "select USERINFO.Name,CHECKINOUT.CHECKTIME from CHECKINOUT,USERINFO where CHECKINOUT.USERID=USERINFO.USERID  order by CHECKINOUT.CHECKTIME desc"
         'com.CommandText = "select USERINFO.Name from CHECKINOUT,USERINFO,CHECKINOUT.CHECKTIME where CHECKINOUT.USERID=USERINFO.USERID   and CHECKINOUT.CHECKTIME> '" & timeb & "'  and CHECKINOUT.CHECKTIME<'" & timee & "' order by CHECKINOUT.CHECKTIME desc"
         'com.CommandText = "select USERINFO.Badgenumber,CHECKINOUT.CHECKTIME from CHECKINOUT,USERINFO where CHECKINOUT.USERID=USERINFO.USERID  order by CHECKINOUT.CHECKTIME desc"
 
@@ -58,8 +63,10 @@ Public Class fingerprint
                 reader.Close()  '关闭一个阅读器Reader，方便后文使用其他的Reader
                 Dim department = "播出部"
                 ' uname = "张莉莉"
-                sqlCom.CommandText = "select name from person where department='" & department & "' and name='" & uname & "'"
-                System.Console.WriteLine(sqlCom.CommandText)
+                sqlCom.CommandText = _
+                    "select name from person where department='" & department & _
+                    "' and name='" & uname & "'"
+                Console.WriteLine(sqlCom.CommandText)
                 ' MessageBox.Show(sqlCom.CommandText)
                 Dim reader1 = sqlCom.ExecuteReader()
                 If (reader1.Read()) Then
@@ -82,7 +89,8 @@ Public Class fingerprint
         conn1.Close()
     End Sub
 
-    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+    Private Sub Button2_Click(ByVal sender As Object, _
+                              ByVal e As EventArgs) Handles Button2.Click
         Me.Close()
     End Sub
 End Class

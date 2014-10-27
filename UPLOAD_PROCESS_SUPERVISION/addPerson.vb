@@ -2,37 +2,38 @@
 Imports System.Data.SqlClient
 
 Public Class AddPerson
-
     Private _workAcq As AccessControlQuery
 
-    Private Sub AddPerson_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
+    Private Sub AddPerson_Disposed(ByVal sender As Object, _
+                                   ByVal e As EventArgs) Handles Me.Disposed
         EndThread()
     End Sub
 
-    Private Sub AddPerson_Load _
-        (ByVal sender As Object, ByVal e As System.EventArgs) _
-        Handles Me.Load
+    Private Sub AddPerson_Load(ByVal sender As Object, _
+                               ByVal e As EventArgs) Handles Me.Load
         GroupBoxPersonManage.Hide()
 
         '启动指纹后台
         StartThread()
     End Sub
 
-    Private Sub ButtonLogin_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonLogin.Click
-        Dim Account = TextBoxAccount.Text
-        Dim Password = TextBoxPassword.Text
+    Private Sub ButtonLogin_Click(ByVal sender As Object, _
+                                  ByVal e As EventArgs) _
+        Handles ButtonLogin.Click
+        Dim account = TextBoxAccount.Text
+        Dim password = TextBoxPassword.Text
 
-        Dim queryStr As String = "select * from accessmanage " & _
-                                "where " & _
-                                "(person_name = @person_name) and " & _
-                                "(password = @password) "
+        Const queryStr As String = "select * from accessmanage " & "where " & _
+                                   "(person_name = @person_name) and " & _
+                                   "(password = @password) "
 
-        Dim params As SqlParameter() = { _
-                                New SqlParameter("@person_name", Account), _
-                                New SqlParameter("@password", Password) _
-                                }
+        Dim params As SqlParameter() = {New SqlParameter("@person_name", _
+                                                         account), _
+                                        New SqlParameter("@password", _
+                                                         password)}
         Dim conn As SqlConnection = New SqlConnection(ConnStr)
-        Dim comm As SqlCommand = New SqlCommand(queryStr, conn)
+        Dim comm As SqlCommand = New SqlCommand(queryStr, _
+                                                conn)
 
         comm.Parameters.AddRange(params)
 
@@ -55,34 +56,34 @@ Public Class AddPerson
         End Try
     End Sub
 
-    Private Sub ButtonQuery_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonQuery.Click
+    Private Sub ButtonQuery_Click(ByVal sender As Object, _
+                                  ByVal e As EventArgs) _
+        Handles ButtonQuery.Click
 
         Dim personName As String = TextBoxPersonName.Text
         If Not personName = "" Then
 
             Dim conn As SqlConnection = New SqlConnection(ConnStr)
 
-            Dim queryStr1 As String = "select * from accessmanage " & _
-                                     "where " & _
-                                     "(person_name = @person_name)"
+            Const queryStr1 As String = "select * from accessmanage " & "where " & _
+                                        "(person_name = @person_name)"
 
-            Dim params1 As SqlParameter() = { _
-                                    New SqlParameter("@person_name", personName) _
-                                    }
+            Dim params1 As SqlParameter() = {New SqlParameter("@person_name", _
+                                                              personName)}
 
-            Dim comm1 As SqlCommand = New SqlCommand(queryStr1, conn)
+            Dim comm1 As SqlCommand = New SqlCommand(queryStr1, _
+                                                     conn)
             comm1.Parameters.AddRange(params1)
 
 
-            Dim queryStr2 As String = "select * from person " & _
-                                     "where " & _
-                                     "(name = @name)"
+            Const queryStr2 As String = "select * from person " & "where " & _
+                                        "(name = @name)"
 
-            Dim params2 As SqlParameter() = { _
-                                    New SqlParameter("@name", personName) _
-                                    }
+            Dim params2 As SqlParameter() = {New SqlParameter("@name", _
+                                                              personName)}
 
-            Dim comm2 As SqlCommand = New SqlCommand(queryStr2, conn)
+            Dim comm2 As SqlCommand = New SqlCommand(queryStr2, _
+                                                     conn)
             comm2.Parameters.AddRange(params2)
 
             Try
@@ -121,11 +122,10 @@ Public Class AddPerson
             MsgBox("请输入查询名字")
             TextBoxPersonName.Focus()
         End If
-
     End Sub
 
-    Private Sub ButtonRegister_Click _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
+    Private Sub ButtonRegister_Click(ByVal sender As Object, _
+                                     ByVal e As EventArgs) _
         Handles ButtonRegister.Click
         '将人员信息存入数据库
 
@@ -135,81 +135,82 @@ Public Class AddPerson
         Dim password As String = TextBoxRegPassword.Text
         Dim department As String = TextBoxDepartment.Text
         Dim telephone As String = TextBoxPhone.Text
-        Dim inbc_send As Boolean = CheckBoxInBcSendPerson.Checked
-        Dim inbc_recv As Boolean = CheckBoxInBcRecvPerson.Checked
-        Dim outbc_send As Boolean = CheckBoxOutBcSendPerson.Checked
-        Dim outbc_recv As Boolean = CheckBoxOutBcRecvPerson.Checked
+        Dim inbcSend As Boolean = CheckBoxInBcSendPerson.Checked
+        Dim inbcRecv As Boolean = CheckBoxInBcRecvPerson.Checked
+        Dim outbcSend As Boolean = CheckBoxOutBcSendPerson.Checked
+        Dim outbcRecv As Boolean = CheckBoxOutBcRecvPerson.Checked
         Dim upload As Boolean = CheckBoxUpload.Checked
         Dim checkup As Boolean = CheckBoxCheckup.Checked
         Dim edit As Boolean = CheckBoxEdit.Checked
         Dim admin As Boolean = CheckBoxAdmin.Checked
 
 
-
         '用于判断信息是否符合数据库中要求sql
         Dim conn As SqlConnection = New SqlConnection(ConnStr)
-        Dim queryStr0 As String = "select * from accessmanage where person_id = @id"
-        Dim com0 As SqlCommand = New SqlCommand(queryStr0, conn)
-        com0.Parameters.Add(New SqlParameter("@id", id))
+        Const queryStr0 As String = "select * from accessmanage where person_id = @id"
+        Dim com0 As SqlCommand = New SqlCommand(queryStr0, _
+                                                conn)
+        com0.Parameters.Add(New SqlParameter("@id", _
+                                             id))
 
         '
-        Const queryString As String = "insert into person (name, id, department, telephone) " & _
-                                    "values (@personName, @id, @department, @telephone);"
+        Const queryString As String = _
+                  "insert into person (name, id, department, telephone) " & _
+                  "values (@personName, @id, @department, @telephone);"
 
-        Dim paras() As SqlParameter = { _
-                         New SqlParameter("@personName", personName), _
-                         New SqlParameter("@id", id), _
-                         New SqlParameter("@department", department), _
-                         New SqlParameter("@telephone", telephone) _
-                        }
+        Dim paras() As SqlParameter = {New SqlParameter("@personName", _
+                                                        personName), _
+                                       New SqlParameter("@id", _
+                                                        id), _
+                                       New SqlParameter("@department", _
+                                                        department), _
+                                       New SqlParameter("@telephone", _
+                                                        telephone)}
 
         Const queryString2 As String = "insert into accessmanage (" & _
-                                    "person_name, " & _
-                                    "person_id, " & _
-                                    "password, " & _
-                                    "inbc_send, " & _
-                                    "inbc_recv, " & _
-                                    "outbc_send, " & _
-                                    "outbc_recv, " & _
-                                    "upload, " & _
-                                    "checkup, " & _
-                                    "edit, " & _
-                                    "admin )" & _
-                                    "values (" & _
-                                    "@person_name, " & _
-                                    "@person_id, " & _
-                                    "@password, " & _
-                                    "@inbc_send, " & _
-                                    "@inbc_recv, " & _
-                                    "@outbc_send, " & _
-                                    "@outbc_recv, " & _
-                                    "@upload, " & _
-                                    "@checkup, " & _
-                                    "@edit, " & _
-                                    "@admin )"
+                                       "person_name, " & "person_id, " & _
+                                       "password, " & "inbc_send, " & _
+                                       "inbc_recv, " & "outbc_send, " & _
+                                       "outbc_recv, " & "upload, " & "checkup, " & _
+                                       "edit, " & "admin )" & "values (" & _
+                                       "@person_name, " & "@person_id, " & _
+                                       "@password, " & "@inbc_send, " & _
+                                       "@inbc_recv, " & "@outbc_send, " & _
+                                       "@outbc_recv, " & "@upload, " & _
+                                       "@checkup, " & "@edit, " & "@admin )"
 
-        Dim paras2() As SqlParameter = { _
-                         New SqlParameter("@person_name", personName), _
-                         New SqlParameter("@person_id", id), _
-                         New SqlParameter("@password", password), _
-                         New SqlParameter("@inbc_send", inbc_send), _
-                         New SqlParameter("@inbc_recv", inbc_recv), _
-                         New SqlParameter("@outbc_send", outbc_send), _
-                         New SqlParameter("@outbc_recv", outbc_recv), _
-                         New SqlParameter("@upload", upload), _
-                         New SqlParameter("@checkup", checkup), _
-                         New SqlParameter("@edit", edit), _
-                         New SqlParameter("@admin", admin) _
-                        }
+        Dim paras2() As SqlParameter = {New SqlParameter("@person_name", _
+                                                         personName), _
+                                        New SqlParameter("@person_id", _
+                                                         id), _
+                                        New SqlParameter("@password", _
+                                                         password), _
+                                        New SqlParameter("@inbc_send", _
+                                                         inbcSend), _
+                                        New SqlParameter("@inbc_recv", _
+                                                         inbcRecv), _
+                                        New SqlParameter("@outbc_send", _
+                                                         outbcSend), _
+                                        New SqlParameter("@outbc_recv", _
+                                                         outbcRecv), _
+                                        New SqlParameter("@upload", _
+                                                         upload), _
+                                        New SqlParameter("@checkup", _
+                                                         checkup), _
+                                        New SqlParameter("@edit", _
+                                                         edit), _
+                                        New SqlParameter("@admin", _
+                                                         admin)}
 
         Console.WriteLine(ConnStr)
 
-        Dim comm As SqlCommand = New SqlCommand(queryString, conn)
+        Dim comm As SqlCommand = New SqlCommand(queryString, _
+                                                conn)
         comm.Parameters.AddRange(paras)
 
-        Dim comm2 As SqlCommand = New SqlCommand(queryString2, conn)
+        Dim comm2 As SqlCommand = New SqlCommand(queryString2, _
+                                                 conn)
         comm2.Parameters.AddRange(paras2)
-
 
 
         '判断输入的各信息是否符合要求
@@ -239,26 +240,26 @@ Public Class AddPerson
                 conn.Close()
             End Try
         End If
-
     End Sub
 
-    Private Sub BackgroundWorker1_ProgressChanged _
-    (ByVal sender As Object, ByVal e As ProgressChangedEventArgs) _
-    Handles BackgroundWorker1.ProgressChanged
+    Private Sub BackgroundWorker1_ProgressChanged(ByVal sender As Object, _
+                                                  ByVal e As _
+                                                     ProgressChangedEventArgs) _
+        Handles BackgroundWorker1.ProgressChanged
 
         ' This event handler is called after the background thread
         ' reads a line from the source file.
         ' This method runs on the main thread.
 
-        Dim result As AccessControlQuery.AccessControlResult = CType _
-            (e.UserState, AccessControlQuery.AccessControlResult)
+        Dim result As AccessControlQuery.AccessControlResult = CType(e.UserState, _
+                                                                     AccessControlQuery _
+                .AccessControlResult)
 
         TextBoxID.Text = result.Name
-
     End Sub
 
-    Private Sub BackgroundWorker1_DoWork _
-        (ByVal sender As Object, ByVal e As DoWorkEventArgs) _
+    Private Sub BackgroundWorker1_DoWork(ByVal sender As Object, _
+                                         ByVal e As DoWorkEventArgs) _
         Handles BackgroundWorker1.DoWork
 
         ' This event handler is where the actual work is done.
@@ -269,8 +270,7 @@ Public Class AddPerson
         worker = CType(sender, BackgroundWorker)
 
         ' Get the Works object and call the main method.
-        Dim workAcq As AccessControlQuery = CType _
-            (e.Argument, AccessControlQuery)
+        Dim workAcq As AccessControlQuery = CType(e.Argument, AccessControlQuery)
         workAcq.StartAccessControl(worker)
     End Sub
 
@@ -289,5 +289,4 @@ Public Class AddPerson
     Sub EndThread()
         _workAcq.EndAccessControl()
     End Sub
-
 End Class

@@ -7,14 +7,15 @@ Public Class FixTimeCode
 
     Private _workAcq As AccessControlQuery
 
-    Private Sub FixTimeCode_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
+    Private Sub FixTimeCode_Disposed(ByVal sender As Object, _
+                                     ByVal e As EventArgs) _
+        Handles Me.Disposed
         '结束指纹后台进程
         EndThread()
     End Sub
 
-    Private Sub FixTimeCode_Load _
-        (ByVal sender As Object, ByVal e As System.EventArgs) _
-        Handles Me.Load
+    Private Sub FixTimeCode_Load(ByVal sender As Object, _
+                                 ByVal e As EventArgs) Handles Me.Load
 
         If Not QueryForm.TapeId = Nothing Then
             _tapeId = QueryForm.TapeId
@@ -26,14 +27,10 @@ Public Class FixTimeCode
         StartThread()
     End Sub
 
-    Private Sub setTapeInfo()
-        Dim queryString As String = "select " & _
-                                    "tape_name, " & _
-                                    "start_timecode, " & _
-                                    "length " & _
-                                    "from tape " & _
-                                    "where " & _
-                                    "id = @id"
+    Private Sub SetTapeInfo()
+        Const queryString As String = "select " & "tape_name, " & _
+                                      "start_timecode, " & "length " & _
+                                      "from tape " & "where " & "id = @id"
         Dim conn As SqlConnection = New SqlConnection(ConnStr)
         Dim com As SqlCommand = New SqlCommand(queryString, conn)
         com.Parameters.Add(New SqlParameter("id", _tapeId))
@@ -70,75 +67,62 @@ Public Class FixTimeCode
         Finally
             conn.Close()
         End Try
-
     End Sub
 
-    Private Sub ButtonCancel_Click _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
+    Private Sub ButtonCancel_Click(ByVal sender As Object, _
+                                   ByVal e As EventArgs) _
         Handles ButtonCancel.Click
         Me.Dispose()
     End Sub
 
-    Private Sub ButtonOK_Click _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
+    Private Sub ButtonOK_Click(ByVal sender As Object, _
+                               ByVal e As EventArgs) _
         Handles ButtonOK.Click
         If Not _tapeId = Nothing Then
             Dim tapeName = TextBoxTapeName.Text
             Dim newStartTimecode = TextBoxNewStartTimeH.Text & ":" & _
-                                TextBoxNewStartTimeM.Text & ":" & _
-                                TextBoxNewStartTimeS.Text & ":" & _
-                                TextBoxNewStartTimeF.Text
+                                   TextBoxNewStartTimeM.Text & ":" & _
+                                   TextBoxNewStartTimeS.Text & ":" & _
+                                   TextBoxNewStartTimeF.Text
             Dim newLength = TextBoxNewLengthH.Text & ":" & _
-                     TextBoxNewLengthM.Text & ":" & _
-                     TextBoxNewLengthS.Text & ":" & _
-                     TextBoxNewLengthF.Text
+                            TextBoxNewLengthM.Text & ":" & _
+                            TextBoxNewLengthS.Text & ":" & _
+                            TextBoxNewLengthF.Text
 
             Dim oldStartTimeCode = TextBoxOldStartTimeCode.Text
             Dim oldLength = TextBoxOldLength.Text
             Dim fixPerson = TextBoxFixTimeCodePerson.Text
 
             Dim conn As New SqlConnection(ConnStr)
-            Dim queryS1 As String = "insert into fix_timecode (" & _
-                                    "tape_id, " & _
-                                    "tape_name, " & _
-                                    "new_start_timecode, " & _
-                                    "new_length, " & _
-                                    "old_start_timecode, " & _
-                                    "old_length, " & _
-                                    "fix_time, " & _
-                                    "fix_person) " & _
-                                    "values (" & _
-                                    "@tape_id, " & _
-                                    "@tape_name, " & _
-                                    "@new_start_timecode, " & _
-                                    "@new_length, " & _
-                                    "@old_start_timecode, " & _
-                                    "@old_length, " & _
-                                    "@fix_time, " & _
-                                    "@fix_person) "
+            Const queryS1 As String = "insert into fix_timecode (" & "tape_id, " & _
+                                      "tape_name, " & "new_start_timecode, " & _
+                                      "new_length, " & "old_start_timecode, " & _
+                                      "old_length, " & "fix_time, " & _
+                                      "fix_person) " & "values (" & "@tape_id, " & _
+                                      "@tape_name, " & "@new_start_timecode, " & _
+                                      "@new_length, " & "@old_start_timecode, " & _
+                                      "@old_length, " & "@fix_time, " & _
+                                      "@fix_person) "
 
-            Dim params1() As SqlParameter = { _
-                            New SqlParameter("@tape_id", _tapeId), _
-                            New SqlParameter("@tape_name", tapeName), _
-                            New SqlParameter("@new_start_timecode", newStartTimecode), _
-                            New SqlParameter("@new_length", newLength), _
-                            New SqlParameter("@old_start_timecode", oldStartTimeCode), _
-                            New SqlParameter("@old_length", oldLength), _
-                            New SqlParameter("@fix_time", Now()), _
-                            New SqlParameter("@fix_person", fixPerson) _
-                            }
+            Dim params1() As SqlParameter = _
+                    {New SqlParameter("@tape_id", _tapeId), _
+                     New SqlParameter("@tape_name", tapeName), _
+                     New SqlParameter("@new_start_timecode", newStartTimecode), _
+                     New SqlParameter("@new_length", newLength), _
+                     New SqlParameter("@old_start_timecode", oldStartTimeCode), _
+                     New SqlParameter("@old_length", oldLength), _
+                     New SqlParameter("@fix_time", Now()), _
+                     New SqlParameter("@fix_person", fixPerson)}
 
-            Dim queryS2 As String = "update tape set " & _
-                                    "start_timecode = @new_start_timecode, " & _
-                                    "length = @new_length " & _
-                                    "where " & _
-                                    "id = @tape_id"
+            Const queryS2 As String = "update tape set " & _
+                                      "start_timecode = @new_start_timecode, " & _
+                                      "length = @new_length " & "where " & _
+                                      "id = @tape_id"
 
-            Dim params2() As SqlParameter = { _
-                            New SqlParameter("@tape_id", _tapeId), _
-                            New SqlParameter("@new_start_timecode", newStartTimecode), _
-                            New SqlParameter("@new_length", newLength) _
-                            }
+            Dim params2() As SqlParameter = _
+                    {New SqlParameter("@tape_id", _tapeId), _
+                     New SqlParameter("@new_start_timecode", newStartTimecode), _
+                     New SqlParameter("@new_length", newLength)}
 
             Dim com1 As SqlCommand = New SqlCommand(queryS1, conn)
             com1.Parameters.AddRange(params1)
@@ -158,66 +142,59 @@ Public Class FixTimeCode
             End Try
         End If
         Me.Dispose()
-
     End Sub
 
-    '时码补足8位
-    Private Sub Time8()
-        TextBoxNewStartTimeF.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxNewStartTimeF.Text, 2)  '结果的左边补2个0后取右边2位
-        TextBoxNewStartTimeS.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxNewStartTimeS.Text, 2)
-        TextBoxNewStartTimeM.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxNewStartTimeM.Text, 2)
-        TextBoxNewStartTimeH.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxNewStartTimeH.Text, 2)
-
-        TextBoxNewLengthF.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxNewLengthF.Text, 2)
-        TextBoxNewLengthS.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxNewLengthS.Text, 2)
-        TextBoxNewLengthM.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxNewLengthM.Text, 2)
-        TextBoxNewLengthH.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxNewLengthH.Text, 2)
-    End Sub
-
-    Private Sub TextBoxStartTimeH_TextChanged _
-        (ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewStartTimeH.TextChanged
+    Private Sub TextBoxStartTimeH_TextChanged(ByVal sender As Object, _
+                                              ByVal e As EventArgs) _
+        Handles TextBoxNewStartTimeH.TextChanged
         TimeInputCheck(TextBoxNewStartTimeH, TextBoxNewStartTimeM, 99, False)
     End Sub
 
-    Private Sub TextBoxStartTimeM_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewStartTimeM.TextChanged
+    Private Sub TextBoxStartTimeM_TextChanged(ByVal sender As Object, _
+                                              ByVal e As EventArgs) _
+        Handles TextBoxNewStartTimeM.TextChanged
 
         TimeInputCheck(TextBoxNewStartTimeM, TextBoxNewStartTimeS, 60, False)
     End Sub
 
-    Private Sub TextBoxStartTimeS_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewStartTimeS.TextChanged
+    Private Sub TextBoxStartTimeS_TextChanged(ByVal sender As Object, _
+                                              ByVal e As EventArgs) _
+        Handles TextBoxNewStartTimeS.TextChanged
 
         TimeInputCheck(TextBoxNewStartTimeS, TextBoxNewStartTimeF, 60, False)
     End Sub
 
-    Private Sub TextBoxStartTimeF_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewStartTimeF.TextChanged
+    Private Sub TextBoxStartTimeF_TextChanged(ByVal sender As Object, _
+                                              ByVal e As EventArgs) _
+        Handles TextBoxNewStartTimeF.TextChanged
 
         TimeInputCheck(TextBoxNewStartTimeF, TextBoxNewLengthH, 25, False)
     End Sub
 
-    Private Sub TextBoxLengthH_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewLengthH.TextChanged
+    Private Sub TextBoxLengthH_TextChanged(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
+        Handles TextBoxNewLengthH.TextChanged
 
         TimeInputCheck(TextBoxNewLengthH, TextBoxNewLengthM, 99, True)
     End Sub
 
-    Private Sub TextBoxLengthM_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewLengthM.TextChanged
+    Private Sub TextBoxLengthM_TextChanged(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
+        Handles TextBoxNewLengthM.TextChanged
 
         TimeInputCheck(TextBoxNewLengthM, TextBoxNewLengthS, 60, True)
     End Sub
 
-    Private Sub TextBoxLengthS_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewLengthS.TextChanged
+    Private Sub TextBoxLengthS_TextChanged(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
+        Handles TextBoxNewLengthS.TextChanged
 
         TimeInputCheck(TextBoxNewLengthS, TextBoxNewLengthF, 60, True)
     End Sub
 
-    Private Sub TextBoxLengthF_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewLengthF.TextChanged
+    Private Sub TextBoxLengthF_TextChanged(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
+        Handles TextBoxNewLengthF.TextChanged
 
         If IsNumeric(TextBoxNewLengthF.Text) Then
             If TextBoxNewLengthF.TextLength = 2 Then
@@ -235,11 +212,10 @@ Public Class FixTimeCode
     End Sub
 
     '输入时码后计算出点，输入焦点跳到下一个框
-    Private Sub TimeInputCheck _
-        (ByRef thisTextTox As TextBox, _
-         ByRef nextTextBox As TextBox, _
-         ByVal maxNum As Integer, _
-         ByVal isLength As Boolean)
+    Private Sub TimeInputCheck(ByRef thisTextTox As TextBox, _
+                               ByRef nextTextBox As TextBox, _
+                               ByVal maxNum As Integer, _
+                               ByVal isLength As Boolean)
         If IsNumeric(thisTextTox.Text) Then
             If thisTextTox.TextLength = 2 Then
                 If _
@@ -259,64 +235,81 @@ Public Class FixTimeCode
     End Sub
 
     '点击时码输入框时全选内容
-    Private Sub TextBoxStartTimeH_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewStartTimeH.Click
+    Private Sub TextBoxStartTimeH_Click(ByVal sender As Object, _
+                                        ByVal e As EventArgs) _
+        Handles TextBoxNewStartTimeH.Click
 
         TextBoxNewStartTimeH.SelectAll()
     End Sub
 
-    Private Sub TextBoxStartTimeM_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewStartTimeM.Click
+    Private Sub TextBoxStartTimeM_Click(ByVal sender As Object, _
+                                        ByVal e As EventArgs) _
+        Handles TextBoxNewStartTimeM.Click
 
         TextBoxNewStartTimeM.SelectAll()
     End Sub
 
-    Private Sub TextBoxStartTimeS_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewStartTimeS.Click
+    Private Sub TextBoxStartTimeS_Click(ByVal sender As Object, _
+                                        ByVal e As EventArgs) _
+        Handles TextBoxNewStartTimeS.Click
 
         TextBoxNewStartTimeS.SelectAll()
     End Sub
 
-    Private Sub TextBoxStartTimeF_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewStartTimeF.Click
+    Private Sub TextBoxStartTimeF_Click(ByVal sender As Object, _
+                                        ByVal e As EventArgs) _
+        Handles TextBoxNewStartTimeF.Click
 
         TextBoxNewStartTimeF.SelectAll()
     End Sub
 
-    Private Sub TextBoxLengthH_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewLengthH.Click
+    Private Sub TextBoxLengthH_Click(ByVal sender As Object, _
+                                     ByVal e As EventArgs) _
+        Handles TextBoxNewLengthH.Click
 
         TextBoxNewLengthH.SelectAll()
     End Sub
 
-    Private Sub TextBoxLengthM_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewLengthM.Click
+    Private Sub TextBoxLengthM_Click(ByVal sender As Object, _
+                                     ByVal e As EventArgs) _
+        Handles TextBoxNewLengthM.Click
 
         TextBoxNewLengthM.SelectAll()
     End Sub
 
-    Private Sub TextBoxLengthS_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewLengthS.Click
+    Private Sub TextBoxLengthS_Click(ByVal sender As Object, _
+                                     ByVal e As EventArgs) _
+        Handles TextBoxNewLengthS.Click
 
         TextBoxNewLengthS.SelectAll()
     End Sub
 
-    Private Sub TextBoxLengthF_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TextBoxNewLengthF.Click
+    Private Sub TextBoxLengthF_Click(ByVal sender As Object, _
+                                     ByVal e As EventArgs) _
+        Handles TextBoxNewLengthF.Click
 
         TextBoxNewLengthF.SelectAll()
     End Sub
 
-    Private Sub BackgroundWorker1_ProgressChanged( _
-        ByVal sender As Object, _
-        ByVal e As ProgressChangedEventArgs) _
+    Private Sub BackgroundWorker1_ProgressChanged(ByVal sender As Object, _
+                                                  ByVal e As  _
+                                                     ProgressChangedEventArgs) _
         Handles BackgroundWorker1.ProgressChanged
 
         ' This event handler is called after the background thread
         ' reads a line from the source file.
         ' This method runs on the main thread.
 
-        Dim result As AccessControlQuery.AccessControlResult = _
-            CType(e.UserState, AccessControlQuery.AccessControlResult)
+        Dim result As AccessControlQuery.AccessControlResult = CType(e.UserState,  _
+                                                                     AccessControlQuery.AccessControlResult)
 
         '查询数据库 根据name获取信息
         Dim connStr As String = "Server=" & DbServer & ";Database=" & DbDbNamme & _
-                              ";User ID=" & DbUser & ";Password=" & DbPawd & _
-                              ";"
+                                ";User ID=" & DbUser & ";Password=" & DbPawd & _
+                                ";"
         Dim connection As New SqlConnection(connStr)
-        Const queryString As String = "select name, department from person where id = @id"
+        Const queryString As String = _
+                  "select name, department from person where id = @id"
         Dim command As New SqlCommand(queryString, connection)
         Dim pname As String
         Dim department As String
@@ -345,13 +338,11 @@ Public Class FixTimeCode
         Finally
             connection.Close()
         End Try
-
     End Sub
 
-    Private Sub BackgroundWorker1_DoWork( _
-    ByVal sender As Object, _
-    ByVal e As DoWorkEventArgs) _
-    Handles BackgroundWorker1.DoWork
+    Private Sub BackgroundWorker1_DoWork(ByVal sender As Object, _
+                                         ByVal e As DoWorkEventArgs) _
+        Handles BackgroundWorker1.DoWork
 
         ' This event handler is where the actual work is done.
         ' This method runs on the background thread.

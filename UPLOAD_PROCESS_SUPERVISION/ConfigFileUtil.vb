@@ -3,25 +3,22 @@ Imports System.Collections.Generic
 Imports System.Text.RegularExpressions
 
 Public Class ConfigFileUtil
-    Private _fs As FileStream
-    Private _fr As IO.StreamReader
-    Private _fw As IO.StreamWriter
-    Private Buffer As New Dictionary(Of String, Dictionary(Of String, String))
+    Private ReadOnly _fs As FileStream
+    Private ReadOnly _fr As StreamReader
+    Private ReadOnly _fw As StreamWriter
+    Private ReadOnly _buffer As New Dictionary(Of String, Dictionary(Of String, String))
 
-    Private Const _defalutFilePath As String = "Test.txt"
-
-
-
+    Private Const DefalutFilePath As String = "Test.txt"
 
 
     Public Sub New()
         Try
-            _fs = File.Open(_defalutFilePath, FileMode.OpenOrCreate)
+            _fs = File.Open(DefalutFilePath, FileMode.OpenOrCreate)
             _fr = New StreamReader(_fs)
             _fw = New StreamWriter(_fs)
             LoadFile()
         Catch ex As Exception
-            Throw ex
+            Throw
         End Try
     End Sub
 
@@ -32,14 +29,15 @@ Public Class ConfigFileUtil
             _fw = New StreamWriter(_fs)
             LoadFile()
         Catch ex As Exception
-            Throw ex
+            Throw
         End Try
     End Sub
 
-    Public Function Read(ByVal head As String, ByVal keyword As String) As String
+    Public Function Read(ByVal head As String, ByVal keyword As String) _
+        As String
         Try
-            If Buffer.ContainsKey(head) Then
-                Dim dic As Dictionary(Of String, String) = Buffer.Item(head)
+            If _buffer.ContainsKey(head) Then
+                Dim dic As Dictionary(Of String, String) = _buffer.Item(head)
                 If dic.ContainsKey(keyword) Then
                     Return dic.Item(keyword)
                 Else
@@ -49,14 +47,16 @@ Public Class ConfigFileUtil
                 Return ""
             End If
         Catch ex As Exception
-            Throw ex
+            Throw
         End Try
     End Function
 
-    Public Function Write(ByVal head As String, ByVal keyword As String, ByVal value As String) As Boolean
+    Public Function Write(ByVal head As String, _
+                          ByVal keyword As String, _
+                          ByVal value As String) As Boolean
         Try
-            If Buffer.ContainsKey(head) Then
-                Dim dic As Dictionary(Of String, String) = Buffer.Item(head)
+            If _buffer.ContainsKey(head) Then
+                Dim dic As Dictionary(Of String, String) = _buffer.Item(head)
                 If dic.ContainsKey(keyword) Then
                     dic.Item(keyword) = value
                     Return True
@@ -68,7 +68,7 @@ Public Class ConfigFileUtil
                 Return False
             End If
         Catch ex As Exception
-            Throw ex
+            Throw
         End Try
     End Function
 
@@ -76,14 +76,18 @@ Public Class ConfigFileUtil
         _fs.Seek(0, SeekOrigin.Begin)
         _fs.SetLength(0)
 
-        Dim iter As Dictionary(Of String, Dictionary(Of String, String)).Enumerator = Buffer.GetEnumerator()
+        Dim iter _
+                As  _
+                Dictionary(Of String, Dictionary(Of String, String)).Enumerator _
+                = _buffer.GetEnumerator()
         While iter.MoveNext
             Dim head As String = iter.Current().Key
             Dim keypair As Dictionary(Of String, String) = iter.Current.Value
 
             _fw.WriteLine("[" + head + "]")
 
-            Dim innerIter As Dictionary(Of String, String).Enumerator = keypair.GetEnumerator()
+            Dim innerIter As Dictionary(Of String, String).Enumerator = _
+                    keypair.GetEnumerator()
             While innerIter.MoveNext
                 Dim key As String = innerIter.Current().Key
                 Dim value As String = innerIter.Current().Value
@@ -93,7 +97,6 @@ Public Class ConfigFileUtil
             _fw.WriteLine()
             _fw.Flush()
         End While
-
     End Sub
 
     Public Sub Close()
@@ -107,10 +110,11 @@ Public Class ConfigFileUtil
 
 
     Private Sub LoadFile()
-        Buffer.Clear()
+        _buffer.Clear()
 
         Dim headRegex As New Regex("^\[\S+\]") ', RegexOptions.IgnoreCase)
-        Dim keyRegex As New Regex("\S+[ \t]*=[ \t]*\S+") ', RegexOptions.IgnoreCase)
+        Dim keyRegex As New Regex("\S+[ \t]*=[ \t]*\S+") _
+        ', RegexOptions.IgnoreCase)
         Dim head As String = ""
         Dim key As String
         Dim value As String
@@ -124,7 +128,8 @@ Public Class ConfigFileUtil
             Dim headmatch As String = headRegex.Match(ss).Value
             Dim keymatch As String = keyRegex.Match(ss).Value
             If Not headmatch = "" Then
-                Console.WriteLine("got HEAD at line({0}): " + headmatch, lineNum)
+                Console.WriteLine("got HEAD at line({0}): " + headmatch, _
+                                  lineNum)
                 head = headmatch.Trim("[", "]")
                 AddHeadToBuffer(head)
             ElseIf Not keymatch = "" Then
@@ -144,15 +149,17 @@ Public Class ConfigFileUtil
     Private Sub AddHeadToBuffer(ByVal head As String)
         Try
             Dim newKeyDic As New Dictionary(Of String, String)()
-            Buffer.Add(head, newKeyDic)
+            _buffer.Add(head, newKeyDic)
         Catch ex As ArgumentException
             Console.WriteLine(ex.Message)
         End Try
     End Sub
 
-    Private Sub AddKeyToBuffer(ByVal head As String, ByVal key As String, ByVal value As String)
-        If Buffer.ContainsKey(head) Then
-            Dim dic As Dictionary(Of String, String) = Buffer.Item(head)
+    Private Sub AddKeyToBuffer(ByVal head As String, _
+                               ByVal key As String, _
+                               ByVal value As String)
+        If _buffer.ContainsKey(head) Then
+            Dim dic As Dictionary(Of String, String) = _buffer.Item(head)
             dic.Add(key, value)
         End If
     End Sub

@@ -2,39 +2,25 @@
 Imports System.IO
 
 Public Class WatchUpload
-
     Private _tapeId As Guid = Nothing
 
-    Private Sub WatchUpload_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Private Sub WatchUpload_Load(ByVal sender As Object, _
+                                 ByVal e As EventArgs) Handles Me.Load
 
         _tapeId = QueryForm.TapeId
 
         '从数据库中查询上载数据
-        Const queryString = "select " & _
-        "tape_name, " & _
-        "program_type, " & _
-        "start_timecode, " & _
-        "in_bc_send_per, " & _
-        "in_bc_recv_per, " & _
-        "end_timecode, " & _
-        "end_timecode, " & _
-        "end_timecode, " & _
-        "length " & _
-        "from tape " & _
-        "where " & _
-        "id = @id"
+        Const queryString = "select " & "tape_name, " & "program_type, " & _
+                            "start_timecode, " & "in_bc_send_per, " & _
+                            "in_bc_recv_per, " & "end_timecode, " & _
+                            "end_timecode, " & "end_timecode, " & "length " & _
+                            "from tape " & "where " & "id = @id"
 
-        Const queryString2 = "select " & _
-        "upload_time, " & _
-        "upload_per, " & _
-        "upload_pc, " & _
-        "screenshot, " & _
-        "camera " & _
-        "from upload " & _
-        "where " & _
-        "tape_id = @tape_id " & _
-        "and upload_status = 2 " & _
-        "order by upload_time desc "
+        Const queryString2 = "select " & "upload_time, " & "upload_per, " & _
+                             "upload_pc, " & "screenshot, " & "camera " & _
+                             "from upload " & "where " & "tape_id = @tape_id " & _
+                             "and upload_status = 2 " & _
+                             "order by upload_time desc "
 
         Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
 
@@ -65,7 +51,7 @@ Public Class WatchUpload
                 LabelUploaderText.Text = reader("upload_per")
                 LabelUploadMachineText.Text = reader("upload_pc")
 
-               
+
                 If Not TypeName(reader("screenshot")) = "DBNull" Then
                     Dim buffer1() As Byte = reader("screenshot")
                     Dim ms1 As MemoryStream = New MemoryStream()
@@ -96,10 +82,12 @@ Public Class WatchUpload
         Finally
             sqlconn.Close()
         End Try
-
     End Sub
 
-    Private Sub PictureBoxScreenshot_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxScreenshot.MouseDoubleClick
+    Private Sub PictureBoxScreenshot_MouseDoubleClick(ByVal sender As Object, _
+                                                      ByVal e As  _
+                                                         MouseEventArgs) _
+        Handles PictureBoxScreenshot.MouseDoubleClick
         If Not PictureBoxScreenshot.Image Is Nothing Then
             ImageViewer.PictrueBmpList.Add(PictureBoxScreenshot.Image)
         End If
@@ -109,7 +97,10 @@ Public Class WatchUpload
         ImageViewer.Show()
     End Sub
 
-    Private Sub PictureBoxCamera_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxCamera.MouseDoubleClick
+    Private Sub PictureBoxCamera_MouseDoubleClick(ByVal sender As Object, _
+                                                  ByVal e As  _
+                                                     MouseEventArgs) _
+        Handles PictureBoxCamera.MouseDoubleClick
         If Not PictureBoxScreenshot.Image Is Nothing Then
             ImageViewer.PictrueBmpList.Add(PictureBoxScreenshot.Image)
         End If

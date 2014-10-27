@@ -14,8 +14,7 @@ Public Class Setting
             DbDbNamme = TextBoxDBName.Text
 
             ConnStr = "Server=" & DbServer & ";Database=" & DbDbNamme & _
-                      ";User ID=" & DbUser & ";Password=" & DbPawd & _
-                      ";"
+                      ";User ID=" & DbUser & ";Password=" & DbPawd & ";"
         End If
 
         '重新设置指纹机相关变量
@@ -49,14 +48,14 @@ Public Class Setting
         '刷新数据到配置文件中
         CFUtil.FlushToFile()
 
-        Me.DialogResult = Forms.DialogResult.OK
+        Me.DialogResult = DialogResult.OK
         Me.Close()
     End Sub
 
-    Private Sub Cancel_Button_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub Cancel_Button_Click(ByVal sender As Object, _
+                                    ByVal e As EventArgs) _
         Handles Cancel_Button.Click
-        Me.DialogResult = Forms.DialogResult.Cancel
+        Me.DialogResult = DialogResult.Cancel
         Me.Close()
     End Sub
 
@@ -90,13 +89,14 @@ Public Class Setting
 
         '将确定按钮enable设置为false
         OK_Button.Enabled = False
-
     End Sub
 
-    Private Sub ButtonTestDBConn_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles ButtonTestDBConn.Click
-        ConnStr = "Server=" & TextBoxDBAddr.Text & ";Database=" & TextBoxDBName.Text & _
-                                ";User ID=" & TextBoxDBUser.Text & ";Password=" & TextBoxDBPawd.Text & _
-                                ";"
+    Private Sub ButtonTestDBConn_Click(ByVal sender As Object, _
+                                       ByVal e As EventArgs) _
+        Handles ButtonTestDBConn.Click
+        ConnStr = "Server=" & TextBoxDBAddr.Text & ";Database=" & _
+                  TextBoxDBName.Text & ";User ID=" & TextBoxDBUser.Text & _
+                  ";Password=" & TextBoxDBPawd.Text & ";"
         Dim connection As New SqlConnection(ConnStr)
 
         Try
@@ -109,8 +109,10 @@ Public Class Setting
         End Try
     End Sub
 
-    Private Sub ButtonTestFigurePrintConn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTestFigurePrintConn.Click
-        Dim axCZKEM1 As New zkemkeeper.CZKEM
+    Private Sub ButtonTestFigurePrintConn_Click(ByVal sender As Object, _
+                                                ByVal e As EventArgs) _
+        Handles ButtonTestFigurePrintConn.Click
+        Dim axCZKEM1 As New CZKEM
         Dim ip = TextBoxFigurePrintIP.Text
         Dim ipPort = FigurePrintPort
         If axCZKEM1.Connect_Net(ip, Convert.ToInt32(ipPort)) Then
@@ -120,47 +122,64 @@ Public Class Setting
         End If
 
         axCZKEM1.Disconnect()
-
     End Sub
 
-    Private Sub TextBoxDBAddr_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBoxDBAddr.TextChanged
+    Private Sub TextBoxDBAddr_TextChanged(ByVal sender As Object, _
+                                          ByVal e As EventArgs) _
+        Handles TextBoxDBAddr.TextChanged
         OK_Button.Enabled = True
         _dbReset = True
     End Sub
 
-    Private Sub TextBoxDBName_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBoxDBName.TextChanged
+    Private Sub TextBoxDBName_TextChanged(ByVal sender As Object, _
+                                          ByVal e As EventArgs) _
+        Handles TextBoxDBName.TextChanged
         OK_Button.Enabled = True
         _dbReset = True
     End Sub
 
-    Private Sub TextBoxDBPawd_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBoxDBPawd.TextChanged
+    Private Sub TextBoxDBPawd_TextChanged(ByVal sender As Object, _
+                                          ByVal e As EventArgs) _
+        Handles TextBoxDBPawd.TextChanged
         OK_Button.Enabled = True
         _dbReset = True
     End Sub
 
-    Private Sub TextBoxDBUser_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBoxDBUser.TextChanged
+    Private Sub TextBoxDBUser_TextChanged(ByVal sender As Object, _
+                                          ByVal e As EventArgs) _
+        Handles TextBoxDBUser.TextChanged
         OK_Button.Enabled = True
         _dbReset = True
     End Sub
 
-    Private Sub TextBoxFigurePrintIP_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBoxFigurePrintIP.TextChanged
+    Private Sub TextBoxFigurePrintIP_TextChanged(ByVal sender As Object, _
+                                                 ByVal e As EventArgs) _
+        Handles TextBoxFigurePrintIP.TextChanged
         OK_Button.Enabled = True
         _figurePrintRest = True
     End Sub
 
-    Private Sub CheckBoxUseCamera_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxUseCamera.CheckedChanged
+    Private Sub CheckBoxUseCamera_CheckedChanged(ByVal sender As Object, _
+                                                 ByVal e As EventArgs) _
+        Handles CheckBoxUseCamera.CheckedChanged
         OK_Button.Enabled = True
     End Sub
 
-    Private Sub NumericUpDownHeadLen_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NumericUpDownHeadLen.ValueChanged
+    Private Sub NumericUpDownHeadLen_ValueChanged(ByVal sender As Object, _
+                                                  ByVal e As EventArgs) _
+        Handles NumericUpDownHeadLen.ValueChanged
         OK_Button.Enabled = True
     End Sub
 
-    Private Sub NumericUpDownMiddLen_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NumericUpDownMiddLen.ValueChanged
+    Private Sub NumericUpDownMiddLen_ValueChanged(ByVal sender As Object, _
+                                                  ByVal e As EventArgs) _
+        Handles NumericUpDownMiddLen.ValueChanged
         OK_Button.Enabled = True
     End Sub
 
-    Private Sub NumericUpDownTailLen_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NumericUpDownTailLen.ValueChanged
+    Private Sub NumericUpDownTailLen_ValueChanged(ByVal sender As Object, _
+                                                  ByVal e As EventArgs) _
+        Handles NumericUpDownTailLen.ValueChanged
         OK_Button.Enabled = True
     End Sub
 End Class

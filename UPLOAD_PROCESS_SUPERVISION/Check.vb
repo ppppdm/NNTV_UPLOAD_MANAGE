@@ -2,80 +2,62 @@
 Imports System.ComponentModel
 Imports System.IO
 Imports System.Threading.Thread
+Imports System.Drawing.Imaging
 
 Public Class Check
-    Private _materialId As Guid = Nothing
-    Private _checkupId As Guid = Nothing
-    Private _workAcq As AccessControlQuery
 
-    Private Const _paramKeyF5 As Integer = 100
-    Private Const _paramKeyF6 As Integer = 200
-    Private Const _paramKeyF7 As Integer = 300
-    Private Const _paramKeyF8 As Integer = 400
-
-    Private cutflag1 As Integer
-    Private cutflag2 As Integer
-    Private cutflag3 As Integer
-    Private cutflag4 As Integer
-    Private _flagFigure As Integer
-
-    Private Const ScreenShotJpgHead = "screenShotJpgHead.jpg"
-
-    Private Const ScreenShotJpgMid = "ScreenShotJpgMid.jpg"
-
-    Private Const ScreenShotJpgTail = "ScreenShotJpgTail.jpg"
-
-    Private Const ScreenShotJpgEsp = "ScreenShotJpgEsp.jpg"
-
-    Private Const ScreenShotBmpHead = "ScreenShotBmpHead.bmp"
-
-    Private Const ScreenShotBmpMid = "ScreenShotBmpMid.bmp"
-
-    Private Const ScreenShotBmpTail = "ScreenShotBmpTail.bmp"
-
-    Private Const ScreenShotBmpEsp = "ScreenShotBmpEsp.bmp"
-
-    Public Declare Function Set_Audit_TimeCode Lib "APIHOOK_DLL_AUDIT" _
-           (ByVal a As String, ByRef b As Integer) As Integer
-
-    Public DY_Check_CheckPointHead As Integer = 4
-    Public DY_Check_CheckPointMid As Integer = 5
-    Public DY_Check_CheckPointTail As Integer = 6
-
-    Dim Showing As Boolean
-
-    Dim MousePos As POINTAPI
-
-    Private Declare Function GetCursorPos Lib "User32" _
-            (ByRef lpPoint As POINTAPI) As Integer
-
-    Private Declare Function GetWindowRect Lib "User32" _
-            (ByVal hWnd As Integer, ByRef lpRect As RECT) As Integer
-
-    Private Structure POINTAPI
+    Private Structure PointAPI
         Dim X As Integer
         Dim Y As Integer
     End Structure
 
-    Private Structure RECT
+    Private Structure Rect
         Dim Left_Renamed As Integer
         Dim Top_Renamed As Integer
         Dim Right_Renamed As Integer
         Dim Bottom_Renamed As Integer
     End Structure
 
+    Private Const ParamKeyF5 As Integer = 100
+    Private Const ParamKeyF6 As Integer = 200
+    Private Const ParamKeyF7 As Integer = 300
+    Private Const ParamKeyF8 As Integer = 400
+
+    Public Const DyCheckCheckPointHead As Integer = 4
+    Public Const DyCheckCheckPointMid As Integer = 5
+    Public Const DyCheckCheckPointTail As Integer = 6
+
+    Private _materialId As Guid = Nothing
+    Private _checkupId As Guid = Nothing
+    Private _workAcq As AccessControlQuery
+
+    Private _cutflag1 As Integer
+    Private _cutflag2 As Integer
+    Private _cutflag3 As Integer
+    Private _cutflag4 As Integer
+    Private _flagFigure As Integer
+
+    Dim _showing As Boolean
+    Dim _mousePos As PointAPI
+
+    Private Declare Function GetCursorPos Lib "User32" (ByRef lpPoint As PointAPI) _
+        As Integer
+
+    Private Declare Function GetWindowRect Lib "User32" (ByVal hWnd As Integer, _
+                                                        ByRef lpRect As Rect) _
+        As Integer
+
     '窗体销毁
-    Private Sub Check_Disposed _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub Check_Disposed(ByVal sender As Object, ByVal e As EventArgs) _
         Handles Me.Disposed
         '取消后台线程
         BackgroundWorker1.CancelAsync()
 
         '注销热键
-        UnregisterHotKey(Me.Handle, _paramKeyF5)
-        UnregisterHotKey(Me.Handle, _paramKeyF6)
-        UnregisterHotKey(Me.Handle, _paramKeyF7)
-        UnregisterHotKey(Me.Handle, _paramKeyF8)
+        UnregisterHotKey(Me.Handle, ParamKeyF5)
+        UnregisterHotKey(Me.Handle, ParamKeyF6)
+        UnregisterHotKey(Me.Handle, ParamKeyF7)
+        UnregisterHotKey(Me.Handle, ParamKeyF8)
 
         '主界面恢复
         QueryForm.WindowState = FormWindowState.Normal
@@ -89,10 +71,10 @@ Public Class Check
         _materialId = QueryForm.MaterialId
         _checkupId = Guid.NewGuid()
 
-        cutflag1 = 0  '截图1按下的标志
-        cutflag2 = 0  '截图2按下的标志
-        cutflag3 = 0  '截图3按下的标志
-        cutflag4 = 0  '截图4按下的标志
+        _cutflag1 = 0  '截图1按下的标志
+        _cutflag2 = 0  '截图2按下的标志
+        _cutflag3 = 0  '截图3按下的标志
+        _cutflag4 = 0  '截图4按下的标志
         ButtonFinishCheck.Enabled = False
         PictureBox2.Visible = True
 
@@ -107,7 +89,8 @@ Public Class Check
         GroupBox2.Visible = False
 
         '按照panel1调整窗口大小
-        Me.Height = System.Windows.Forms.SystemInformation.CaptionHeight + GroupBox1.Height
+        Me.Height = SystemInformation.CaptionHeight + _
+                    GroupBox1.Height
         Me.Width = GroupBox1.Width
         '使窗口居中
         Me.Left = (My.Computer.Screen.WorkingArea.Width - Me.Width) / 2
@@ -119,26 +102,26 @@ Public Class Check
         ButtonScreenShotTail.Enabled = False
 
         '注册热键
-        RegisterHotKey(Me.Handle, _paramKeyF5, KeyModifiers.None, Keys.F5)
-        RegisterHotKey(Me.Handle, _paramKeyF6, KeyModifiers.None, Keys.F6)
-        RegisterHotKey(Me.Handle, _paramKeyF7, KeyModifiers.None, Keys.F7)
-        RegisterHotKey(Me.Handle, _paramKeyF8, KeyModifiers.None, Keys.F8)
+        RegisterHotKey(Me.Handle, ParamKeyF5, KeyModifiers.None, Keys.F5)
+        RegisterHotKey(Me.Handle, ParamKeyF6, KeyModifiers.None, Keys.F6)
+        RegisterHotKey(Me.Handle, ParamKeyF7, KeyModifiers.None, Keys.F7)
+        RegisterHotKey(Me.Handle, ParamKeyF8, KeyModifiers.None, Keys.F8)
     End Sub
 
-    Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
+    Protected Overrides Sub WndProc(ByRef m As Message)
         If m.Msg = WM_HOTKEY Then
             Dim id As IntPtr = m.WParam
             Select Case id
-                Case _paramKeyF5
+                Case ParamKeyF5
                     DoScreenShot(PictureBox1, "check_point1_screenshot")
                     Dim toast As New MyToast("片头已截图", 2000)
-                Case _paramKeyF6
+                Case ParamKeyF6
                     DoScreenShot(PictureBox2, "check_point2_screenshot")
                     Dim toast As New MyToast("片中已截图", 2000)
-                Case _paramKeyF7
+                Case ParamKeyF7
                     DoScreenShot(PictureBox3, "check_point3_screenshot")
                     Dim toast As New MyToast("片尾已截图", 2000)
-                Case _paramKeyF8
+                Case ParamKeyF8
                     DoScreenShot(PictureBox4, "episode_screenshot")
                     Dim toast As New MyToast("落副已截图", 2000)
             End Select
@@ -146,7 +129,8 @@ Public Class Check
         MyBase.WndProc(m)
     End Sub
 
-    Private Sub DoScreenShot(ByVal picBox As PictureBox, ByVal dbcolumn As String)
+    Private Sub DoScreenShot(ByVal picBox As PictureBox, _
+                             ByVal dbcolumn As String)
         WindowState = 1  '最小化程序窗口
         '获取屏幕截图bmp图片
         Dim w As Integer = Screen.PrimaryScreen.WorkingArea.Width
@@ -187,86 +171,28 @@ Public Class Check
         End If
         reader1.Close()
 
-
-        'Dim com4 As SqlCommand = New SqlCommand
-        'com4.Connection = sqlconn
-        'com4.CommandText = "select * from longset"
-        'Dim reader2 = com4.ExecuteReader()
-        'Dim blong, _
-        '    mlong, _
-        '    elong As Single
-        'If (reader2.Read()) Then
-        '    blong = (reader2("blong"))  '获取片头30秒的位置 
-        '    mlong = (reader2("mlong"))  '获取片中30秒的位置 
-        '    elong = (reader2("elong"))  '获取片尾30秒的位置 
-        'End If
-        'reader2.Close()
-        'sqlconn.Close()
-
         '根据时长，获取各审点的时码
         TextBoxCheckPointHead.Text = CheckHeadLen
-        'MessageBox.Show(TextBoxCheckPointHead.Text)
 
         TextBoxCheckPointMid.Text = CheckMiddLen
-        'MessageBox.Show(mtc.Text)
 
         TextBoxCheckPointTail.Text = CheckTailLen
-        'MessageBox.Show(etc.Text)
+
     End Sub
-
-    '计算审核点
-    Private Function CalculateCheckTime(ByVal lengthS As String, ByVal checkPoint As Single)
-        Dim len(), _
-            len_var(4) As String
-        Dim len1(4), _
-            len_long, _
-            len_b As Integer
-        len = Split(lengthS, ":")
-        ' MessageBox.Show(len(0) + ":" + len(1) + ":" + len(2) + ":" + len(3))
-
-        len1(0) = Val(len(0))
-        len1(1) = Val(len(1))
-        len1(2) = Val(len(2))
-        len1(3) = Val(len(3))
-        len_long = len1(0) * 60 * 60 * 24 + len1(1) * 60 * 24 + len1(2) * 24 + len1(3)
-        len_b = len_long * checkPoint
-        ' MessageBox.Show(len_b)
-        len_var(0) = CStr(Fix((len_b / (60 * 60 * 24)))) '时码的时
-        len_var(1) = CStr(CInt((len_b Mod (60 * 60 * 24)) / (60 * 24))) '时码的分
-        len_var(2) = CStr(Fix((len_b Mod (60 * 24)) / 24)) '时码的秒
-        len_var(3) = CStr(len_b Mod 24) '时码的帧
-        'MessageBox.Show(len_var(1))
-        If ((len_var(0).Length = 1)) Then
-            len_var(0) = "0" + len_var(0)
-        End If
-        If ((len_var(1).Length = 1)) Then
-            len_var(1) = "0" + len_var(1)
-        End If
-        If ((len_var(2).Length = 1)) Then
-            len_var(2) = "0" + len_var(2)
-        End If
-        If ((len_var(3).Length = 1)) Then
-            len_var(3) = "0" + len_var(3)
-        End If
-        Return len_var(0) + ":" + len_var(1) + ":" + _
-                                     len_var(2) + ":" + len_var(3) ' 片头审点时码
-    End Function
 
     '存储图片到数据库
     Private Sub StoreImgToDb(ByVal img As Bitmap, ByVal dbField As String)
 
         Dim ms As MemoryStream = New MemoryStream()
-        img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp)
+        img.Save(ms, ImageFormat.Bmp)
 
         Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
         Dim queryString As String = "update checkup set " & _
-                                    dbField + " = @screenshot " & _
-                                    "where " & _
+                                    dbField + " = @screenshot " & "where " & _
                                     "checkup_id = @checkup_id"
-        Dim param() As SqlParameter = { _
-                                      New SqlParameter("@screenshot", ms.ToArray()), _
-                                      New SqlParameter("@checkup_id", _checkupId) _
-                                      }
+        Dim param() As SqlParameter = _
+                {New SqlParameter("@screenshot", ms.ToArray()), _
+                 New SqlParameter("@checkup_id", _checkupId)}
 
         Dim sqlcomm As SqlCommand = New SqlCommand(queryString, sqlconn)
         sqlcomm.Parameters.AddRange(param)
@@ -280,12 +206,11 @@ Public Class Check
         Finally
             sqlconn.Close()
         End Try
-
     End Sub
 
     '点击片头屏幕截图
-    Private Sub ButtonScreenShotHead_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub ButtonScreenShotHead_Click(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
         Handles ButtonScreenShotHead.Click
         WindowState = 1  '最小化程序窗口
 
@@ -306,16 +231,16 @@ Public Class Check
         Sleep(100) '延迟0.1秒
         WindowState = 0
 
-        cutflag1 = 1
-        If _
-            (cutflag1 = 1 And cutflag2 = 1 And cutflag3 = 1 And cutflag4 = 1) Then
+        _cutflag1 = 1
+        If (_cutflag1 = 1 And _cutflag2 = 1 And _cutflag3 = 1 And _cutflag4 = 1) _
+            Then
             ButtonFinishCheck.Enabled = True
         End If
     End Sub
 
     '点击片中屏幕截图
-    Private Sub ButtonScreenShotMid_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub ButtonScreenShotMid_Click(ByVal sender As Object, _
+                                          ByVal e As EventArgs) _
         Handles ButtonScreenShotMid.Click
         WindowState = 1  '最小化程序窗口
 
@@ -336,16 +261,16 @@ Public Class Check
         Sleep(100) '延迟0.1秒
         WindowState = 0
 
-        cutflag2 = 1
-        If _
-            (cutflag1 = 1 And cutflag2 = 1 And cutflag3 = 1 And cutflag4 = 1) Then
+        _cutflag2 = 1
+        If (_cutflag1 = 1 And _cutflag2 = 1 And _cutflag3 = 1 And _cutflag4 = 1) _
+            Then
             ButtonFinishCheck.Enabled = True
         End If
     End Sub
 
     '点击片尾屏幕截图
-    Private Sub ButtonScreenShotTail_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub ButtonScreenShotTail_Click(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
         Handles ButtonScreenShotTail.Click
         WindowState = 1  '最小化程序窗口
 
@@ -366,16 +291,16 @@ Public Class Check
         Sleep(100) '延迟0.1秒
         WindowState = 0
 
-        cutflag3 = 1
-        If _
-            (cutflag1 = 1 And cutflag2 = 1 And cutflag3 = 1 And cutflag4 = 1) Then
+        _cutflag3 = 1
+        If (_cutflag1 = 1 And _cutflag2 = 1 And _cutflag3 = 1 And _cutflag4 = 1) _
+            Then
             ButtonFinishCheck.Enabled = True
         End If
     End Sub
 
     '点击"落幅截图"
-    Private Sub ButtonScreenShotDate_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub ButtonScreenShotDate_Click(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
         Handles ButtonScreenShotDate.Click
         WindowState = 1  '最小化程序窗口
 
@@ -397,17 +322,17 @@ Public Class Check
         WindowState = 0
 
         CheckBoxDateEpisodeCheck.Checked = True
-        cutflag4 = 1
-        If _
-            (cutflag1 = 1 And cutflag2 = 1 And cutflag3 = 1 And cutflag4 = 1) Then
+        _cutflag4 = 1
+        If (_cutflag1 = 1 And _cutflag2 = 1 And _cutflag3 = 1 And _cutflag4 = 1) _
+            Then
             ButtonFinishCheck.Enabled = True
         End If
     End Sub
 
     '审核开始
-    Private Sub ButtonStartCheck_Click _
-    (ByVal sender As Object, ByVal e As EventArgs) _
-    Handles ButtonStartCheck.Click
+    Private Sub ButtonStartCheck_Click(ByVal sender As Object, _
+                                       ByVal e As EventArgs) _
+        Handles ButtonStartCheck.Click
 
 
         If (CheckBoxNameCheck.Checked = False) Then
@@ -431,15 +356,19 @@ Public Class Check
             Sleep(1000)
             Set_ListView_Str(ret, 0, 0, 3) '选择搜索出的素材条目
 
-            Dim newS As String = ret.Substring(0, LabelPMaterialName.Text.Length)
+            Dim newS As String = ret.Substring(0, _
+                                               LabelPMaterialName.Text.Length)
 
             If newS = LabelPMaterialName.Text Then
                 Set_Button_Status("2", 111)    '点击默认通道审片按钮
 
                 '推送审核点至审核界面
-                Set_Audit_TimeCode(TextBoxCheckPointHead.Text, DY_Check_CheckPointHead)
-                Set_Audit_TimeCode(TextBoxCheckPointMid.Text, DY_Check_CheckPointMid)
-                Set_Audit_TimeCode(TextBoxCheckPointTail.Text, DY_Check_CheckPointTail)
+                Set_Audit_TimeCode(TextBoxCheckPointHead.Text, _
+                                   DyCheckCheckPointHead)
+                Set_Audit_TimeCode(TextBoxCheckPointMid.Text, _
+                                   DyCheckCheckPointMid)
+                Set_Audit_TimeCode(TextBoxCheckPointTail.Text, _
+                                   DyCheckCheckPointTail)
             Else
                 Set_Button_Status("2", 51)     '点击查询按钮
                 Sleep(1000)
@@ -448,9 +377,12 @@ Public Class Check
                     Set_Button_Status("2", 111)    '点击默认通道审片按钮
 
                     '推送审核点至审核界面
-                    Set_Audit_TimeCode(TextBoxCheckPointHead.Text, DY_Check_CheckPointHead)
-                    Set_Audit_TimeCode(TextBoxCheckPointMid.Text, DY_Check_CheckPointMid)
-                    Set_Audit_TimeCode(TextBoxCheckPointTail.Text, DY_Check_CheckPointTail)
+                    Set_Audit_TimeCode(TextBoxCheckPointHead.Text, _
+                                       DyCheckCheckPointHead)
+                    Set_Audit_TimeCode(TextBoxCheckPointMid.Text, _
+                                       DyCheckCheckPointMid)
+                    Set_Audit_TimeCode(TextBoxCheckPointTail.Text, _
+                                       DyCheckCheckPointTail)
                 Else
                     MsgBox("请手动点击审片")
                 End If
@@ -460,27 +392,20 @@ Public Class Check
             Dim com2 As SqlCommand = New SqlCommand
             Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
             com2.Connection = sqlconn
-            com2.CommandText = "insert into checkup (" & _
-                               "tape_name, " & _
-                               "check_type, " & _
-                               "length, " & _
-                               "check_status, " & _
-                               "checkup_id, " & _
-                               "material_id) " & _
-                               "values (" & _
-                               "@tape_name, " & _
-                               "@check_type, " & _
-                               "@length, " & _
-                               "@check_status," & _
-                               "@checkup_id, " & _
+            com2.CommandText = "insert into checkup (" & "tape_name, " & _
+                               "check_type, " & "length, " & "check_status, " & _
+                               "checkup_id, " & "material_id) " & "values (" & _
+                               "@tape_name, " & "@check_type, " & "@length, " & _
+                               "@check_status," & "@checkup_id, " & _
                                "@material_id)"
 
-            Dim params As SqlParameter() = {New SqlParameter("@tape_name", LabelPMaterialName.Text), _
-                                            New SqlParameter("@check_type", StatusCheckingUp), _
-                                            New SqlParameter("@length", TextBoxLength.Text), _
-                                            New SqlParameter("@check_status", StatusCheckingUp), _
-                                            New SqlParameter("@checkup_id", _checkupId), _
-                                            New SqlParameter("@material_id", _materialId)}
+            Dim params As SqlParameter() = _
+                    {New SqlParameter("@tape_name", LabelPMaterialName.Text), _
+                     New SqlParameter("@check_type", StatusCheckingUp), _
+                     New SqlParameter("@length", TextBoxLength.Text), _
+                     New SqlParameter("@check_status", StatusCheckingUp), _
+                     New SqlParameter("@checkup_id", _checkupId), _
+                     New SqlParameter("@material_id", _materialId)}
 
 
             com2.Parameters.AddRange(params)
@@ -503,8 +428,8 @@ Public Class Check
             GroupBox2.Location = New Point(0, 0)
 
             '调整窗口大小
-            Me.Height = System.Windows.Forms.SystemInformation.CaptionHeight + _
-                GroupBox2.Height
+            Me.Height = SystemInformation.CaptionHeight + _
+                        GroupBox2.Height
             Me.Width = GroupBox2.Width
 
             '调整窗口位置
@@ -522,8 +447,8 @@ Public Class Check
     End Sub
 
     '审核完成
-    Private Sub ButtonFinishCheck_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub ButtonFinishCheck_Click(ByVal sender As Object, _
+                                        ByVal e As EventArgs) _
         Handles ButtonFinishCheck.Click
 
         If (_flagFigure = 0) Then
@@ -541,50 +466,55 @@ Public Class Check
             Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
 
             '更新表checkup
-            Dim sqlquery1 As String = "update checkup set " & _
-                                     "date_or_episode_check = @date_or_episode_check, " & _
-                                     "sound_picture_sync = @sound_picture_sync, " & _
-                                     "volume_check = @volume_check, " & _
-                                     "check_point1_timecode = @check_point1_timecode, " & _
-                                     "check_point2_timecode = @check_point2_timecode, " & _
-                                     "check_point3_timecode = @check_point3_timecode, " & _
-                                     "check_status = @check_status, " & _
-                                     "remark = @remark, " & _
-                                     "check_person = @check_person, " & _
-                                     "check_time = @check_time " & _
-                                     "where " & _
-                                     "checkup_id = @checkup_id"
+            Const sqlquery1 As String = "update checkup set " & _
+                                        "date_or_episode_check = @date_or_episode_check, " & _
+                                        "sound_picture_sync = @sound_picture_sync, " & _
+                                        "volume_check = @volume_check, " & _
+                                        "check_point1_timecode = @check_point1_timecode, " & _
+                                        "check_point2_timecode = @check_point2_timecode, " & _
+                                        "check_point3_timecode = @check_point3_timecode, " & _
+                                        "check_status = @check_status, " & _
+                                        "remark = @remark, " & _
+                                        "check_person = @check_person, " & _
+                                        "check_time = @check_time " & "where " & _
+                                        "checkup_id = @checkup_id"
 
             Dim com1 As SqlCommand = New SqlCommand(sqlquery1, sqlconn)
-            Dim params1 As SqlParameter() = {New SqlParameter("@date_or_episode_check", CheckBoxDateEpisodeCheck.Checked), _
-                                            New SqlParameter("@sound_picture_sync", CheckBoxSoundPicSyncCheck.Checked), _
-                                            New SqlParameter("@volume_check", CheckBoxVolumeCheck.Checked), _
-                                            New SqlParameter("@check_point1_timecode", TextBoxCheckPointHead.Text), _
-                                            New SqlParameter("@check_point2_timecode", TextBoxCheckPointMid.Text), _
-                                            New SqlParameter("@check_point3_timecode", TextBoxCheckPointTail.Text), _
-                                            New SqlParameter("@check_status", StatusHaveCheckUp), _
-                                            New SqlParameter("@remark", TextBoxRemark.Text), _
-                                            New SqlParameter("@check_person", TextBoxChecker.Text), _
-                                            New SqlParameter("@check_time", daytime), _
-                                            New SqlParameter("@checkup_id", _checkupId)}
+            Dim params1 As SqlParameter() = _
+                    {New SqlParameter("@date_or_episode_check", _
+                                      CheckBoxDateEpisodeCheck.Checked), _
+                     New SqlParameter("@sound_picture_sync", _
+                                      CheckBoxSoundPicSyncCheck.Checked), _
+                     New SqlParameter("@volume_check", _
+                                      CheckBoxVolumeCheck.Checked), _
+                     New SqlParameter("@check_point1_timecode", _
+                                      TextBoxCheckPointHead.Text), _
+                     New SqlParameter("@check_point2_timecode", _
+                                      TextBoxCheckPointMid.Text), _
+                     New SqlParameter("@check_point3_timecode", _
+                                      TextBoxCheckPointTail.Text), _
+                     New SqlParameter("@check_status", StatusHaveCheckUp), _
+                     New SqlParameter("@remark", TextBoxRemark.Text), _
+                     New SqlParameter("@check_person", TextBoxChecker.Text), _
+                     New SqlParameter("@check_time", daytime), _
+                     New SqlParameter("@checkup_id", _checkupId)}
             com1.Parameters.AddRange(params1)
 
             '更新表material_id
-            Dim sqlquery2 As String = "update material set " & _
-                                      "status = @status, " & _
-                                      "start_timecode = @start_timecode, " & _
-                                      "end_timecode = @end_timecode " & _
-                                      "where " & _
-                                      "id = @material_id"
+            Const sqlquery2 As String = "update material set " & _
+                                        "status = @status, " & _
+                                        "start_timecode = @start_timecode, " & _
+                                        "end_timecode = @end_timecode " & "where " & _
+                                        "id = @material_id"
 
             Dim com2 As SqlCommand = New SqlCommand(sqlquery2, sqlconn)
             'bug
-            Dim params2 As SqlParameter() = {New SqlParameter("@status", StatusHaveCheckUp), _
-                                            New SqlParameter("@start_timecode", "00:00:00:00"), _
-                                            New SqlParameter("@end_timecode", "11"), _
-                                            New SqlParameter("@material_id", _materialId)}
+            Dim params2 As SqlParameter() = _
+                    {New SqlParameter("@status", StatusHaveCheckUp), _
+                     New SqlParameter("@start_timecode", "00:00:00:00"), _
+                     New SqlParameter("@end_timecode", "11"), _
+                     New SqlParameter("@material_id", _materialId)}
             com2.Parameters.AddRange(params2)
-
 
 
             Try
@@ -603,47 +533,51 @@ Public Class Check
     End Sub
 
     '取消审核
-    Private Sub ButtonCancelCheck_Click _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
-    Handles ButtonCancelCheck.Click
+    Private Sub ButtonCancelCheck_Click(ByVal sender As Object, _
+                                        ByVal e As EventArgs) _
+        Handles ButtonCancelCheck.Click
         Dim daytime = Now()
         Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
-        Dim sqlquery1 As String = "update checkup set " & _
-                                 "date_or_episode_check = @date_or_episode_check, " & _
-                                 "sound_picture_sync = @sound_picture_sync, " & _
-                                 "volume_check = @volume_check, " & _
-                                 "check_point1_timecode = @check_point1_timecode, " & _
-                                 "check_point2_timecode = @check_point2_timecode, " & _
-                                 "check_point3_timecode = @check_point3_timecode, " & _
-                                 "check_status = @check_status, " & _
-                                 "remark = @remark, " & _
-                                 "check_person = @check_person, " & _
-                                 "check_time = @check_time " & _
-                                 "where " & _
-                                 "checkup_id = @checkup_id"
+        Const sqlquery1 As String = "update checkup set " & _
+                                    "date_or_episode_check = @date_or_episode_check, " & _
+                                    "sound_picture_sync = @sound_picture_sync, " & _
+                                    "volume_check = @volume_check, " & _
+                                    "check_point1_timecode = @check_point1_timecode, " & _
+                                    "check_point2_timecode = @check_point2_timecode, " & _
+                                    "check_point3_timecode = @check_point3_timecode, " & _
+                                    "check_status = @check_status, " & _
+                                    "remark = @remark, " & _
+                                    "check_person = @check_person, " & _
+                                    "check_time = @check_time " & "where " & _
+                                    "checkup_id = @checkup_id"
 
         Dim com1 As SqlCommand = New SqlCommand(sqlquery1, sqlconn)
-        Dim params1 As SqlParameter() = {New SqlParameter("@date_or_episode_check", CheckBoxDateEpisodeCheck.Checked), _
-                                        New SqlParameter("@sound_picture_sync", CheckBoxSoundPicSyncCheck.Checked), _
-                                        New SqlParameter("@volume_check", CheckBoxVolumeCheck.Checked), _
-                                        New SqlParameter("@check_point1_timecode", TextBoxCheckPointHead.Text), _
-                                        New SqlParameter("@check_point2_timecode", TextBoxCheckPointMid.Text), _
-                                        New SqlParameter("@check_point3_timecode", TextBoxCheckPointTail.Text), _
-                                        New SqlParameter("@check_status", StatusFailCheckUp), _
-                                        New SqlParameter("@remark", TextBoxRemark.Text), _
-                                        New SqlParameter("@check_person", TextBoxChecker.Text), _
-                                        New SqlParameter("@check_time", daytime), _
-                                        New SqlParameter("@checkup_id", _checkupId)}
+        Dim params1 As SqlParameter() = _
+                {New SqlParameter("@date_or_episode_check", _
+                                  CheckBoxDateEpisodeCheck.Checked), _
+                 New SqlParameter("@sound_picture_sync", _
+                                  CheckBoxSoundPicSyncCheck.Checked), _
+                 New SqlParameter("@volume_check", CheckBoxVolumeCheck.Checked), _
+                 New SqlParameter("@check_point1_timecode", _
+                                  TextBoxCheckPointHead.Text), _
+                 New SqlParameter("@check_point2_timecode", _
+                                  TextBoxCheckPointMid.Text), _
+                 New SqlParameter("@check_point3_timecode", _
+                                  TextBoxCheckPointTail.Text), _
+                 New SqlParameter("@check_status", StatusFailCheckUp), _
+                 New SqlParameter("@remark", TextBoxRemark.Text), _
+                 New SqlParameter("@check_person", TextBoxChecker.Text), _
+                 New SqlParameter("@check_time", daytime), _
+                 New SqlParameter("@checkup_id", _checkupId)}
         com1.Parameters.AddRange(params1)
 
 
-        Dim sqlquery2 As String = "update material set " & _
-                                 "status = @status " & _
-                                 "where " & _
-                                 "id = @material_id"
+        Const sqlquery2 As String = "update material set " & "status = @status " & _
+                                    "where " & "id = @material_id"
         Dim com2 As SqlCommand = New SqlCommand(sqlquery2, sqlconn)
-        Dim params2 As SqlParameter() = {New SqlParameter("@status", StatusFailCheckUp), _
-                                        New SqlParameter("@material_id", _materialId)}
+        Dim params2 As SqlParameter() = _
+                {New SqlParameter("@status", StatusFailCheckUp), _
+                 New SqlParameter("@material_id", _materialId)}
         com2.Parameters.AddRange(params2)
 
         Try
@@ -676,9 +610,8 @@ Public Class Check
         _workAcq.EndAccessControl()
     End Sub
 
-    Private Sub BackgroundWorker1_DoWork _
-        (ByVal sender As Object, _
-         ByVal e As DoWorkEventArgs) _
+    Private Sub BackgroundWorker1_DoWork(ByVal sender As Object, _
+                                         ByVal e As DoWorkEventArgs) _
         Handles BackgroundWorker1.DoWork
         ' This event handler is where the actual work is done.
         ' This method runs on the background thread.
@@ -688,21 +621,21 @@ Public Class Check
         worker = CType(sender, BackgroundWorker)
 
         ' Get the Works object and call the main method.
-        Dim workAcq As AccessControlQuery = CType _
-            (e.Argument, AccessControlQuery)
+        Dim workAcq As AccessControlQuery = CType(e.Argument, AccessControlQuery)
         workAcq.StartAccessControl(worker)
     End Sub
 
-    Private Sub BackgroundWorker1_ProgressChanged _
-        (ByVal sender As Object, ByVal e As ProgressChangedEventArgs) _
+    Private Sub BackgroundWorker1_ProgressChanged(ByVal sender As Object, _
+                                                  ByVal e As  _
+                                                     ProgressChangedEventArgs) _
         Handles BackgroundWorker1.ProgressChanged
 
         ' This event handler is called after the background thread
         ' reads a line from the source file.
         ' This method runs on the main thread.
 
-        Dim result As AccessControlQuery.AccessControlResult = CType _
-            (e.UserState, AccessControlQuery.AccessControlResult)
+        Dim result As AccessControlQuery.AccessControlResult = CType(e.UserState,  _
+                                                                     AccessControlQuery.AccessControlResult)
 
         '查询数据库 根据name获取信息
         Dim connStr As String = "Server=" & DbServer & ";Database=" & DbDbNamme & _
@@ -741,67 +674,110 @@ Public Class Check
         End Try
     End Sub
 
-    Private Sub GroupBox1_MouseMove _
-        (ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) _
+    Private Sub GroupBox1_MouseMove(ByVal sender As Object, _
+                                    ByVal e As  _
+                                       MouseEventArgs) _
         Handles GroupBox1.MouseMove
         'Dim Button As Short = EventArgs.Button \ &H100000
-        Dim Shift As Short = System.Windows.Forms.Control.ModifierKeys \ &H10000
-        Dim X As Single = VB6.PixelsToTwipsX(e.X)
-        Dim Y As Single = VB6.PixelsToTwipsY(e.Y) '经过
+        'Dim shift As Short = ModifierKeys \ &H10000
+        'Dim X As Single = PixelsToTwipsX(e.X)
+        'Dim Y As Single = PixelsToTwipsY(e.Y) '经过
 
-        If VB6.PixelsToTwipsX(Me.Left) = VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - 75 Then '已被隐藏，符合出现的条件
-            Showing = True
-            Do Until VB6.PixelsToTwipsX(Me.Left) <= VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width) + 70 '出现
-                System.Windows.Forms.Application.DoEvents()
-                Me.Left = VB6.TwipsToPixelsX(VB6.PixelsToTwipsX(Me.Left) - 50)
+        If _
+            PixelsToTwipsX(Me.Left) = _
+            PixelsToTwipsX( _
+                Screen.PrimaryScreen.Bounds.Width) - 75 _
+            Then '已被隐藏，符合出现的条件
+            _showing = True
+            Do _
+                Until _
+                    PixelsToTwipsX(Me.Left) <= _
+                    PixelsToTwipsX( _
+                        Screen.PrimaryScreen.Bounds.Width) - _
+                    PixelsToTwipsX(Me.Width) + 70 '出现
+                Application.DoEvents()
+                Me.Left = TwipsToPixelsX(PixelsToTwipsX(Me.Left) - 50)
             Loop
-            Me.Left = VB6.TwipsToPixelsX(VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width) + 70)
-            Showing = False
+            Me.Left = _
+                TwipsToPixelsX( _
+                    PixelsToTwipsX( _
+                        Screen.PrimaryScreen.Bounds.Width) - _
+                    PixelsToTwipsX(Me.Width) + 70)
+            _showing = False
         End If
         If Timer1.Enabled = False Then Timer1.Enabled = True
     End Sub
 
-    Private Sub Timer1_Tick _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
-        Handles Timer1.Tick
-        GetCursorPos(MousePos)
-        Dim F As RECT
+    Private Sub Timer1_Tick(ByVal sender As Object, _
+                            ByVal e As EventArgs) Handles Timer1.Tick
+        GetCursorPos(_mousePos)
+        Dim F As Rect
         GetWindowRect(Me.Handle.ToInt32, F) '得到窗体的位置
-        If MousePos.X < F.Left_Renamed Or MousePos.X > F.Right_Renamed Or MousePos.Y < F.Top_Renamed Or MousePos.Y > F.Bottom_Renamed Then
-            If Showing = True Then Exit Sub
+        If _
+            _mousePos.X < F.Left_Renamed Or _mousePos.X > F.Right_Renamed Or _
+            _mousePos.Y < F.Top_Renamed Or _mousePos.Y > F.Bottom_Renamed Then
+            If _showing = True Then Exit Sub
             Timer1.Enabled = False
-            If VB6.PixelsToTwipsX(Me.Left) >= VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width) Then '窗体被拉到屏幕最右端
-                Do Until VB6.PixelsToTwipsX(Me.Left) >= VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - 70 '隐藏
-                    System.Windows.Forms.Application.DoEvents()
-                    Me.Left = VB6.TwipsToPixelsX(VB6.PixelsToTwipsX(Me.Left) + 50)
+            If _
+                PixelsToTwipsX(Me.Left) >= _
+                PixelsToTwipsX( _
+                    Screen.PrimaryScreen.Bounds.Width) - _
+                PixelsToTwipsX(Me.Width) Then '窗体被拉到屏幕最右端
+                Do _
+                    Until _
+                        PixelsToTwipsX(Me.Left) >= _
+                        PixelsToTwipsX( _
+                            Screen.PrimaryScreen.Bounds. _
+                                              Width) - 70 '隐藏
+                    Application.DoEvents()
+                    Me.Left = _
+                        TwipsToPixelsX(PixelsToTwipsX(Me.Left) + 50)
                 Loop
-                Me.Left = VB6.TwipsToPixelsX(VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - 70)
+                Me.Left = _
+                    TwipsToPixelsX( _
+                        PixelsToTwipsX( _
+                            Screen.PrimaryScreen.Bounds. _
+                                              Width) - 70)
             End If
         End If
     End Sub
 
-    Private Sub GroupBox2_MouseMove _
-        (ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) _
+    Private Sub GroupBox2_MouseMove(ByVal sender As Object, _
+                                    ByVal e As  _
+                                       MouseEventArgs) _
         Handles GroupBox2.MouseMove
         'Dim Button As Short = EventArgs.Button \ &H100000
-        Dim Shift As Short = System.Windows.Forms.Control.ModifierKeys \ &H10000
-        Dim X As Single = VB6.PixelsToTwipsX(e.X)
-        Dim Y As Single = VB6.PixelsToTwipsY(e.Y) '经过
+        'Dim Shift As Short = ModifierKeys \ &H10000
+        'Dim X As Single = PixelsToTwipsX(e.X)
+        'Dim Y As Single = PixelsToTwipsY(e.Y) '经过
 
-        If VB6.PixelsToTwipsX(Me.Left) = VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - 75 Then '已被隐藏，符合出现的条件
-            Showing = True
-            Do Until VB6.PixelsToTwipsX(Me.Left) <= VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width) + 70 '出现
-                System.Windows.Forms.Application.DoEvents()
-                Me.Left = VB6.TwipsToPixelsX(VB6.PixelsToTwipsX(Me.Left) - 50)
+        If _
+            PixelsToTwipsX(Me.Left) = _
+            PixelsToTwipsX( _
+                Screen.PrimaryScreen.Bounds.Width) - 75 _
+            Then '已被隐藏，符合出现的条件
+            _showing = True
+            Do _
+                Until _
+                    PixelsToTwipsX(Me.Left) <= _
+                    PixelsToTwipsX( _
+                        Screen.PrimaryScreen.Bounds.Width) - _
+                    PixelsToTwipsX(Me.Width) + 70 '出现
+                Application.DoEvents()
+                Me.Left = TwipsToPixelsX(PixelsToTwipsX(Me.Left) - 50)
             Loop
-            Me.Left = VB6.TwipsToPixelsX(VB6.PixelsToTwipsX(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width) - VB6.PixelsToTwipsX(Me.Width) + 70)
-            Showing = False
+            Me.Left = _
+                TwipsToPixelsX( _
+                    PixelsToTwipsX( _
+                        Screen.PrimaryScreen.Bounds.Width) - _
+                    PixelsToTwipsX(Me.Width) + 70)
+            _showing = False
         End If
         If Timer1.Enabled = False Then Timer1.Enabled = True
     End Sub
 
-    Private Sub TextBoxChecker_TextChanged _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
+    Private Sub TextBoxChecker_TextChanged(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
         Handles TextBoxChecker.TextChanged
         If Not TextBoxChecker.Text = "" Then
             _flagFigure = 1
@@ -810,7 +786,10 @@ Public Class Check
         End If
     End Sub
 
-    Private Sub PictureBox1_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox1.MouseDoubleClick
+    Private Sub PictureBox1_MouseDoubleClick(ByVal sender As Object, _
+                                             ByVal e As  _
+                                                MouseEventArgs) _
+        Handles PictureBox1.MouseDoubleClick
         If Not PictureBox1.Image Is Nothing Then
             ImageViewer.PictrueBmpList.Add(PictureBox1.Image)
         End If
@@ -830,7 +809,10 @@ Public Class Check
         ImageViewer.Show()
     End Sub
 
-    Private Sub PictureBox2_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox2.MouseDoubleClick
+    Private Sub PictureBox2_MouseDoubleClick(ByVal sender As Object, _
+                                             ByVal e As  _
+                                                MouseEventArgs) _
+        Handles PictureBox2.MouseDoubleClick
         If Not PictureBox1.Image Is Nothing Then
             ImageViewer.PictrueBmpList.Add(PictureBox1.Image)
         End If
@@ -850,7 +832,10 @@ Public Class Check
         ImageViewer.Show()
     End Sub
 
-    Private Sub PictureBox3_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox3.MouseDoubleClick
+    Private Sub PictureBox3_MouseDoubleClick(ByVal sender As Object, _
+                                             ByVal e As  _
+                                                MouseEventArgs) _
+        Handles PictureBox3.MouseDoubleClick
         If Not PictureBox1.Image Is Nothing Then
             ImageViewer.PictrueBmpList.Add(PictureBox1.Image)
         End If
@@ -870,7 +855,10 @@ Public Class Check
         ImageViewer.Show()
     End Sub
 
-    Private Sub PictureBox4_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox4.MouseDoubleClick
+    Private Sub PictureBox4_MouseDoubleClick(ByVal sender As Object, _
+                                             ByVal e As  _
+                                                MouseEventArgs) _
+        Handles PictureBox4.MouseDoubleClick
         If Not PictureBox1.Image Is Nothing Then
             ImageViewer.PictrueBmpList.Add(PictureBox1.Image)
         End If

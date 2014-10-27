@@ -1,83 +1,107 @@
-﻿Imports System.Runtime.InteropServices
-
+﻿
 Module GlobalValues
-    Public Xuhao As Integer '用来表征项目的序号
+
     Public Declare Function CreateWnd Lib "MyDll" () As Double
     Public Declare Function CloseWnd Lib "MyDll" () As Double
     Public Declare Function ClearGraphs Lib "MyDll" () As Double
-    Public Declare Function OnpStillCapture Lib "MyDll" _
-        (ByVal hwnd As Long) As Double
-    Public Declare Function InitStillGraph Lib "MyDll" _
-        (ByVal hwnd As Long) As Double
+    Public Declare Function OnpStillCapture Lib "MyDll" (ByVal hwnd As Long) _
+        As Double
+    Public Declare Function InitStillGraph Lib "MyDll" (ByVal hwnd As Long) _
+        As Double
 
-    Public Declare Function CapDlgToFile Lib "MyDll" _
-        (ByVal source_hwnd As Long, _
-         ByVal picture_hwnd As Long, _
-         ByVal thirds As Long) As Long
-    Public Declare Function CapDlgTest Lib "MyDll" _
-        (ByVal a As Long, _
-         ByVal b As Long) As Integer
-    Public Declare Function LoadBmpFileToStatic Lib "MyDll" _
-        (ByVal a As Long, _
-         ByVal b As Long, _
-         ByVal c As Long, _
-         ByVal d As Long, _
-         ByVal e As Long) As Integer
-    Public Declare Function EncBmpToJpg Lib "MyDll" _
-        (ByVal filename_bmp As String, _
-         ByVal filename_jpg As String) As Integer
+    Public Declare Function CapDlgToFile Lib "MyDll" (ByVal sourceHwnd As Long, _
+                                                     ByVal pictureHwnd As Long, _
+                                                     ByVal thirds As Long) _
+        As Long
+    Public Declare Function CapDlgTest Lib "MyDll" (ByVal a As Long, _
+                                                   ByVal b As Long) As Integer
+    Public Declare Function LoadBmpFileToStatic Lib "MyDll" (ByVal a As Long, _
+                                                            ByVal b As Long, _
+                                                            ByVal c As Long, _
+                                                            ByVal d As Long, _
+                                                            ByVal e As Long) _
+        As Integer
+    Public Declare Function EncBmpToJpg Lib "MyDll" (ByVal filenameBmp As String, _
+                                                    ByVal filenameJpg As String) _
+        As Integer
 
-    Public Declare Function Set_Upload_TimeCode Lib "APIHOOK_DLL" _
-        (ByVal content As String, _
-         ByRef timeBoxIndex As Integer) As Integer
+    Public Declare Function Set_Upload_TimeCode Lib "APIHOOK_DLL" ( _
+                                                                  ByVal content _
+                                                                     As String, _
+                                                                  ByRef _
+                                                                     timeBoxIndex _
+                                                                     As Integer) _
+        As Integer
 
-    Public Declare Function Set_Button_Status Lib "APIHOOK_DLL" _
-        (ByVal status As String, _
-         ByVal buttonIndex As Integer) As Integer
+    Public Declare Function Set_Button_Status Lib "APIHOOK_DLL" ( _
+                                                                ByVal status As _
+                                                                   String, _
+                                                                ByVal _
+                                                                   buttonIndex _
+                                                                   As Integer) _
+        As Integer
 
-    Public Declare Function Set_Edit_Str Lib "APIHOOK_DLL" _
-        (ByVal content As String, _
-         ByRef textBoxIndex As Integer) As Integer
+    Public Declare Function Set_Edit_Str Lib "APIHOOK_DLL" ( _
+                                                           ByVal content As _
+                                                              String, _
+                                                           ByRef textBoxIndex As _
+                                                              Integer) _
+        As Integer
 
-    Public Declare Function Set_ComboBox Lib "APIHOOK_Dll" _
-        (ByVal noUse As String, _
-         ByRef selectIndex As Integer, _
-         ByRef comboBoxIndex As Integer) As Integer
+    Public Declare Function Set_ComboBox Lib "APIHOOK_Dll" (ByVal noUse As String, _
+                                                           ByRef selectIndex As _
+                                                              Integer, _
+                                                           ByRef comboBoxIndex _
+                                                              As Integer) _
+        As Integer
 
-    Public Declare Function Set_ListView Lib "APIHOOK_Dll" _
-        (ByRef a As Integer, _
-        ByRef b As Integer, _
-        ByRef c As Integer, _
-        ByRef d As Integer) As Integer
+    Public Declare Function Set_ListView Lib "APIHOOK_Dll" (ByRef a As Integer, _
+                                                           ByRef b As Integer, _
+                                                           ByRef c As Integer, _
+                                                           ByRef d As Integer) _
+        As Integer
 
-    Public Declare Function Set_ListView_Str Lib "APIHOOK_Dll" _
-        (ByVal a As String, _
-        ByRef b As Integer, _
-        ByRef c As Integer, _
-        ByRef d As Integer) As Integer
+    Public Declare Function Set_ListView_Str Lib "APIHOOK_Dll" (ByVal a As String, _
+                                                               ByRef b As _
+                                                                  Integer, _
+                                                               ByRef c As _
+                                                                  Integer, _
+                                                               ByRef d As _
+                                                                  Integer) _
+        As Integer
+
+    Public Declare Function Set_Audit_TimeCode Lib "APIHOOK_DLL_AUDIT" ( _
+                                                                     ByVal a _
+                                                                        As _
+                                                                        String, _
+                                                                     ByRef b _
+                                                                        As _
+                                                                        Integer) _
+      As Integer
 
     Public Declare Function GetCurrentThreadId Lib "kernel32" _
         Alias "GetCurrentThreadId" () As Integer
 
     Public Declare Function PostThreadMessage Lib "user32" _
-        Alias "PostThreadMessageW" _
-        (ByVal id As Integer, _
-        ByVal wMsg As Integer, _
-        ByRef wParam As Long, _
-        ByRef lParam As Long) As Boolean
+        Alias "PostThreadMessageW" (ByVal id As Integer, _
+                                   ByVal wMsg As Integer, _
+                                   ByRef wParam As Long, _
+                                   ByRef lParam As Long) As Boolean
 
-    Public Const WM_QUIT As Integer = &H12
-    Public Const WM_HOTKEY As Integer = &H312
 
-    Public Declare Function RegisterHotKey Lib "user32.dll" _
-        (ByVal id As Integer, _
-        ByVal id As Integer, _
-        ByVal fsModifiers As Integer, _
-        ByVal vk As Integer) As Integer
+    Public Declare Function RegisterHotKey Lib "user32.dll" (ByVal id As Integer, _
+                                                            ByVal id As Integer, _
+                                                            ByVal fsModifiers As _
+                                                               Integer, _
+                                                            ByVal vk As Integer) _
+        As Integer
 
-    Public Declare Function UnregisterHotKey Lib "user32.dll" _
-        (ByVal hwnd As Integer, _
-        ByVal id As Integer) As Integer
+    Public Declare Function UnregisterHotKey Lib "user32.dll" ( _
+                                                              ByVal hwnd As _
+                                                                 Integer, _
+                                                              ByVal id As _
+                                                                 Integer) _
+        As Integer
 
     Public Enum KeyModifiers As Integer
         None = 0
@@ -88,21 +112,12 @@ Module GlobalValues
         CtrlAndShift = 6
     End Enum
 
+    ' ReSharper disable InconsistentNaming
+    Public Const WM_QUIT As Integer = &H12
+    Public Const WM_HOTKEY As Integer = &H312
+    ' ReSharper restore InconsistentNaming
 
-        'Public Declare Sub Sleep Lib "kernel32" Alias "Sleep" (ByVal dwMilliseconds As Long)
-        'Public ppid As Integer '用来表征项目编号，唯一标识
-        'Public flag As Integer '用来表征是操作的第几步
-        'Public upcutflag As Integer '用来表征上载截图是否按下
-        'Public cutpicsrc As Integer '用来表征和截屏幕截图是否按下
-        'Public pid As Integer '用来表征节目的序号，唯一标识
-        'Public cutcount As Integer '用来表征截图按钮是否被按下，按下为1，没按下为0
-        'Public cutcountsrc As Integer '用来表征屏幕截图按钮是否被按下，按下为1，没按下为0
-        'Public updown As Integer  '用来表征点击“下一步”是第一次走还是通过点击“上一步”再点击的“下一步”，前者为0，后者为1
-        'Public picflag As Integer '用来表征数据库中是否已有截图，如果有则为1，没有则为0.当其为1时，在点击“下一步”时，不用截图
-        'Public lookflag = 1  '用来表征回看项目到哪一步了，默认为1，在第一步
-
-
-        'tape, material状态(必须很数据库status表一致)
+    'tape, material状态(必须很数据库status表一致)
     Public StatusNotUpload As Integer = 1
     Public StatusNotCheckUp As Integer = 2   'haveUpload
     Public StatusHaveCheckUp As Integer = 3
@@ -113,7 +128,7 @@ Module GlobalValues
     Public StatusSendedOut As Integer = 8
 
     'jobType 需要与数据库中person表中的jobtype一致
-    Public jobTypeRecvTape As Integer = 0
+    Public JobTypeRecvTape As Integer = 0
 
     '配置文件
     Public ConfigFile As String = "config.ini"
@@ -169,7 +184,8 @@ Module GlobalValues
     Public Const SwoValue = 3
     Public SwoTrueOptionsCount = 0 ' need be init or change if user change swo
 
-    Public Swo As Object(,) = _
+    Public _
+        Swo As Object(,) = _
             {{"SwoTapeName", "tape_name", "名称", True}, _
              {"SwoTapeStatus", "tape_status", "状态", True}, _
              {"SwoTapeLength", "length", "时长", True}, _
@@ -180,13 +196,16 @@ Module GlobalValues
              {"SwoTapeSendOutSendPer", "out_bc_send_per", "发带人", False}, _
              {"SwoTapeSendOutRecvPer", "out_bc_recv_per", "取带人", False}}
 
-    Public SwoMaterial As Object(,) = _
-           {{"SwoMaterialName", "material_name", "名称", True}, _
-            {"SwoMaterialLength", "length", "时长", True}, _
-            {"SwoMaterialStatus", "status", "状态", True}}
+    Public _
+        SwoMaterial As Object(,) = _
+            {{"SwoMaterialName", "material_name", "名称", True}, _
+             {"SwoMaterialLength", "length", "时长", True}, _
+             {"SwoMaterialStatus", "status", "状态", True}}
 
     '指纹识别的数据源
-    Public FingerPrintDataSource As String = "Data Source=C:\Program Files\ZKTime5.0\att2000.mdb;"
+    Public _
+        FingerPrintDataSource As String = _
+            "Data Source=C:\Program Files\ZKTime5.0\att2000.mdb;"
 
     '用来给dialog1显示的图片
     Public PictrueBmp As Bitmap = Nothing

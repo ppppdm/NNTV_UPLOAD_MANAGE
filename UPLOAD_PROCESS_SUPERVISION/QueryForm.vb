@@ -10,11 +10,10 @@ Public Class QueryForm
         InitGlobalVariables()
 
         '加载QueryForm时的初始化工作
-
     End Sub
 
-    Private Sub SendInToolStripMenuItem_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub SendInToolStripMenuItem_Click(ByVal sender As Object, _
+                                              ByVal e As EventArgs) _
         Handles SendInToolStripMenuItem.Click
         'open tape send in windows/dialog
         TapeReceive.Show()
@@ -22,47 +21,42 @@ Public Class QueryForm
         Me.WindowState = FormWindowState.Minimized
     End Sub
 
-    Private Sub SendOutToolStripMenuItem_Click _
-        (ByVal sender As Object, ByVal e As EventArgs)
-
-        'open tape send out windows/dialog
-        tape_send.Show()
-    End Sub
-
-    Private Sub OptionsToolStripMenuItem_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub OptionsToolStripMenuItem_Click(ByVal sender As Object, _
+                                               ByVal e As EventArgs) _
         Handles OptionsToolStripMenuItem.Click
         'open setting dialog
         Setting.Show()
     End Sub
 
-    Private Sub AddPeopleToolStripMenuItem1_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub AddPeopleToolStripMenuItem1_Click(ByVal sender As Object, _
+                                                  ByVal e As EventArgs) _
         Handles AddPeopleToolStripMenuItem1.Click
         'open add_people dialog
         AddPerson.Show()
     End Sub
 
-    Private Sub SendTapeToolStripMenuItem_Click _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
+    Private Sub SendTapeToolStripMenuItem_Click(ByVal sender As Object, _
+                                                ByVal e As EventArgs) _
         Handles SendTapeToolStripMenuItem.Click
         tape_send.Show()
     End Sub
 
-    Private Sub WatchUploadToolStripMenuItem_Click _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
+    Private Sub WatchUploadToolStripMenuItem_Click(ByVal sender As Object, _
+                                                   ByVal e As EventArgs) _
         Handles WatchUploadToolStripMenuItem.Click
         WatchUpload.Show()
     End Sub
 
-    Private Sub WatchCheckupToolStripMenuItem_Click _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
+    Private Sub WatchCheckupToolStripMenuItem_Click( _
+                                                    ByVal sender As _
+                                                       Object, _
+                                                    ByVal e As EventArgs) _
         Handles WatchCheckupToolStripMenuItem.Click
         WatchCheck.Show()
     End Sub
 
-    Private Sub UploadToolStripMenuItem_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub UploadToolStripMenuItem_Click(ByVal sender As Object, _
+                                              ByVal e As EventArgs) _
         Handles UploadToolStripMenuItem.Click
         '打开上载界面
         UpLoadForm.Show()
@@ -70,8 +64,8 @@ Public Class QueryForm
         Me.WindowState = FormWindowState.Minimized
     End Sub
 
-    Private Sub CheckUpToolStripMenuItem_Click _
-        (ByVal sender As System.Object, ByVal e As EventArgs) _
+    Private Sub CheckUpToolStripMenuItem_Click(ByVal sender As Object, _
+                                               ByVal e As EventArgs) _
         Handles CheckUpToolStripMenuItem.Click
         '打开审核界面
         Check.Show()
@@ -79,8 +73,8 @@ Public Class QueryForm
         Me.WindowState = FormWindowState.Minimized
     End Sub
 
-    Private Sub BackCheckToolStripMenuItem_Click _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
+    Private Sub BackCheckToolStripMenuItem_Click(ByVal sender As Object, _
+                                                 ByVal e As EventArgs) _
         Handles BackCheckToolStripMenuItem.Click
         '同样打开审核界面
         Check.Show()
@@ -125,17 +119,16 @@ Public Class QueryForm
 
         '根据状态改变行的颜色
         ChangeDataGridViewRowColor()
-
     End Sub
 
     Private Function GetQueryString() As String
         Dim queryText As String = TextBoxQuery.Text
         Dim selectStr As String = ""
-        Dim selectTable As String = Nothing
+        Dim selectTable As String
         Dim conditionStr As String = ""
         Dim queryStr As String
-        Dim Joinstr As String
-        Dim WhereStr As String
+        Dim joinstr As String
+        Dim whereStr As String
         Dim i
 
         '获取查询的表格是tape还是material
@@ -143,23 +136,24 @@ Public Class QueryForm
             '如果查询的表格是tape
             selectTable = "tape"
 
-        '获得需要查询的列
-        For i = 0 To Swo.GetLength(0) - 1
-            If Swo(i, SwoValue) = True Then
+            '获得需要查询的列
+            For i = 0 To Swo.GetLength(0) - 1
+                If Swo(i, SwoValue) = True Then
                     If Swo(i, SwoDbColumnName) = "tape_status" Then
                         selectStr += "tape_status.tape_status,"
                     Else
                         selectStr += Swo(i, SwoDbColumnName) + ","
                     End If
-            End If
-        Next
-        selectStr = selectStr.Remove(selectStr.Length - 1)
+                End If
+            Next
+            selectStr = selectStr.Remove(selectStr.Length - 1)
 
             '赋值Joinstr
-            Joinstr = "INNER JOIN tape_status ON tape.tape_status = tape_status.code "
+            joinstr = _
+                "INNER JOIN tape_status ON tape.tape_status = tape_status.code "
 
             '赋值WhereStr
-            WhereStr = "WHERE tape_name LIKE '%"
+            whereStr = "WHERE tape_name LIKE '%"
 
         Else
             '如果查询的表格是material
@@ -178,10 +172,11 @@ Public Class QueryForm
             selectStr = selectStr.Remove(selectStr.Length - 1)
 
             '赋值Joinstr
-            Joinstr = "INNER JOIN tape_status ON material.status = tape_status.code "
+            joinstr = _
+                "INNER JOIN tape_status ON material.status = tape_status.code "
 
             '赋值WhereStr
-            WhereStr = "WHERE material_name LIKE '%"
+            whereStr = "WHERE material_name LIKE '%"
 
         End If
 
@@ -210,29 +205,15 @@ Public Class QueryForm
         Console.WriteLine(conditionStr)
 
         queryStr = "SELECT id," + selectStr + " FROM " + selectTable + " " + _
-                   Joinstr + _
-                   WhereStr + queryText + "%' " + conditionStr + ";"
-        
+                   joinstr + whereStr + queryText + "%' " + conditionStr + ";"
+
         Console.WriteLine(queryStr)
         Return queryStr
 
-        'Return "SELECT tape_name, length, tape_status.status FROM tape inner join tape_status ON tape.tape_status = tape_status.code Where tape_name LIKE '%" + queryText + "%';"
+        'Return "SELECT tape_name, length, tape_status.status _
+        'FROM tape inner join tape_status ON tape.tape_status = tape_status.code _
+        'Where tape_name LIKE '%" + queryText + "%';"
     End Function
-
-    Private Sub FillDataGridView(ByRef reader As SqlDataReader)
-        '清空原来的查询结果
-        DataGridView1.Rows.Clear()
-
-        Try
-            While reader.Read()
-                'Console.WriteLine(String.Format("{0}, {1}", reader(0), reader(1)))
-                DataGridView1.Rows.Add(reader(0), reader(1), reader(2))
-            End While
-        Finally
-            ' Always call Close when done reading.
-            reader.Close()
-        End Try
-    End Sub
 
     Private Sub FillDataGridView_dt(ByRef dt As DataTable)
 
@@ -278,8 +259,9 @@ Public Class QueryForm
         Next
     End Sub
 
-    Private Sub DataGridView1_CellMouseClick _
-        (ByVal sender As Object, ByVal e As DataGridViewCellMouseEventArgs) _
+    Private Sub DataGridView1_CellMouseClick(ByVal sender As Object, _
+                                             ByVal e As  _
+                                                DataGridViewCellMouseEventArgs) _
         Handles DataGridView1.CellMouseClick
         Dim mr As DataGridViewSelectedRowCollection = DataGridView1.SelectedRows
         Dim i
@@ -299,7 +281,7 @@ Public Class QueryForm
             MaterialId = DataGridView1.Rows(e.RowIndex).Cells("id").Value
 
             '如果是鼠标右键点击则弹出菜单
-            If e.Button = Forms.MouseButtons.Right Then
+            If e.Button = MouseButtons.Right Then
                 SetContextMenuStripItemStatus()
                 ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
             End If
@@ -327,8 +309,6 @@ Public Class QueryForm
             BackCheckToolStripMenuItem.Enabled = True
             WatchCheckupToolStripMenuItem.Enabled = True
         End If
-
-
     End Sub
 
     Private Sub InitGlobalVariables()
@@ -365,17 +345,14 @@ Public Class QueryForm
 
 
         '读取数据库中的配置信息
-        Using conn As SqlConnection = New SqlConnection(ConnStr)
-
-            '读取审核点设置
-        End Using
 
         '初始化线程管理list
         MyThreadList = New ThreadList
-
     End Sub
 
-    Private Sub CheckBox3_CheckedChanged(ByVal sender As System.Object, ByVal e As EventArgs) Handles CheckBox3.CheckedChanged
+    Private Sub CheckBox3_CheckedChanged(ByVal sender As Object, _
+                                         ByVal e As EventArgs) _
+        Handles CheckBox3.CheckedChanged
         '当选中checkbox3时,其他选项不可用
         '取消选中checkbox3时,其他选项可用
         If CheckBox3.Checked Then
@@ -387,7 +364,9 @@ Public Class QueryForm
         End If
     End Sub
 
-    Private Sub RadioButtonTape_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButtonTape.CheckedChanged
+    Private Sub RadioButtonTape_CheckedChanged(ByVal sender As Object, _
+                                               ByVal e As EventArgs) _
+        Handles RadioButtonTape.CheckedChanged
         If RadioButtonTape.Checked = True Then
             '初始化DataGridView
             DataGridView1.ColumnCount = 0
@@ -402,14 +381,17 @@ Public Class QueryForm
                 If Swo(i, SwoValue) = True Then
                     DataGridView1.ColumnCount += 1
                     DataGridView1.Columns(j).Name = Swo(i, SwoDataViewName)
-                    DataGridView1.Columns(j).HeaderText = Swo(i, SwoDataViewName)
+                    DataGridView1.Columns(j).HeaderText = Swo(i, _
+                                                              SwoDataViewName)
                     j += 1
                 End If
             Next
         End If
     End Sub
 
-    Private Sub RadioButtonMaterial_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButtonMaterial.CheckedChanged
+    Private Sub RadioButtonMaterial_CheckedChanged(ByVal sender As Object, _
+                                                   ByVal e As EventArgs) _
+        Handles RadioButtonMaterial.CheckedChanged
         If RadioButtonMaterial.Checked = True Then
             '初始化DataGridView
             DataGridView1.ColumnCount = 0
@@ -423,18 +405,19 @@ Public Class QueryForm
             For i = 0 To SwoMaterial.GetLength(0) - 1
                 If SwoMaterial(i, SwoValue) = True Then
                     DataGridView1.ColumnCount += 1
-                    DataGridView1.Columns(j).Name = SwoMaterial(i, SwoDataViewName)
-                    DataGridView1.Columns(j).HeaderText = SwoMaterial(i, SwoDataViewName)
+                    DataGridView1.Columns(j).Name = SwoMaterial(i, _
+                                                                SwoDataViewName)
+                    DataGridView1.Columns(j).HeaderText = SwoMaterial(i, _
+                                                                      SwoDataViewName)
                     j += 1
                 End If
             Next
         End If
     End Sub
 
-    Private Sub FixTimeCodeToolStripMenuItem_Click _
-        (ByVal sender As System.Object, ByVal e As System.EventArgs) _
+    Private Sub FixTimeCodeToolStripMenuItem_Click(ByVal sender As Object, _
+                                                   ByVal e As EventArgs) _
         Handles FixTimeCodeToolStripMenuItem.Click
         FixTimeCode.Show()
     End Sub
-
 End Class

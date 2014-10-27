@@ -1,33 +1,25 @@
-Imports System.data.SqlClient
-Imports System.io
+Imports System.Data.SqlClient
+Imports System.IO
 
 Public Class WatchCheck
-
     Private _materialId As Guid
 
-    Private Sub WatchCheck_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Private Sub WatchCheck_Load(ByVal sender As Object, _
+                                ByVal e As EventArgs) Handles Me.Load
 
         _materialId = QueryForm.MaterialId
 
         '从数据库中查询审核数据
-        Const queryString = "select " & _
-        "tape_name, " & _
-        "length, " & _
-        "check_point1_timecode, " & _
-        "check_point2_timecode, " & _
-        "check_point3_timecode, " & _
-        "date_or_episode_check, " & _
-        "sound_picture_sync, " & _
-        "volume_check, " & _
-        "check_point1_screenshot, " & _
-        "check_point2_screenshot, " & _
-        "check_point3_screenshot, " & _
-        "episode_screenshot, " & _
-        "check_person, " & _
-        "check_time " & _
-        "from checkup " & _
-        "where " & _
-        "material_id = @material_id"
+        Const queryString = "select " & "tape_name, " & "length, " & _
+                            "check_point1_timecode, " & _
+                            "check_point2_timecode, " & _
+                            "check_point3_timecode, " & _
+                            "date_or_episode_check, " & "sound_picture_sync, " & _
+                            "volume_check, " & "check_point1_screenshot, " & _
+                            "check_point2_screenshot, " & _
+                            "check_point3_screenshot, " & "episode_screenshot, " & _
+                            "check_person, " & "check_time " & "from checkup " & _
+                            "where " & "material_id = @material_id"
 
 
         Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
@@ -51,21 +43,24 @@ Public Class WatchCheck
                 LabelCheckTime.Text = reader("check_time")
 
 
-                If Not TypeName(reader("check_point1_screenshot")) = "DBNull" Then
+                If Not TypeName(reader("check_point1_screenshot")) = "DBNull" _
+                    Then
                     Dim buffer1() As Byte = reader("check_point1_screenshot")
                     Dim ms1 As MemoryStream = New MemoryStream()
                     ms1.Write(buffer1, 0, buffer1.Length)
                     PictureBoxCheckPoint1.Image = New Bitmap(ms1)
                 End If
 
-                If Not TypeName(reader("check_point2_screenshot")) = "DBNull" Then
+                If Not TypeName(reader("check_point2_screenshot")) = "DBNull" _
+                    Then
                     Dim buffer1() As Byte = reader("check_point2_screenshot")
                     Dim ms1 As MemoryStream = New MemoryStream()
                     ms1.Write(buffer1, 0, buffer1.Length)
                     PictureBoxCheckPoint2.Image = New Bitmap(ms1)
                 End If
 
-                If Not TypeName(reader("check_point3_screenshot")) = "DBNull" Then
+                If Not TypeName(reader("check_point3_screenshot")) = "DBNull" _
+                    Then
                     Dim buffer1() As Byte = reader("check_point3_screenshot")
                     Dim ms1 As MemoryStream = New MemoryStream()
                     ms1.Write(buffer1, 0, buffer1.Length)
@@ -88,7 +83,10 @@ Public Class WatchCheck
         End Try
     End Sub
 
-    Private Sub PictureBoxCheckPoint1_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxCheckPoint1.MouseDoubleClick
+    Private Sub PictureBoxCheckPoint1_MouseDoubleClick(ByVal sender As Object, _
+                                                       ByVal e As  _
+                                                          MouseEventArgs) _
+        Handles PictureBoxCheckPoint1.MouseDoubleClick
         If Not PictureBoxCheckPoint1.Image Is Nothing Then
             ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint1.Image)
         End If
@@ -108,8 +106,11 @@ Public Class WatchCheck
         ImageViewer.Show()
     End Sub
 
- 
-    Private Sub PictureBoxCheckPoint2_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxCheckPoint2.MouseDoubleClick
+
+    Private Sub PictureBoxCheckPoint2_MouseDoubleClick(ByVal sender As Object, _
+                                                       ByVal e As  _
+                                                          MouseEventArgs) _
+        Handles PictureBoxCheckPoint2.MouseDoubleClick
         If Not PictureBoxCheckPoint1.Image Is Nothing Then
             ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint1.Image)
         End If
@@ -129,7 +130,10 @@ Public Class WatchCheck
         ImageViewer.Show()
     End Sub
 
-    Private Sub PictureBoxCheckPoint3_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxCheckPoint3.MouseDoubleClick
+    Private Sub PictureBoxCheckPoint3_MouseDoubleClick(ByVal sender As Object, _
+                                                       ByVal e As  _
+                                                          MouseEventArgs) _
+        Handles PictureBoxCheckPoint3.MouseDoubleClick
         If Not PictureBoxCheckPoint1.Image Is Nothing Then
             ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint1.Image)
         End If
@@ -149,7 +153,10 @@ Public Class WatchCheck
         ImageViewer.Show()
     End Sub
 
-    Private Sub PictureBoxEpisode_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBoxEpisode.MouseDoubleClick
+    Private Sub PictureBoxEpisode_MouseDoubleClick(ByVal sender As Object, _
+                                                   ByVal e As  _
+                                                      MouseEventArgs) _
+        Handles PictureBoxEpisode.MouseDoubleClick
         If Not PictureBoxCheckPoint1.Image Is Nothing Then
             ImageViewer.PictrueBmpList.Add(PictureBoxCheckPoint1.Image)
         End If

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class tape_send
+Partial Class TapeSend
     Inherits System.Windows.Forms.Form
 
     'Form 重写 Dispose，以清理组件列表。
@@ -140,7 +140,7 @@ Partial Class tape_send
         Me.Controls.Add(Me.TextBoxRecvPerson)
         Me.Controls.Add(Me.TextBoxTapeName)
         Me.Controls.Add(Me.Label1)
-        Me.Name = "tape_send"
+        Me.Name = "TapeSend"
         Me.Text = "发带"
         Me.ResumeLayout(False)
         Me.PerformLayout()

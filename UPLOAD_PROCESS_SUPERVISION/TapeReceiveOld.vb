@@ -1,16 +1,17 @@
 ﻿Imports System.Data.SqlClient
 Imports System.ComponentModel
 
-Public Class tape_receive
-
-    Dim connection As New SqlConnection(ConnStr)
+Public Class TapeReceiveOld
+    ReadOnly _connection As New SqlConnection(ConnStr)
     Dim _workAcq As AccessControlQuery
 
     '设置时码初始值
-    Private Sub tape_receive_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub tape_receive_Load(ByVal sender As Object, _
+                                  ByVal e As EventArgs) _
+        Handles MyBase.Load
         '打开数据库
         Try
-            connection.Open()
+            _connection.Open()
         Catch ex As Exception
             MsgBox(ex.Message)
             Me.Dispose()
@@ -21,7 +22,6 @@ Public Class tape_receive
 
         '启动后台线程
         StartThread()
-
     End Sub
 
     Private Sub SetLengthZero() '时长设为0
@@ -30,32 +30,31 @@ Public Class tape_receive
         TextBoxLengthS.Text = "00"
         TextBoxLengthF.Text = "00"
     End Sub
-    Private Sub SetStartTimeZero()  '开始时码设为0
+
+    Private Sub SetStartTimeZero() '开始时码设为0
         TextBoxStartTimeH.Text = "00"
         TextBoxStartTimeM.Text = "00"
         TextBoxStartTimeS.Text = "00"
         TextBoxStartTimeF.Text = "00"
     End Sub
 
-    Private Sub ButtonCancel_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub ButtonCancel_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles ButtonCancel.Click
         '结束后台线程
         BackgroundWorker1.CancelAsync()
 
         Dispose()
-        connection.Close()
+        _connection.Close()
     End Sub
 
-    Private Sub ButtonOK_Click _
-        (ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub ButtonOK_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles ButtonOK.Click
         Time8() '时码补足8位
         Dim tapeName = TextBoxTapeName.Text
         Dim startTimecode = TextBoxStartTimeH.Text & TextBoxStartTimeM.Text & _
-                             TextBoxStartTimeS.Text & TextBoxStartTimeF.Text
+                            TextBoxStartTimeS.Text & TextBoxStartTimeF.Text
         Dim endTimecode = TextBoxEndTimeH.Text & TextBoxEndTimeM.Text & _
-                           TextBoxEndTimeS.Text & TextBoxEndTimeF.Text
+                          TextBoxEndTimeS.Text & TextBoxEndTimeF.Text
         Dim length = TextBoxLengthH.Text & TextBoxLengthM.Text & _
                      TextBoxLengthS.Text & TextBoxLengthF.Text
         Dim inBcTime = TextBoxRecvTime.Text
@@ -75,31 +74,30 @@ Public Class tape_receive
             MsgBox("带芯带盒不同!")
         Else
             '存入数据库
-            Dim paras() As SqlParameter = { _
-                         New SqlParameter("@tape_name", tapeName), _
-                         New SqlParameter("@start_timecode", startTimecode), _
-                         New SqlParameter("@end_timecode", endTimecode), _
-                         New SqlParameter("@length", length), _
-                         New SqlParameter("@in_bc_send_per", inBcSendPer), _
-                         New SqlParameter("@in_bc_recv_per", inBcRecvPer), _
-                         New SqlParameter("@in_bc_time", inBcTime), _
-                         New SqlParameter("@remark", remark), _
-                         New SqlParameter("@tape_status", StatusNotUpload), _
-                         New SqlParameter("@channel", channel) _
-                         }
+            Dim paras() As SqlParameter = _
+                    {New SqlParameter("@tape_name", tapeName), _
+                     New SqlParameter("@start_timecode", startTimecode), _
+                     New SqlParameter("@end_timecode", endTimecode), _
+                     New SqlParameter("@length", length), _
+                     New SqlParameter("@in_bc_send_per", inBcSendPer), _
+                     New SqlParameter("@in_bc_recv_per", inBcRecvPer), _
+                     New SqlParameter("@in_bc_time", inBcTime), _
+                     New SqlParameter("@remark", remark), _
+                     New SqlParameter("@tape_status", StatusNotUpload), _
+                     New SqlParameter("@channel", channel)}
 
             Dim queryString As String = GetQueryString()
 
-            Dim command As New SqlCommand(queryString, connection)
+            Dim command As New SqlCommand(queryString, _connection)
 
             command.Parameters.AddRange(paras)
 
-            Try            
+            Try
                 command.ExecuteReader()
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
-            connection.Close()
+            _connection.Close()
             '结束后台线程
             BackgroundWorker1.CancelAsync()
 
@@ -111,75 +109,114 @@ Public Class tape_receive
         Dim queryString As String
 
         queryString = "insert into tape" + _
-            "(id,tape_name,start_timecode,end_timecode,length,in_bc_send_per,in_bc_recv_per,remark,tape_status,in_bc_time,channel) " + _
-            "values (newid(),@tape_name,@start_timecode,@end_timecode,@length,@in_bc_send_per,@in_bc_recv_per,@remark,@tape_status,getdate(),@channel);"
+                      "(id,tape_name,start_timecode,end_timecode,length,in_bc_send_per,in_bc_recv_per,remark,tape_status,in_bc_time,channel) " + _
+                      "values (newid(),@tape_name,@start_timecode,@end_timecode,@length,@in_bc_send_per,@in_bc_recv_per,@remark,@tape_status,getdate(),@channel);"
 
         Return queryString
     End Function
 
-  
+
     '时码时长禁止输入非数字
-    Private Sub TextBoxStartTimeH_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBoxStartTimeH.KeyPress
-        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then e.Handled = True
+    Private Sub TextBoxStartTimeH_KeyPress(ByVal sender As Object, _
+                                           ByVal e As KeyPressEventArgs) _
+        Handles TextBoxStartTimeH.KeyPress
+        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then _
+            e.Handled = True
     End Sub
-    Private Sub TextBoxStartTimeM_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBoxStartTimeM.KeyPress
-        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then e.Handled = True
+
+    Private Sub TextBoxStartTimeM_KeyPress(ByVal sender As Object, _
+                                           ByVal e As KeyPressEventArgs) _
+        Handles TextBoxStartTimeM.KeyPress
+        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then _
+            e.Handled = True
     End Sub
-    Private Sub TextBoxStartTimeS_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBoxStartTimeS.KeyPress
-        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then e.Handled = True
+
+    Private Sub TextBoxStartTimeS_KeyPress(ByVal sender As Object, _
+                                           ByVal e As KeyPressEventArgs) _
+        Handles TextBoxStartTimeS.KeyPress
+        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then _
+            e.Handled = True
     End Sub
-    Private Sub TextBoxStartTimeF_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBoxStartTimeF.KeyPress
-        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then e.Handled = True
+
+    Private Sub TextBoxStartTimeF_KeyPress(ByVal sender As Object, _
+                                           ByVal e As KeyPressEventArgs) _
+        Handles TextBoxStartTimeF.KeyPress
+        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then _
+            e.Handled = True
     End Sub
-    Private Sub TextBoxLengthH_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBoxLengthH.KeyPress
-        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then e.Handled = True
+
+    Private Sub TextBoxLengthH_KeyPress(ByVal sender As Object, _
+                                        ByVal e As KeyPressEventArgs) _
+        Handles TextBoxLengthH.KeyPress
+        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then _
+            e.Handled = True
     End Sub
-    Private Sub TextBoxLengthM_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBoxLengthM.KeyPress
-        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then e.Handled = True
+
+    Private Sub TextBoxLengthM_KeyPress(ByVal sender As Object, _
+                                        ByVal e As KeyPressEventArgs) _
+        Handles TextBoxLengthM.KeyPress
+        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then _
+            e.Handled = True
     End Sub
-    Private Sub TextBoxLengthS_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBoxLengthS.KeyPress
-        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then e.Handled = True
+
+    Private Sub TextBoxLengthS_KeyPress(ByVal sender As Object, _
+                                        ByVal e As KeyPressEventArgs) _
+        Handles TextBoxLengthS.KeyPress
+        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then _
+            e.Handled = True
     End Sub
-    Private Sub TextBoxLengthF_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBoxLengthF.KeyPress
-        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then e.Handled = True
+
+    Private Sub TextBoxLengthF_KeyPress(ByVal sender As Object, _
+                                        ByVal e As KeyPressEventArgs) _
+        Handles TextBoxLengthF.KeyPress
+        If Char.IsDigit(e.KeyChar) = False And e.KeyChar <> Chr(8) Then _
+            e.Handled = True
     End Sub
     '输入时码时调用函数验证输入、计算出点、切换输入焦点
-    Private Sub TextBoxStartTimeH_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxStartTimeH_TextChanged(ByVal sender As Object, _
+                                              ByVal e As EventArgs) _
         Handles TextBoxStartTimeH.TextChanged
         TimeInputCheck(TextBoxStartTimeH, TextBoxStartTimeM, 99, False)
     End Sub
 
-    Private Sub TextBoxStartTimeM_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxStartTimeM_TextChanged(ByVal sender As Object, _
+                                              ByVal e As EventArgs) _
         Handles TextBoxStartTimeM.TextChanged
         TimeInputCheck(TextBoxStartTimeM, TextBoxStartTimeS, 60, False)
     End Sub
 
-    Private Sub TextBoxStartTimeS_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxStartTimeS_TextChanged(ByVal sender As Object, _
+                                              ByVal e As EventArgs) _
         Handles TextBoxStartTimeS.TextChanged
         TimeInputCheck(TextBoxStartTimeS, TextBoxStartTimeF, 60, False)
     End Sub
 
-    Private Sub TextBoxStartTimeF_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxStartTimeF_TextChanged(ByVal sender As Object, _
+                                              ByVal e As EventArgs) _
         Handles TextBoxStartTimeF.TextChanged
         TimeInputCheck(TextBoxStartTimeF, TextBoxLengthH, 25, False)
     End Sub
 
-    Private Sub TextBoxLengthH_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxLengthH_TextChanged(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
         Handles TextBoxLengthH.TextChanged
         TimeInputCheck(TextBoxLengthH, TextBoxLengthM, 99, True)
     End Sub
 
-    Private Sub TextBoxLengthM_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxLengthM_TextChanged(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
         Handles TextBoxLengthM.TextChanged
         TimeInputCheck(TextBoxLengthM, TextBoxLengthS, 60, True)
     End Sub
 
-    Private Sub TextBoxLengthS_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxLengthS_TextChanged(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
         Handles TextBoxLengthS.TextChanged
         TimeInputCheck(TextBoxLengthS, TextBoxLengthF, 60, True)
     End Sub
 
-    Private Sub TextBoxLengthF_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxLengthF_TextChanged(ByVal sender As Object, _
+                                           ByVal e As EventArgs) _
         Handles TextBoxLengthF.TextChanged
         If IsNumeric(TextBoxLengthF.Text) Then
             CalcEndTime()
@@ -212,8 +249,7 @@ Public Class tape_receive
                 endTimeS = 0, _
                 endTimeF As Integer
             If _
-                CInt _
-                    ( _
+                CInt( _
                     TextBoxLengthH.Text & TextBoxLengthM.Text & _
                     TextBoxLengthS.Text & TextBoxLengthF.Text) <> 0 Then
                 endTimeF = CInt(TextBoxStartTimeF.Text) + _
@@ -246,15 +282,16 @@ Public Class tape_receive
                 endTimeH += CInt(TextBoxStartTimeH.Text) + _
                             CInt(TextBoxLengthH.Text)    '时相加
                 '输出，不足2位的补0
-                TextBoxEndTimeF.Text = Microsoft.VisualBasic.Right _
-                    ("00" & endTimeF, 2)  '结果的左边补2个0后取右边2位
-                TextBoxEndTimeS.Text = Microsoft.VisualBasic.Right _
-                    ("00" & endTimeS, 2)
-                TextBoxEndTimeM.Text = Microsoft.VisualBasic.Right _
-                    ("00" & endTimeM, 2)
-                TextBoxEndTimeH.Text = Microsoft.VisualBasic.Right _
-                    ("00" & endTimeH, 2)
-            Else    '时长为0,结束时码与开始时码相同
+                TextBoxEndTimeF.Text = _
+                    Microsoft.VisualBasic.Right("00" & endTimeF, 2) _
+                '结果的左边补2个0后取右边2位
+                TextBoxEndTimeS.Text = _
+                    Microsoft.VisualBasic.Right("00" & endTimeS, 2)
+                TextBoxEndTimeM.Text = _
+                    Microsoft.VisualBasic.Right("00" & endTimeM, 2)
+                TextBoxEndTimeH.Text = _
+                    Microsoft.VisualBasic.Right("00" & endTimeH, 2)
+            Else '时长为0,结束时码与开始时码相同
                 TextBoxEndTimeF.Text = TextBoxStartTimeF.Text
                 TextBoxEndTimeS.Text = TextBoxStartTimeS.Text
                 TextBoxEndTimeM.Text = TextBoxStartTimeM.Text
@@ -264,11 +301,10 @@ Public Class tape_receive
     End Sub
 
     '输入时码后计算出点，输入焦点跳到下一个框
-    Private Sub TimeInputCheck _
-        (ByRef thisTextTox As TextBox, _
-         ByRef nextTextBox As TextBox, _
-         ByVal maxNum As Integer, _
-         ByVal isLength As Boolean)
+    Private Sub TimeInputCheck(ByRef thisTextTox As TextBox, _
+                               ByRef nextTextBox As TextBox, _
+                               ByVal maxNum As Integer, _
+                               ByVal isLength As Boolean)
         If IsNumeric(thisTextTox.Text) Then
             CalcEndTime()   '计算出点
             If thisTextTox.TextLength = 2 Then
@@ -288,43 +324,51 @@ Public Class tape_receive
         End If
     End Sub
 
-  '点击时码输入框时全选内容
-    Private Sub TextBoxStartTimeH_Click(ByVal sender As Object, ByVal e As EventArgs) _
+    '点击时码输入框时全选内容
+    Private Sub TextBoxStartTimeH_Click(ByVal sender As Object, _
+                                        ByVal e As EventArgs) _
         Handles TextBoxStartTimeH.Click
         TextBoxStartTimeH.SelectAll()
     End Sub
 
-    Private Sub TextBoxStartTimeM_Click(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxStartTimeM_Click(ByVal sender As Object, _
+                                        ByVal e As EventArgs) _
         Handles TextBoxStartTimeM.Click
         TextBoxStartTimeM.SelectAll()
     End Sub
 
-    Private Sub TextBoxStartTimeS_Click(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxStartTimeS_Click(ByVal sender As Object, _
+                                        ByVal e As EventArgs) _
         Handles TextBoxStartTimeS.Click
         TextBoxStartTimeS.SelectAll()
     End Sub
 
-    Private Sub TextBoxStartTimeF_Click(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxStartTimeF_Click(ByVal sender As Object, _
+                                        ByVal e As EventArgs) _
         Handles TextBoxStartTimeF.Click
         TextBoxStartTimeF.SelectAll()
     End Sub
 
-    Private Sub TextBoxLengthH_Click(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxLengthH_Click(ByVal sender As Object, _
+                                     ByVal e As EventArgs) _
         Handles TextBoxLengthH.Click
         TextBoxLengthH.SelectAll()
     End Sub
 
-    Private Sub TextBoxLengthM_Click(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxLengthM_Click(ByVal sender As Object, _
+                                     ByVal e As EventArgs) _
         Handles TextBoxLengthM.Click
         TextBoxLengthM.SelectAll()
     End Sub
 
-    Private Sub TextBoxLengthS_Click(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxLengthS_Click(ByVal sender As Object, _
+                                     ByVal e As EventArgs) _
         Handles TextBoxLengthS.Click
         TextBoxLengthS.SelectAll()
     End Sub
 
-    Private Sub TextBoxLengthF_Click(ByVal sender As Object, ByVal e As EventArgs) _
+    Private Sub TextBoxLengthF_Click(ByVal sender As Object, _
+                                     ByVal e As EventArgs) _
         Handles TextBoxLengthF.Click
         TextBoxLengthF.SelectAll()
     End Sub
@@ -345,7 +389,7 @@ Public Class tape_receive
             TextBoxStartTimeM.ReadOnly = True
             TextBoxStartTimeS.ReadOnly = True
             TextBoxStartTimeF.ReadOnly = True
-        Else    '磁带采集
+        Else '磁带采集
             TextBoxStartTimeH.Text = "00"
             TextBoxStartTimeM.Text = "00"
             TextBoxStartTimeS.Text = "00"
@@ -362,40 +406,51 @@ Public Class tape_receive
     '时码补足8位
     Private Sub Time8()
         If CheckBoxNoStartTime.Checked = False Then
-            TextBoxStartTimeF.Text = Microsoft.VisualBasic.Right _
-                ("00" & TextBoxStartTimeF.Text, 2)  '结果的左边补2个0后取右边2位
-            TextBoxStartTimeS.Text = Microsoft.VisualBasic.Right _
-                ("00" & TextBoxStartTimeS.Text, 2)
-            TextBoxStartTimeM.Text = Microsoft.VisualBasic.Right _
-                ("00" & TextBoxStartTimeM.Text, 2)
-            TextBoxStartTimeH.Text = Microsoft.VisualBasic.Right _
-                ("00" & TextBoxStartTimeH.Text, 2)
+            TextBoxStartTimeF.Text = _
+                Microsoft.VisualBasic.Right("00" & TextBoxStartTimeF.Text, 2) _
+            '结果的左边补2个0后取右边2位
+            TextBoxStartTimeS.Text = _
+                Microsoft.VisualBasic.Right("00" & TextBoxStartTimeS.Text, 2)
+            TextBoxStartTimeM.Text = _
+                Microsoft.VisualBasic.Right("00" & TextBoxStartTimeM.Text, 2)
+            TextBoxStartTimeH.Text = _
+                Microsoft.VisualBasic.Right("00" & TextBoxStartTimeH.Text, 2)
         End If
-        TextBoxLengthF.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxLengthF.Text, 2)
-        TextBoxLengthS.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxLengthS.Text, 2)
-        TextBoxLengthM.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxLengthM.Text, 2)
-        TextBoxLengthH.Text = Microsoft.VisualBasic.Right _
-            ("00" & TextBoxLengthH.Text, 2)
+        TextBoxLengthF.Text = _
+            Microsoft.VisualBasic.Right("00" & TextBoxLengthF.Text, 2)
+        TextBoxLengthS.Text = _
+            Microsoft.VisualBasic.Right("00" & TextBoxLengthS.Text, 2)
+        TextBoxLengthM.Text = _
+            Microsoft.VisualBasic.Right("00" & TextBoxLengthM.Text, 2)
+        TextBoxLengthH.Text = _
+            Microsoft.VisualBasic.Right("00" & TextBoxLengthH.Text, 2)
     End Sub
 
     '焦点离开磁带名输入框，隐藏搜索结果
-    Private Sub TextBoxTapeName_Leave(sender As Object, e As EventArgs) Handles TextBoxTapeName.Leave
+    Private Sub TextBoxTapeName_Leave(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles TextBoxTapeName.Leave
         If Not ListBoxTapeName.Focused Then ListBoxTapeName.Hide()
     End Sub
     '焦点进入磁带名输入框，且输入框为空，搜索最近磁带名并列出
-    Private Sub TextBoxTapeName_Enter(sender As Object, e As EventArgs) Handles TextBoxTapeName.Enter
-        If TextBoxTapeName.Text = "" Then ReflashList("SELECT TOP 10 tape_name FROM tape ORDER by in_bc_time DESC;")
+    Private Sub TextBoxTapeName_Enter(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles TextBoxTapeName.Enter
+        If TextBoxTapeName.Text = "" Then _
+            ReflashList( _
+                "SELECT TOP 10 tape_name FROM tape ORDER by in_bc_time DESC;")
     End Sub
     '输入磁带名，更新搜索结果，根据输入的关键字搜索磁带名并列出
-    Private Sub TextBoxTapeName_TextChanged(sender As Object, e As EventArgs) Handles TextBoxTapeName.TextChanged
-        ReflashList("SELECT TOP 10 tape_name FROM tape Where tape_name LIKE '%" + TextBoxTapeName.Text + "%' ORDER by in_bc_time DESC;")
+    Private Sub TextBoxTapeName_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles TextBoxTapeName.TextChanged
+        ReflashList( _
+            "SELECT TOP 10 tape_name FROM tape Where tape_name LIKE '%" + _
+            TextBoxTapeName.Text + "%' ORDER by in_bc_time DESC;")
     End Sub
     '在磁带名输入框输入上下方向键或回车
-    Private Sub TextBoxTapeName_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBoxTapeName.KeyDown
-        If e.KeyCode = Keys.Down And ListBoxTapeName.SelectedIndex < ListBoxTapeName.Items.Count - 1 Then
+    Private Sub TextBoxTapeName_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs) _
+        Handles TextBoxTapeName.KeyDown
+        If _
+            e.KeyCode = Keys.Down And _
+            ListBoxTapeName.SelectedIndex < ListBoxTapeName.Items.Count - 1 Then
             ListBoxTapeName.SelectedIndex += 1  '输入下方向键，焦点下移
         ElseIf e.KeyCode = Keys.Up And ListBoxTapeName.SelectedIndex > 0 Then
             ListBoxTapeName.SelectedIndex -= 1  '输入上方向键，焦点上移
@@ -404,20 +459,23 @@ Public Class tape_receive
         End If
     End Sub
     '鼠标点击，选定
-    Private Sub ListBoxTapeName_MouseClick(sender As Object, e As MouseEventArgs) Handles ListBoxTapeName.MouseClick
+    Private Sub ListBoxTapeName_MouseClick(ByVal sender As Object, _
+                                           ByVal e As MouseEventArgs) _
+        Handles ListBoxTapeName.MouseClick
         ListToText()
     End Sub
     '在listbox列出项，参数为sql语句
-    Private Sub ReflashList(sqlstr As String)
+    Private Sub ReflashList(ByVal sqlstr As String)
         ListBoxTapeName.Items.Clear()
-        Dim command As New SqlCommand(sqlstr, connection)
+        Dim command As New SqlCommand(sqlstr, _connection)
         Dim reader As SqlDataReader = command.ExecuteReader()
         While reader.Read()
             ListBoxTapeName.Items.Add(reader(0))
         End While
         reader.Close()
         If ListBoxTapeName.Items.Count <> 0 Then
-            ListBoxTapeName.Height = ListBoxTapeName.Items.Count * ListBoxTapeName.ItemHeight + 4
+            ListBoxTapeName.Height = ListBoxTapeName.Items.Count * _
+                                     ListBoxTapeName.ItemHeight + 4
             ListBoxTapeName.Show()
         Else
             ListBoxTapeName.Hide()
@@ -429,42 +487,46 @@ Public Class tape_receive
         ListBoxTapeName.Hide()
 
         '如果磁带名如“六位日期+节目名称”则自动填入已知信息
-        If IsNumeric(Mid(TextBoxTapeName.Text, 1, 6)) And Mid(TextBoxTapeName.Text, 7, 1) <> "" Then
+        If _
+            IsNumeric(Mid(TextBoxTapeName.Text, 1, 6)) And _
+            Mid(TextBoxTapeName.Text, 7, 1) <> "" Then
             Dim truename = Mid(TextBoxTapeName.Text, 7)
-            Dim sqlstr = "SELECT TOP 2 channel, start_timecode, length FROM tape Where tape_name LIKE '%" + truename + "' ORDER by in_bc_time DESC;"
-            Dim command As New SqlCommand(sqlstr, connection)
+            Dim sqlstr = _
+                    "SELECT TOP 2 channel, start_timecode, length FROM tape Where tape_name LIKE '%" + _
+                    truename + "' ORDER by in_bc_time DESC;"
+            Dim command As New SqlCommand(sqlstr, _connection)
             Dim reader As SqlDataReader = command.ExecuteReader()
-            Dim Achannel(2) As String
-            Dim Astart(2) As String
-            Dim Alength(2) As String
+            Dim achannel(2) As String
+            Dim astart(2) As String
+            Dim alength(2) As String
             Dim i = 0
             While reader.Read()
-                Achannel(i) = reader(0)
-                Astart(i) = reader(1)
-                Alength(i) = reader(2)
+                achannel(i) = reader(0)
+                astart(i) = reader(1)
+                alength(i) = reader(2)
                 i += 1
             End While
             reader.Close()
 
             '若最后2次收到该节目的频道、时码、长度相同，则自动填入
-            If Achannel(0) = Achannel(1) Then
-                ComboBoxChannel.Text = Achannel(0)
+            If achannel(0) = achannel(1) Then
+                ComboBoxChannel.Text = achannel(0)
             Else
                 ComboBoxChannel.Text = ""
             End If
-            If Astart(0) = Astart(1) Then
-                TextBoxStartTimeH.Text = Mid(Astart(0), 1, 2)
-                TextBoxStartTimeM.Text = Mid(Astart(0), 3, 2)
-                TextBoxStartTimeS.Text = Mid(Astart(0), 5, 2)
-                TextBoxStartTimeF.Text = Mid(Astart(0), 7, 2)
+            If astart(0) = astart(1) Then
+                TextBoxStartTimeH.Text = Mid(astart(0), 1, 2)
+                TextBoxStartTimeM.Text = Mid(astart(0), 3, 2)
+                TextBoxStartTimeS.Text = Mid(astart(0), 5, 2)
+                TextBoxStartTimeF.Text = Mid(astart(0), 7, 2)
             Else
                 SetStartTimeZero()
             End If
-            If Alength(0) = Alength(1) Then
-                TextBoxLengthH.Text = Mid(Alength(0), 1, 2)
-                TextBoxLengthM.Text = Mid(Alength(0), 3, 2)
-                TextBoxLengthS.Text = Mid(Alength(0), 5, 2)
-                TextBoxLengthF.Text = Mid(Alength(0), 7, 2)
+            If alength(0) = alength(1) Then
+                TextBoxLengthH.Text = Mid(alength(0), 1, 2)
+                TextBoxLengthM.Text = Mid(alength(0), 3, 2)
+                TextBoxLengthS.Text = Mid(alength(0), 5, 2)
+                TextBoxLengthF.Text = Mid(alength(0), 7, 2)
             Else
                 SetLengthZero()
             End If
@@ -473,20 +535,25 @@ Public Class tape_receive
         End If
     End Sub
     '根据送带人搜索最近送带并列出
-    Private Sub TextBoxSendPerson_TextChanged(sender As Object, e As EventArgs) Handles TextBoxSendPerson.TextChanged
-        ReflashList("SELECT TOP 10 tape_name FROM tape Where in_bc_send_per LIKE '" + TextBoxSendPerson.Text + "' ORDER by in_bc_time DESC;")
+    Private Sub TextBoxSendPerson_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles TextBoxSendPerson.TextChanged
+        ReflashList( _
+            "SELECT TOP 10 tape_name FROM tape Where in_bc_send_per LIKE '" + _
+            TextBoxSendPerson.Text + "' ORDER by in_bc_time DESC;")
     End Sub
 
 
-    Private Sub tape_receive_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
-        connection.Close()
+    Private Sub tape_receive_FormClosed(ByVal sender As Object, _
+                                        ByVal e As FormClosedEventArgs) _
+        Handles MyBase.FormClosed
+        _connection.Close()
         Me.Dispose()
     End Sub
 
-Private Sub BackgroundWorker1_RunWorkerCompleted( _
-    ByVal sender As Object, _
-    ByVal e As RunWorkerCompletedEventArgs) _
-    Handles BackgroundWorker1.RunWorkerCompleted
+    Private Sub BackgroundWorker1_RunWorkerCompleted(ByVal sender As Object, _
+                                                     ByVal e As  _
+                                                        RunWorkerCompletedEventArgs) _
+        Handles BackgroundWorker1.RunWorkerCompleted
 
         ' This event handler is called when the background thread finishes.
         ' This method runs on the main thread.
@@ -500,24 +567,25 @@ Private Sub BackgroundWorker1_RunWorkerCompleted( _
         End If
     End Sub
 
-    Private Sub BackgroundWorker1_ProgressChanged( _
-    ByVal sender As Object, _
-    ByVal e As ProgressChangedEventArgs) _
-    Handles BackgroundWorker1.ProgressChanged
+    Private Sub BackgroundWorker1_ProgressChanged(ByVal sender As Object, _
+                                                  ByVal e As  _
+                                                     ProgressChangedEventArgs) _
+        Handles BackgroundWorker1.ProgressChanged
 
         ' This event handler is called after the background thread
         ' reads a line from the source file.
         ' This method runs on the main thread.
 
-        Dim result As AccessControlQuery.AccessControlResult = _
-            CType(e.UserState, AccessControlQuery.AccessControlResult)
+        Dim result As AccessControlQuery.AccessControlResult = CType(e.UserState,  _
+                                                                     AccessControlQuery.AccessControlResult)
 
         '查询数据库 根据name获取信息
         Dim connStr As String = "Server=" & DbServer & ";Database=" & DbDbNamme & _
-                              ";User ID=" & DbUser & ";Password=" & DbPawd & _
-                              ";"
+                                ";User ID=" & DbUser & ";Password=" & DbPawd & _
+                                ";"
         Dim connection As New SqlConnection(connStr)
-        Const queryString As String = "select name, department from person where id = @id"
+        Const queryString As String = _
+                  "select name, department from person where id = @id"
         Dim command As New SqlCommand(queryString, connection)
         Dim pname As String
         Dim department As String
@@ -546,13 +614,11 @@ Private Sub BackgroundWorker1_RunWorkerCompleted( _
         Finally
             connection.Close()
         End Try
-
     End Sub
 
-    Private Sub BackgroundWorker1_DoWork( _
-    ByVal sender As Object, _
-    ByVal e As DoWorkEventArgs) _
-    Handles BackgroundWorker1.DoWork
+    Private Sub BackgroundWorker1_DoWork(ByVal sender As Object, _
+                                         ByVal e As DoWorkEventArgs) _
+        Handles BackgroundWorker1.DoWork
 
         ' This event handler is where the actual work is done.
         ' This method runs on the background thread.
@@ -583,12 +649,14 @@ Private Sub BackgroundWorker1_RunWorkerCompleted( _
         _workAcq.EndAccessControl()
     End Sub
 
-    Private Sub CheckBoxTape_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxTape.CheckedChanged
-
+    Private Sub CheckBoxTape_CheckedChanged(ByVal sender As Object, _
+                                            ByVal e As EventArgs) _
+        Handles CheckBoxTape.CheckedChanged
     End Sub
 
-    Private Sub LabelRemark_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LabelRemark.Click
-
+    Private Sub LabelRemark_Click(ByVal sender As Object, _
+                                  ByVal e As EventArgs) _
+        Handles LabelRemark.Click
     End Sub
 End Class
 

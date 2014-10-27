@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' 查看程序集属性的值
 
-<Assembly: AssemblyTitle("Supervision_Process")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("china")> 
-<Assembly: AssemblyProduct("Supervision_Process")> 
-<Assembly: AssemblyCopyright("版权所有 (C) china 2014")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("Supervision_Process")>
+<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyCompany("china")>
+<Assembly: AssemblyProduct("Supervision_Process")>
+<Assembly: AssemblyCopyright("版权所有 (C) china 2014")>
+<Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
 
 '如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-<Assembly: Guid("2ea9dafc-0cd7-44f2-b17e-2496b2f17cf2")> 
+<Assembly: Guid("2ea9dafc-0cd7-44f2-b17e-2496b2f17cf2")>
 
 ' 程序集的版本信息由下面四个值组成:
 '
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' 方法是按如下所示使用“*”:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: AssemblyVersion("1.0.0.0")>
+<Assembly: AssemblyFileVersion("1.0.0.0")>

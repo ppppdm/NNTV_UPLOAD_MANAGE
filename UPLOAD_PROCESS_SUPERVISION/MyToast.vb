@@ -1,6 +1,5 @@
 Public Class MyToast
-
-    Private _showTimeMilliSec As Integer
+    Private ReadOnly _showTimeMilliSec As Integer
     Private _countMilliSec As Integer = 0
 
     Public Sub New(ByVal text As String, ByVal showTime As Integer)
@@ -20,7 +19,8 @@ Public Class MyToast
         Me.Show()
     End Sub
 
-    Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
+    Private Sub Timer1_Tick(ByVal sender As Object, _
+                            ByVal e As EventArgs) Handles Timer1.Tick
         _countMilliSec += Timer1.Interval
         If _countMilliSec >= _showTimeMilliSec Then
             Me.Dispose()
