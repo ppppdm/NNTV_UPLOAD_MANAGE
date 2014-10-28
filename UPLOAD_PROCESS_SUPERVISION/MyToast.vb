@@ -15,8 +15,11 @@ Public Class MyToast
         Me.Width = textWidth + 200
         LabelText.Left = 100
 
+    End Sub
 
-        Me.Show()
+    Public Overloads Shared Sub Show(ByVal text As String, ByVal showTimeMilliSec As Integer)
+        Dim toast As MyToast = New MyToast(text, showTimeMilliSec)
+        toast.Show()
     End Sub
 
     Private Sub Timer1_Tick(ByVal sender As Object, _

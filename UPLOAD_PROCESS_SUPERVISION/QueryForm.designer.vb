@@ -41,7 +41,7 @@ Partial Class QueryForm
         Me.ButtonQuery = New System.Windows.Forms.Button
         Me.TextBoxQuery = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.GroupBoxAoQuery = New System.Windows.Forms.GroupBox
         Me.CheckBox3 = New System.Windows.Forms.CheckBox
         Me.CheckBox2 = New System.Windows.Forms.CheckBox
         Me.CheckBox1 = New System.Windows.Forms.CheckBox
@@ -59,7 +59,7 @@ Partial Class QueryForm
         Me.WatchCheckupToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FixTimeCodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
+        Me.GroupBoxAoQuery.SuspendLayout()
         Me.PanelQuery.SuspendLayout()
         Me.PanelResult.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -125,17 +125,17 @@ Partial Class QueryForm
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "名称"
         '
-        'GroupBox1
+        'GroupBoxAoQuery
         '
-        Me.GroupBox1.Controls.Add(Me.CheckBox3)
-        Me.GroupBox1.Controls.Add(Me.CheckBox2)
-        Me.GroupBox1.Controls.Add(Me.CheckBox1)
-        Me.GroupBox1.Location = New System.Drawing.Point(256, 28)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(249, 51)
-        Me.GroupBox1.TabIndex = 4
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "查询选项"
+        Me.GroupBoxAoQuery.Controls.Add(Me.CheckBox3)
+        Me.GroupBoxAoQuery.Controls.Add(Me.CheckBox2)
+        Me.GroupBoxAoQuery.Controls.Add(Me.CheckBox1)
+        Me.GroupBoxAoQuery.Location = New System.Drawing.Point(256, 28)
+        Me.GroupBoxAoQuery.Name = "GroupBoxAoQuery"
+        Me.GroupBoxAoQuery.Size = New System.Drawing.Size(249, 51)
+        Me.GroupBoxAoQuery.TabIndex = 4
+        Me.GroupBoxAoQuery.TabStop = False
+        Me.GroupBoxAoQuery.Text = "查询选项"
         '
         'CheckBox3
         '
@@ -178,7 +178,7 @@ Partial Class QueryForm
         Me.PanelQuery.Controls.Add(Me.RadioButtonTape)
         Me.PanelQuery.Controls.Add(Me.TextBoxQuery)
         Me.PanelQuery.Controls.Add(Me.Label1)
-        Me.PanelQuery.Controls.Add(Me.GroupBox1)
+        Me.PanelQuery.Controls.Add(Me.GroupBoxAoQuery)
         Me.PanelQuery.Controls.Add(Me.ButtonQuery)
         Me.PanelQuery.Location = New System.Drawing.Point(12, 27)
         Me.PanelQuery.Name = "PanelQuery"
@@ -243,48 +243,48 @@ Partial Class QueryForm
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UploadToolStripMenuItem, Me.CheckUpToolStripMenuItem, Me.BackCheckToolStripMenuItem, Me.SendTapeToolStripMenuItem, Me.WatchUploadToolStripMenuItem, Me.WatchCheckupToolStripMenuItem, Me.FixTimeCodeToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 180)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(143, 158)
         '
         'UploadToolStripMenuItem
         '
         Me.UploadToolStripMenuItem.Name = "UploadToolStripMenuItem"
-        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
         Me.UploadToolStripMenuItem.Text = "采集"
         '
         'CheckUpToolStripMenuItem
         '
         Me.CheckUpToolStripMenuItem.Name = "CheckUpToolStripMenuItem"
-        Me.CheckUpToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CheckUpToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
         Me.CheckUpToolStripMenuItem.Text = "审核"
         '
         'BackCheckToolStripMenuItem
         '
         Me.BackCheckToolStripMenuItem.Name = "BackCheckToolStripMenuItem"
-        Me.BackCheckToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.BackCheckToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
         Me.BackCheckToolStripMenuItem.Text = "回迁审核"
         '
         'SendTapeToolStripMenuItem
         '
         Me.SendTapeToolStripMenuItem.Name = "SendTapeToolStripMenuItem"
-        Me.SendTapeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SendTapeToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
         Me.SendTapeToolStripMenuItem.Text = "发带"
         '
         'WatchUploadToolStripMenuItem
         '
         Me.WatchUploadToolStripMenuItem.Name = "WatchUploadToolStripMenuItem"
-        Me.WatchUploadToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.WatchUploadToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
         Me.WatchUploadToolStripMenuItem.Text = "查看采集"
         '
         'WatchCheckupToolStripMenuItem
         '
         Me.WatchCheckupToolStripMenuItem.Name = "WatchCheckupToolStripMenuItem"
-        Me.WatchCheckupToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.WatchCheckupToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
         Me.WatchCheckupToolStripMenuItem.Text = "查看审核"
         '
         'FixTimeCodeToolStripMenuItem
         '
         Me.FixTimeCodeToolStripMenuItem.Name = "FixTimeCodeToolStripMenuItem"
-        Me.FixTimeCodeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FixTimeCodeToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
         Me.FixTimeCodeToolStripMenuItem.Text = "修改时码信息"
         '
         'QueryForm
@@ -301,8 +301,8 @@ Partial Class QueryForm
         Me.Text = "监理流程"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
+        Me.GroupBoxAoQuery.ResumeLayout(False)
+        Me.GroupBoxAoQuery.PerformLayout()
         Me.PanelQuery.ResumeLayout(False)
         Me.PanelQuery.PerformLayout()
         Me.PanelResult.ResumeLayout(False)
@@ -318,7 +318,7 @@ Partial Class QueryForm
     Friend WithEvents ButtonQuery As System.Windows.Forms.Button
     Friend WithEvents TextBoxQuery As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBoxAoQuery As System.Windows.Forms.GroupBox
     Friend WithEvents CheckBox2 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
     Friend WithEvents PanelQuery As System.Windows.Forms.Panel

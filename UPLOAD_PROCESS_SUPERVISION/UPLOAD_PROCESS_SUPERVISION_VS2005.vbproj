@@ -85,12 +85,6 @@
     <Compile Include="Check.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="check_back.designer.vb">
-      <DependentUpon>check_back.vb</DependentUpon>
-    </Compile>
-    <Compile Include="check_back.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ConfigFileUtil.vb" />
     <Compile Include="FixTimeCode.Designer.vb">
       <DependentUpon>FixTimeCode.vb</DependentUpon>
@@ -104,22 +98,11 @@
     <Compile Include="ImageViewer.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MVCUnit.vb" />
     <Compile Include="MyToast.Designer.vb">
       <DependentUpon>MyToast.vb</DependentUpon>
     </Compile>
     <Compile Include="MyToast.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PictrueLarge.Designer.vb">
-      <DependentUpon>PictrueLarge.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PictrueLarge.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="fingerprint.designer.vb">
-      <DependentUpon>fingerprint.vb</DependentUpon>
-    </Compile>
-    <Compile Include="fingerprint.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GlobalValues.vb" />
@@ -154,12 +137,6 @@
       <DependentUpon>TapeReceive.vb</DependentUpon>
     </Compile>
     <Compile Include="TapeReceive.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="tape_receive.designer.vb">
-      <DependentUpon>tape_receive.vb</DependentUpon>
-    </Compile>
-    <Compile Include="tape_receive.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="tape_send.designer.vb">
@@ -197,10 +174,6 @@
       <DependentUpon>Check.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="check_back.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>check_back.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FixTimeCode.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FixTimeCode.vb</DependentUpon>
@@ -212,14 +185,6 @@
     <EmbeddedResource Include="MyToast.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MyToast.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PictrueLarge.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>PictrueLarge.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="fingerprint.resx">
-      <DependentUpon>fingerprint.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -237,10 +202,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TapeReceive.resx">
       <DependentUpon>TapeReceive.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="tape_receive.resx">
-      <DependentUpon>tape_receive.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="tape_send.resx">

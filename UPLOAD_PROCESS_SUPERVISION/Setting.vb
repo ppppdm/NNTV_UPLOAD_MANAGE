@@ -30,6 +30,11 @@ Public Class Setting
         CheckMiddLen = NumericUpDownMiddLen.Value
         CheckTailLen = NumericUpDownTailLen.Value
 
+        '重新设置高级查询条件
+        AdvancedOptions.AoNotUpload.Value = CheckBoxNotUpload.Checked
+        AdvancedOptions.AoNotCheckUp.Value = CheckBoxNotCheckup.Checked
+        AdvancedOptions.AoHadCheckUp.Value = CheckBoxHadCheckup.Checked
+
 
         '将以上变量写入到配置文件工具
         CFUtil.Write("DB", "Server", DbServer)
@@ -44,6 +49,10 @@ Public Class Setting
         CFUtil.Write("Check", "HeadLen", CheckHeadLen.ToString)
         CFUtil.Write("Check", "MiddLen", CheckMiddLen.ToString)
         CFUtil.Write("Check", "TailLen", CheckTailLen.ToString)
+
+        CFUtil.Write("QueryAdvancedOptions", "NotUpload", AdvancedOptions.AoNotUpload.Value.ToString)
+        CFUtil.Write("QueryAdvancedOptions", "NotCheckUp", AdvancedOptions.AoNotCheckUp.Value.ToString)
+        CFUtil.Write("QueryAdvancedOptions", "HadCheckUp", AdvancedOptions.AoHadCheckUp.Value.ToString)
 
         '刷新数据到配置文件中
         CFUtil.FlushToFile()
@@ -75,7 +84,10 @@ Public Class Setting
         NumericUpDownMiddLen.Value = CheckMiddLen
         NumericUpDownTailLen.Value = CheckTailLen
 
-        '初始化高级选项
+        '初始化查询高级选项
+        CheckBoxNotUpload.Checked = AdvancedOptions.AoNotUpload.Value
+        CheckBoxNotCheckup.Checked = AdvancedOptions.AoNotCheckUp.Value
+        CheckBoxHadCheckup.Checked = AdvancedOptions.AoHadCheckUp.Value
 
 
         '初始化显示查询设置
@@ -180,6 +192,18 @@ Public Class Setting
     Private Sub NumericUpDownTailLen_ValueChanged(ByVal sender As Object, _
                                                   ByVal e As EventArgs) _
         Handles NumericUpDownTailLen.ValueChanged
+        OK_Button.Enabled = True
+    End Sub
+
+    Private Sub CheckBoxNotUpload_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxNotUpload.CheckedChanged
+        OK_Button.Enabled = True
+    End Sub
+
+    Private Sub CheckBoxNotCheckup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxNotCheckup.CheckedChanged
+        OK_Button.Enabled = True
+    End Sub
+
+    Private Sub CheckBoxHadCheckup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxHadCheckup.CheckedChanged
         OK_Button.Enabled = True
     End Sub
 End Class

@@ -37,11 +37,16 @@ Partial Class Setting
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.TabPage2 = New System.Windows.Forms.TabPage
+        Me.NumericUpDownTailLen = New System.Windows.Forms.NumericUpDown
+        Me.NumericUpDownMiddLen = New System.Windows.Forms.NumericUpDown
+        Me.NumericUpDownHeadLen = New System.Windows.Forms.NumericUpDown
+        Me.Label14 = New System.Windows.Forms.Label
+        Me.Label13 = New System.Windows.Forms.Label
+        Me.Label12 = New System.Windows.Forms.Label
         Me.TabPage3 = New System.Windows.Forms.TabPage
-        Me.CheckBox10 = New System.Windows.Forms.CheckBox
-        Me.CheckBox11 = New System.Windows.Forms.CheckBox
-        Me.CheckBox9 = New System.Windows.Forms.CheckBox
-        Me.CheckBox8 = New System.Windows.Forms.CheckBox
+        Me.CheckBoxHadCheckup = New System.Windows.Forms.CheckBox
+        Me.CheckBoxNotCheckup = New System.Windows.Forms.CheckBox
+        Me.CheckBoxNotUpload = New System.Windows.Forms.CheckBox
         Me.Label10 = New System.Windows.Forms.Label
         Me.TabPage4 = New System.Windows.Forms.TabPage
         Me.CheckBox5 = New System.Windows.Forms.CheckBox
@@ -58,23 +63,17 @@ Partial Class Setting
         Me.Label11 = New System.Windows.Forms.Label
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.CheckBoxUseCamera = New System.Windows.Forms.CheckBox
-        Me.Label12 = New System.Windows.Forms.Label
-        Me.Label13 = New System.Windows.Forms.Label
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.NumericUpDownHeadLen = New System.Windows.Forms.NumericUpDown
-        Me.NumericUpDownMiddLen = New System.Windows.Forms.NumericUpDown
-        Me.NumericUpDownTailLen = New System.Windows.Forms.NumericUpDown
         Me.TableLayoutPanel1.SuspendLayout()
         Me.tabsetting.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
+        CType(Me.NumericUpDownTailLen, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDownMiddLen, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDownHeadLen, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage3.SuspendLayout()
         Me.TabPage4.SuspendLayout()
         Me.TabPage5.SuspendLayout()
         Me.TabPage6.SuspendLayout()
-        CType(Me.NumericUpDownHeadLen, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDownMiddLen, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDownTailLen, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -234,12 +233,62 @@ Partial Class Setting
         Me.TabPage2.Text = "审核点"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'NumericUpDownTailLen
+        '
+        Me.NumericUpDownTailLen.Location = New System.Drawing.Point(190, 108)
+        Me.NumericUpDownTailLen.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.NumericUpDownTailLen.Name = "NumericUpDownTailLen"
+        Me.NumericUpDownTailLen.Size = New System.Drawing.Size(63, 21)
+        Me.NumericUpDownTailLen.TabIndex = 16
+        '
+        'NumericUpDownMiddLen
+        '
+        Me.NumericUpDownMiddLen.Location = New System.Drawing.Point(190, 73)
+        Me.NumericUpDownMiddLen.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.NumericUpDownMiddLen.Name = "NumericUpDownMiddLen"
+        Me.NumericUpDownMiddLen.Size = New System.Drawing.Size(63, 21)
+        Me.NumericUpDownMiddLen.TabIndex = 15
+        '
+        'NumericUpDownHeadLen
+        '
+        Me.NumericUpDownHeadLen.Location = New System.Drawing.Point(190, 41)
+        Me.NumericUpDownHeadLen.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.NumericUpDownHeadLen.Name = "NumericUpDownHeadLen"
+        Me.NumericUpDownHeadLen.Size = New System.Drawing.Size(63, 21)
+        Me.NumericUpDownHeadLen.TabIndex = 14
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(23, 78)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(161, 12)
+        Me.Label14.TabIndex = 10
+        Me.Label14.Text = "片中审核点时长（单位：秒）"
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(21, 113)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(161, 12)
+        Me.Label13.TabIndex = 9
+        Me.Label13.Text = "片尾审核点时长（单位：秒）"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(23, 44)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(161, 12)
+        Me.Label12.TabIndex = 8
+        Me.Label12.Text = "片头审核点时长（单位：秒）"
+        '
         'TabPage3
         '
-        Me.TabPage3.Controls.Add(Me.CheckBox10)
-        Me.TabPage3.Controls.Add(Me.CheckBox11)
-        Me.TabPage3.Controls.Add(Me.CheckBox9)
-        Me.TabPage3.Controls.Add(Me.CheckBox8)
+        Me.TabPage3.Controls.Add(Me.CheckBoxHadCheckup)
+        Me.TabPage3.Controls.Add(Me.CheckBoxNotCheckup)
+        Me.TabPage3.Controls.Add(Me.CheckBoxNotUpload)
         Me.TabPage3.Controls.Add(Me.Label10)
         Me.TabPage3.Location = New System.Drawing.Point(4, 21)
         Me.TabPage3.Name = "TabPage3"
@@ -249,45 +298,35 @@ Partial Class Setting
         Me.TabPage3.Text = "查询高级选项"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
-        'CheckBox10
+        'CheckBoxHadCheckup
         '
-        Me.CheckBox10.AutoSize = True
-        Me.CheckBox10.Location = New System.Drawing.Point(40, 178)
-        Me.CheckBox10.Name = "CheckBox10"
-        Me.CheckBox10.Size = New System.Drawing.Size(114, 16)
-        Me.CheckBox10.TabIndex = 4
-        Me.CheckBox10.Text = """日期,时间""选择"
-        Me.CheckBox10.UseVisualStyleBackColor = True
+        Me.CheckBoxHadCheckup.AutoSize = True
+        Me.CheckBoxHadCheckup.Location = New System.Drawing.Point(40, 142)
+        Me.CheckBoxHadCheckup.Name = "CheckBoxHadCheckup"
+        Me.CheckBoxHadCheckup.Size = New System.Drawing.Size(108, 16)
+        Me.CheckBoxHadCheckup.TabIndex = 3
+        Me.CheckBoxHadCheckup.Text = """已审核""复选框"
+        Me.CheckBoxHadCheckup.UseVisualStyleBackColor = True
         '
-        'CheckBox11
+        'CheckBoxNotCheckup
         '
-        Me.CheckBox11.AutoSize = True
-        Me.CheckBox11.Location = New System.Drawing.Point(40, 142)
-        Me.CheckBox11.Name = "CheckBox11"
-        Me.CheckBox11.Size = New System.Drawing.Size(108, 16)
-        Me.CheckBox11.TabIndex = 3
-        Me.CheckBox11.Text = """已审核""复选框"
-        Me.CheckBox11.UseVisualStyleBackColor = True
+        Me.CheckBoxNotCheckup.AutoSize = True
+        Me.CheckBoxNotCheckup.Location = New System.Drawing.Point(40, 105)
+        Me.CheckBoxNotCheckup.Name = "CheckBoxNotCheckup"
+        Me.CheckBoxNotCheckup.Size = New System.Drawing.Size(108, 16)
+        Me.CheckBoxNotCheckup.TabIndex = 2
+        Me.CheckBoxNotCheckup.Text = """未审核""复选框"
+        Me.CheckBoxNotCheckup.UseVisualStyleBackColor = True
         '
-        'CheckBox9
+        'CheckBoxNotUpload
         '
-        Me.CheckBox9.AutoSize = True
-        Me.CheckBox9.Location = New System.Drawing.Point(40, 105)
-        Me.CheckBox9.Name = "CheckBox9"
-        Me.CheckBox9.Size = New System.Drawing.Size(108, 16)
-        Me.CheckBox9.TabIndex = 2
-        Me.CheckBox9.Text = """未审核""复选框"
-        Me.CheckBox9.UseVisualStyleBackColor = True
-        '
-        'CheckBox8
-        '
-        Me.CheckBox8.AutoSize = True
-        Me.CheckBox8.Location = New System.Drawing.Point(40, 69)
-        Me.CheckBox8.Name = "CheckBox8"
-        Me.CheckBox8.Size = New System.Drawing.Size(108, 16)
-        Me.CheckBox8.TabIndex = 1
-        Me.CheckBox8.Text = """未采集""复选框"
-        Me.CheckBox8.UseVisualStyleBackColor = True
+        Me.CheckBoxNotUpload.AutoSize = True
+        Me.CheckBoxNotUpload.Location = New System.Drawing.Point(40, 69)
+        Me.CheckBoxNotUpload.Name = "CheckBoxNotUpload"
+        Me.CheckBoxNotUpload.Size = New System.Drawing.Size(108, 16)
+        Me.CheckBoxNotUpload.TabIndex = 1
+        Me.CheckBoxNotUpload.Text = """未采集""复选框"
+        Me.CheckBoxNotUpload.UseVisualStyleBackColor = True
         '
         'Label10
         '
@@ -454,57 +493,6 @@ Partial Class Setting
         Me.CheckBoxUseCamera.Text = "使用摄像头"
         Me.CheckBoxUseCamera.UseVisualStyleBackColor = True
         '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(23, 44)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(161, 12)
-        Me.Label12.TabIndex = 8
-        Me.Label12.Text = "片头审核点时长（单位：秒）"
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(21, 113)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(161, 12)
-        Me.Label13.TabIndex = 9
-        Me.Label13.Text = "片尾审核点时长（单位：秒）"
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(23, 78)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(161, 12)
-        Me.Label14.TabIndex = 10
-        Me.Label14.Text = "片中审核点时长（单位：秒）"
-        '
-        'NumericUpDownHeadLen
-        '
-        Me.NumericUpDownHeadLen.Location = New System.Drawing.Point(190, 41)
-        Me.NumericUpDownHeadLen.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
-        Me.NumericUpDownHeadLen.Name = "NumericUpDownHeadLen"
-        Me.NumericUpDownHeadLen.Size = New System.Drawing.Size(63, 21)
-        Me.NumericUpDownHeadLen.TabIndex = 14
-        '
-        'NumericUpDownMiddLen
-        '
-        Me.NumericUpDownMiddLen.Location = New System.Drawing.Point(190, 73)
-        Me.NumericUpDownMiddLen.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
-        Me.NumericUpDownMiddLen.Name = "NumericUpDownMiddLen"
-        Me.NumericUpDownMiddLen.Size = New System.Drawing.Size(63, 21)
-        Me.NumericUpDownMiddLen.TabIndex = 15
-        '
-        'NumericUpDownTailLen
-        '
-        Me.NumericUpDownTailLen.Location = New System.Drawing.Point(190, 108)
-        Me.NumericUpDownTailLen.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
-        Me.NumericUpDownTailLen.Name = "NumericUpDownTailLen"
-        Me.NumericUpDownTailLen.Size = New System.Drawing.Size(63, 21)
-        Me.NumericUpDownTailLen.TabIndex = 16
-        '
         'Setting
         '
         Me.AcceptButton = Me.OK_Button
@@ -527,6 +515,9 @@ Partial Class Setting
         Me.TabPage1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        CType(Me.NumericUpDownTailLen, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDownMiddLen, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDownHeadLen, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
         Me.TabPage4.ResumeLayout(False)
@@ -535,9 +526,6 @@ Partial Class Setting
         Me.TabPage5.PerformLayout()
         Me.TabPage6.ResumeLayout(False)
         Me.TabPage6.PerformLayout()
-        CType(Me.NumericUpDownHeadLen, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDownMiddLen, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDownTailLen, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -567,10 +555,9 @@ Partial Class Setting
     Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
-    Friend WithEvents CheckBox10 As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckBox11 As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckBox9 As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckBox8 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxHadCheckup As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxNotCheckup As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxNotUpload As System.Windows.Forms.CheckBox
     Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents ButtonTestFigurePrintConn As System.Windows.Forms.Button

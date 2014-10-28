@@ -607,7 +607,7 @@ Public Class TapeReceive
             Dim truename = Mid(TextBoxTapeName.Text, 7)
             Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
             Dim sqlstr = _
-                    "SELECT TOP 2 channel, start_timecode, length FROM tape Where tape_name LIKE '%" + _
+                    "SELECT TOP 2 * FROM tape Where tape_name LIKE '%" + _
                     truename + "' ORDER by in_bc_time DESC;"
             Dim command As New SqlCommand(sqlstr, sqlconn)
             Try
@@ -617,11 +617,15 @@ Public Class TapeReceive
                 Dim Achannel(2) As String
                 Dim Astart(2) As String
                 Dim Alength(2) As String
+                Dim aProgramType(2) As String
+                Dim aMediaType(2) As String
                 Dim i = 0
                 While reader.Read()
-                    Achannel(i) = reader(0)
-                    Astart(i) = reader(1)
-                    Alength(i) = reader(2)
+                    Achannel(i) = reader("channel").ToString()
+                    Astart(i) = reader("start_timecode").ToString()
+                    Alength(i) = reader("length").ToString()
+                    aProgramType(i) = reader("program_type").ToString()
+                    aMediaType(i) = reader("media_type").ToString()
                     i += 1
                 End While
                 reader.Close()
@@ -648,6 +652,15 @@ Public Class TapeReceive
                 Else
                     SetLengthZero()
                 End If
+
+                If aProgramType(0) = aProgramType(1) Then
+                    ComboBoxProgramType.Text = aProgramType(0)
+                End If
+
+                If aMediaType(0) = aMediaType(1) Then
+                    ComboBoxMediaType.Text = aMediaType(0)
+                End If
+
                 TextBoxTapeName.Focus()
                 TextBoxTapeName.SelectionLength = 6 '选中前6个字符，即日期
             Catch ex As Exception

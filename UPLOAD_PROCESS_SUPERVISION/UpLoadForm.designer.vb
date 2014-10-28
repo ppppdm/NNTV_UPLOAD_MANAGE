@@ -905,7 +905,7 @@ Partial Class UpLoadForm
         'CheckBoxImageCheck
         '
         Me.CheckBoxImageCheck.AutoSize = True
-        Me.CheckBoxImageCheck.Location = New System.Drawing.Point(12, 362)
+        Me.CheckBoxImageCheck.Location = New System.Drawing.Point(12, 360)
         Me.CheckBoxImageCheck.Name = "CheckBoxImageCheck"
         Me.CheckBoxImageCheck.Size = New System.Drawing.Size(72, 16)
         Me.CheckBoxImageCheck.TabIndex = 9

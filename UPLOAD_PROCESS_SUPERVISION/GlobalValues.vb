@@ -160,10 +160,15 @@ Module GlobalValues
     Public CheckTailLen As Integer = 30
 
     '高级查询选项启用 Ao = advanced options
-    Public AoNotUpdate As Boolean = True
-    Public AoNotCheckUp As Boolean = True
-    Public AoHadCheckUp As Boolean = False
-    Public AoDateAndTime As Boolean = True
+    Public Class AdvancedOptions
+
+        Public Shared AoNotUpload As MVCUnit = New MVCUnit(True, "未上载", "NotUpload")
+        Public Shared AoNotCheckUp As MVCUnit = New MVCUnit(True, "未审核", "NotCheckUp")
+        Public Shared AoHadCheckUp As MVCUnit = New MVCUnit(False, "已审核", "HadCheckUp")
+        'Public AoDateAndTime As Boolean = True
+
+        Public Shared AoDateAndTime As MVCUnit = New MVCUnit(False, "日期和时间", "DateAndTime")
+    End Class
 
     '查询内容显示设置 Swo = show options
     'Public SwoTapeName = True ' not modify

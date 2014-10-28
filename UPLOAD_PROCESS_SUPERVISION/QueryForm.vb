@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Reflection
 
 Public Class QueryForm
     Public TapeId As Guid = Nothing
@@ -10,6 +11,8 @@ Public Class QueryForm
         InitGlobalVariables()
 
         '加载QueryForm时的初始化工作
+        '根据Setting的高级查询选项配置设置查询界面的高级查询选项
+        SetAoQueryByAoSetting()
     End Sub
 
     Private Sub SendInToolStripMenuItem_Click(ByVal sender As Object, _
@@ -419,5 +422,38 @@ Public Class QueryForm
                                                    ByVal e As EventArgs) _
         Handles FixTimeCodeToolStripMenuItem.Click
         FixTimeCode.Show()
+    End Sub
+
+    Private Sub SetAoQueryByAoSetting()
+        Dim w As Integer
+        Dim i As Integer
+
+        Dim myType As Type = GetType(AdvancedOptions)
+        Dim myFieldInfo() As FieldInfo = myType.GetFields()
+
+        'GroupBoxAoQuery.Controls.Clear()
+
+        'For i = 0 To myFieldInfo.Length - 1
+        '    Console.WriteLine(ControlChars.NewLine + "Name            : {0}", myFieldInfo(i).Name)
+        '    Console.WriteLine("Declaring Type  : {0}", myFieldInfo(i).DeclaringType)
+        '    Console.WriteLine("IsPublic        : {0}", myFieldInfo(i).IsPublic)
+        '    Console.WriteLine("MemberType      : {0}", myFieldInfo(i).MemberType)
+        '    Console.WriteLine("FieldType       : {0}", myFieldInfo(i).FieldType)
+        '    Console.WriteLine("IsFamily        : {0}", myFieldInfo(i).IsFamily)
+        '    Console.WriteLine("Value           : {0}", myFieldInfo(i).GetValue(Nothing))
+
+        '    'Dim checkbox As New CheckBox()
+        '    'GroupBoxAoQuery.Controls.Add(checkbox)
+
+        '    'checkbox.AutoSize = True
+        '    'checkbox.Location = New Point(200, 31)
+
+        '    'Dim aType As Type = GetType(MVCUnit)
+        '    'Dim fi() As FieldInfo = aType.GetFields
+        '    'Dim j
+        '    'For j = 0 To fi.Length - 1
+        '    '    fi.GetValue(myFieldInfo(i))
+        '    'Next
+        'Next
     End Sub
 End Class

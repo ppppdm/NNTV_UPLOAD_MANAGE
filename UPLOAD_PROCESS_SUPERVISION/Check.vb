@@ -114,16 +114,16 @@ Public Class Check
             Select Case id
                 Case ParamKeyF5
                     DoScreenShot(PictureBox1, "check_point1_screenshot")
-                    Dim toast As New MyToast("片头已截图", 2000)
+                    MyToast.Show("片头已截图", 2000)
                 Case ParamKeyF6
                     DoScreenShot(PictureBox2, "check_point2_screenshot")
-                    Dim toast As New MyToast("片中已截图", 2000)
+                    MyToast.Show("片中已截图", 2000)
                 Case ParamKeyF7
                     DoScreenShot(PictureBox3, "check_point3_screenshot")
-                    Dim toast As New MyToast("片尾已截图", 2000)
+                    MyToast.Show("片尾已截图", 2000)
                 Case ParamKeyF8
                     DoScreenShot(PictureBox4, "episode_screenshot")
-                    Dim toast As New MyToast("落副已截图", 2000)
+                    MyToast.Show("落副已截图", 2000)
             End Select
         End If
         MyBase.WndProc(m)
@@ -501,19 +501,25 @@ Public Class Check
             com1.Parameters.AddRange(params1)
 
             '更新表material_id
+            'Const sqlquery2 As String = "update material set " & _
+            '                            "status = @status, " & _
+            '                            "start_timecode = @start_timecode, " & _
+            '                            "end_timecode = @end_timecode " & "where " & _
+            '                            "id = @material_id"
+
+
             Const sqlquery2 As String = "update material set " & _
-                                        "status = @status, " & _
-                                        "start_timecode = @start_timecode, " & _
-                                        "end_timecode = @end_timecode " & "where " & _
+                                        "status = @status " & _
+                                        "where " & _
                                         "id = @material_id"
 
             Dim com2 As SqlCommand = New SqlCommand(sqlquery2, sqlconn)
             'bug
             Dim params2 As SqlParameter() = _
                     {New SqlParameter("@status", StatusHaveCheckUp), _
-                     New SqlParameter("@start_timecode", "00:00:00:00"), _
-                     New SqlParameter("@end_timecode", "11"), _
                      New SqlParameter("@material_id", _materialId)}
+            '        New SqlParameter("@start_timecode", "00:00:00:00"), _
+            '        New SqlParameter("@end_timecode", "11"), _
             com2.Parameters.AddRange(params2)
 
 
