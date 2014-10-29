@@ -638,17 +638,17 @@ Public Class TapeReceive
                 End If
                 If Astart(0) = Astart(1) Then
                     TextBoxStartTimeH.Text = Mid(Astart(0), 1, 2)
-                    TextBoxStartTimeM.Text = Mid(Astart(0), 3, 2)
-                    TextBoxStartTimeS.Text = Mid(Astart(0), 5, 2)
-                    TextBoxStartTimeF.Text = Mid(Astart(0), 7, 2)
+                    TextBoxStartTimeM.Text = Mid(Astart(0), 4, 2)
+                    TextBoxStartTimeS.Text = Mid(Astart(0), 7, 2)
+                    TextBoxStartTimeF.Text = Mid(Astart(0), 10, 2)
                 Else
                     SetStartTimeZero()
                 End If
                 If Alength(0) = Alength(1) Then
                     TextBoxLengthH.Text = Mid(Alength(0), 1, 2)
-                    TextBoxLengthM.Text = Mid(Alength(0), 3, 2)
-                    TextBoxLengthS.Text = Mid(Alength(0), 5, 2)
-                    TextBoxLengthF.Text = Mid(Alength(0), 7, 2)
+                    TextBoxLengthM.Text = Mid(Alength(0), 4, 2)
+                    TextBoxLengthS.Text = Mid(Alength(0), 7, 2)
+                    TextBoxLengthF.Text = Mid(Alength(0), 10, 2)
                 Else
                     SetLengthZero()
                 End If

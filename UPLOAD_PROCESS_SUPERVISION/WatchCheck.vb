@@ -106,7 +106,6 @@ Public Class WatchCheck
         ImageViewer.Show()
     End Sub
 
-
     Private Sub PictureBoxCheckPoint2_MouseDoubleClick(ByVal sender As Object, _
                                                        ByVal e As  _
                                                           MouseEventArgs) _

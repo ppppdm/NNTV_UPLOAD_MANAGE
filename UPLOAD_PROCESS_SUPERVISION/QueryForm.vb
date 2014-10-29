@@ -256,6 +256,10 @@ Public Class QueryForm
                     row.DefaultCellStyle.BackColor = Color.Green
                 End If
 
+                If row.Cells("状态").Value = "已发带" Then
+                    row.DefaultCellStyle.BackColor = Color.AntiqueWhite
+                End If
+
             Catch ex As Exception
                 Console.WriteLine(ex.Message)
             End Try
@@ -268,6 +272,7 @@ Public Class QueryForm
         Handles DataGridView1.CellMouseClick
         Dim mr As DataGridViewSelectedRowCollection = DataGridView1.SelectedRows
         Dim i
+        Dim id As Guid
 
         '取消之前选中的行,将鼠标选中单元所在的行设置为选中
         Console.WriteLine(DataGridView1.SelectedRows.Count)
@@ -279,28 +284,49 @@ Public Class QueryForm
 
             '记录下所选的行信息
             'Console.WriteLine(DataGridView1.Rows(e.RowIndex).Cells("名称").Value)
-            TapeId = DataGridView1.Rows(e.RowIndex).Cells("id").Value
-
-            MaterialId = DataGridView1.Rows(e.RowIndex).Cells("id").Value
+            id = DataGridView1.Rows(e.RowIndex).Cells("id").Value
+            TapeId = id
+            MaterialId = id
 
             '如果是鼠标右键点击则弹出菜单
             If e.Button = MouseButtons.Right Then
-                SetContextMenuStripItemStatus()
+                SetContextMenuStripItemStatus(id)
                 ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
             End If
         End If
     End Sub
 
-    Private Sub SetContextMenuStripItemStatus()
+    Private Sub SetContextMenuStripItemStatus(ByVal id As Guid)
+        Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
+
         If RadioButtonTape.Checked = True Then
-            '设置查询右键菜单
+            Dim queryStr As String = "select * from tape where id ='" + id.ToString() + "'"
+            Dim comm As SqlCommand = New SqlCommand(queryStr, sqlconn)
+
+            '默认情况下查询右键菜单
             UploadToolStripMenuItem.Enabled = True
             WatchUploadToolStripMenuItem.Enabled = True
             FixTimeCodeToolStripMenuItem.Enabled = True
+            SendTapeToolStripMenuItem.Enabled = True
             CheckUpToolStripMenuItem.Enabled = False
             BackCheckToolStripMenuItem.Enabled = False
             WatchCheckupToolStripMenuItem.Enabled = False
 
+            Try
+                sqlconn.Open()
+                Dim reader As SqlDataReader = comm.ExecuteReader()
+                If reader.Read() Then
+                    Dim status = reader("tape_status")
+                    '如果状态是已发带
+                    UploadToolStripMenuItem.Enabled = False
+                    SendTapeToolStripMenuItem.Enabled = False
+                    FixTimeCodeToolStripMenuItem.Enabled = False
+                End If
+            Catch ex As Exception
+
+            Finally
+                sqlconn.Close()
+            End Try
         End If
 
         If RadioButtonMaterial.Checked = True Then
@@ -308,6 +334,7 @@ Public Class QueryForm
             UploadToolStripMenuItem.Enabled = False
             WatchUploadToolStripMenuItem.Enabled = False
             FixTimeCodeToolStripMenuItem.Enabled = False
+            SendTapeToolStripMenuItem.Enabled = False
             CheckUpToolStripMenuItem.Enabled = True
             BackCheckToolStripMenuItem.Enabled = True
             WatchCheckupToolStripMenuItem.Enabled = True

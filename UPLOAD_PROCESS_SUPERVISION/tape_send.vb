@@ -38,7 +38,7 @@ Public Class TapeSend
                                               "out_bc_recv_per = @out_bc_recv_per, " & _
                                               "tape_status = @tape_status " & _
                                               "where " & _
-                                              "tape_name = @tape_name"
+                                              "id = @id"
 
                 'Console.WriteLine(queryString)
 
@@ -46,7 +46,7 @@ Public Class TapeSend
 
 
                 Dim paras() As SqlParameter = _
-                        {New SqlParameter("@tape_name", tapeName), _
+                        {New SqlParameter("@id", _tapeId), _
                          New SqlParameter("@out_bc_time", outBcTime), _
                          New SqlParameter("@out_bc_send_per", outBcSendPer), _
                          New SqlParameter("@out_bc_recv_per", outBcRecvPer), _
@@ -69,7 +69,8 @@ Public Class TapeSend
     Private Sub tape_send_Disposed(ByVal sender As Object, ByVal e As EventArgs) _
         Handles Me.Disposed
         '取消后台线程
-        BackgroundWorker1.CancelAsync()
+        'BackgroundWorker1.CancelAsync()
+        EndThread()
     End Sub
 
     Private Sub tape_send_Load(ByVal sender As Object, ByVal e As EventArgs) _
@@ -133,7 +134,7 @@ Public Class TapeSend
                 If department = "播出部" Then
                     TextBoxSendPerson.Text = pname
                 Else
-                    MsgBox("非播出部人员")
+                    TextBoxRecvPerson.Text = pname
                 End If
 
             Else

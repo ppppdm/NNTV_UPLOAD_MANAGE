@@ -40,7 +40,7 @@ Public Class WatchUpload
                 LabelEndTimeCodeText.Text = reader("end_timecode")
                 LabelLengthText.Text = reader("length")
             Else
-                MsgBox("Find Tape Null")
+                MsgBox("没有找到磁带信息")
             End If
 
             reader.close()
@@ -72,7 +72,7 @@ Public Class WatchUpload
 
 
             Else
-                MsgBox("Find Tape Null")
+                MsgBox("没有找到对于信息，可能是还没有上载")
             End If
 
             reader.close()

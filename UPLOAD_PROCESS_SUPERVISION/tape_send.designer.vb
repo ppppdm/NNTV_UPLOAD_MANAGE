@@ -37,7 +37,7 @@ Partial Class TapeSend
         '
         'TextBoxSendTime
         '
-        Me.TextBoxSendTime.Location = New System.Drawing.Point(131, 82)
+        Me.TextBoxSendTime.Location = New System.Drawing.Point(113, 73)
         Me.TextBoxSendTime.Name = "TextBoxSendTime"
         Me.TextBoxSendTime.ReadOnly = True
         Me.TextBoxSendTime.Size = New System.Drawing.Size(148, 21)
@@ -47,7 +47,7 @@ Partial Class TapeSend
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(42, 91)
+        Me.Label8.Location = New System.Drawing.Point(42, 76)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(53, 12)
         Me.Label8.TabIndex = 37
@@ -55,7 +55,7 @@ Partial Class TapeSend
         '
         'ButtonCancel
         '
-        Me.ButtonCancel.Location = New System.Drawing.Point(418, 205)
+        Me.ButtonCancel.Location = New System.Drawing.Point(368, 171)
         Me.ButtonCancel.Name = "ButtonCancel"
         Me.ButtonCancel.Size = New System.Drawing.Size(75, 23)
         Me.ButtonCancel.TabIndex = 3
@@ -64,7 +64,7 @@ Partial Class TapeSend
         '
         'ButtonOK
         '
-        Me.ButtonOK.Location = New System.Drawing.Point(322, 205)
+        Me.ButtonOK.Location = New System.Drawing.Point(272, 171)
         Me.ButtonOK.Name = "ButtonOK"
         Me.ButtonOK.Size = New System.Drawing.Size(75, 23)
         Me.ButtonOK.TabIndex = 2
@@ -74,7 +74,7 @@ Partial Class TapeSend
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(320, 160)
+        Me.Label6.Location = New System.Drawing.Point(281, 131)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(41, 12)
         Me.Label6.TabIndex = 31
@@ -83,7 +83,7 @@ Partial Class TapeSend
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(44, 166)
+        Me.Label5.Location = New System.Drawing.Point(44, 131)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(41, 12)
         Me.Label5.TabIndex = 30
@@ -91,21 +91,21 @@ Partial Class TapeSend
         '
         'TextBoxSendPerson
         '
-        Me.TextBoxSendPerson.Location = New System.Drawing.Point(376, 157)
+        Me.TextBoxSendPerson.Location = New System.Drawing.Point(346, 122)
         Me.TextBoxSendPerson.Name = "TextBoxSendPerson"
         Me.TextBoxSendPerson.Size = New System.Drawing.Size(100, 21)
         Me.TextBoxSendPerson.TabIndex = 1
         '
         'TextBoxRecvPerson
         '
-        Me.TextBoxRecvPerson.Location = New System.Drawing.Point(91, 163)
+        Me.TextBoxRecvPerson.Location = New System.Drawing.Point(113, 122)
         Me.TextBoxRecvPerson.Name = "TextBoxRecvPerson"
         Me.TextBoxRecvPerson.Size = New System.Drawing.Size(100, 21)
         Me.TextBoxRecvPerson.TabIndex = 0
         '
         'TextBoxTapeName
         '
-        Me.TextBoxTapeName.Location = New System.Drawing.Point(131, 24)
+        Me.TextBoxTapeName.Location = New System.Drawing.Point(113, 25)
         Me.TextBoxTapeName.Name = "TextBoxTapeName"
         Me.TextBoxTapeName.Size = New System.Drawing.Size(222, 21)
         Me.TextBoxTapeName.TabIndex = 24
@@ -125,11 +125,11 @@ Partial Class TapeSend
         Me.BackgroundWorker1.WorkerReportsProgress = True
         Me.BackgroundWorker1.WorkerSupportsCancellation = True
         '
-        'tape_send
+        'TapeSend
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(536, 255)
+        Me.ClientSize = New System.Drawing.Size(480, 219)
         Me.Controls.Add(Me.TextBoxSendTime)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.ButtonCancel)
