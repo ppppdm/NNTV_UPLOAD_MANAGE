@@ -58,6 +58,7 @@ Partial Class QueryForm
         Me.WatchUploadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.WatchCheckupToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FixTimeCodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItemRecvTapeConfirm = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBoxAoQuery.SuspendLayout()
         Me.PanelQuery.SuspendLayout()
@@ -71,33 +72,33 @@ Partial Class QueryForm
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SendInToolStripMenuItem, Me.SettingToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(794, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(794, 25)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'SendInToolStripMenuItem
         '
         Me.SendInToolStripMenuItem.Name = "SendInToolStripMenuItem"
-        Me.SendInToolStripMenuItem.Size = New System.Drawing.Size(41, 20)
+        Me.SendInToolStripMenuItem.Size = New System.Drawing.Size(44, 21)
         Me.SendInToolStripMenuItem.Text = "送带"
         '
         'SettingToolStripMenuItem
         '
         Me.SettingToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.AddPeopleToolStripMenuItem1})
         Me.SettingToolStripMenuItem.Name = "SettingToolStripMenuItem"
-        Me.SettingToolStripMenuItem.Size = New System.Drawing.Size(41, 20)
+        Me.SettingToolStripMenuItem.Size = New System.Drawing.Size(44, 21)
         Me.SettingToolStripMenuItem.Text = "设置"
         '
         'OptionsToolStripMenuItem
         '
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
         Me.OptionsToolStripMenuItem.Text = "选项..."
         '
         'AddPeopleToolStripMenuItem1
         '
         Me.AddPeopleToolStripMenuItem1.Name = "AddPeopleToolStripMenuItem1"
-        Me.AddPeopleToolStripMenuItem1.Size = New System.Drawing.Size(118, 22)
+        Me.AddPeopleToolStripMenuItem1.Size = New System.Drawing.Size(124, 22)
         Me.AddPeopleToolStripMenuItem1.Text = "人员添加"
         '
         'ButtonQuery
@@ -241,51 +242,57 @@ Partial Class QueryForm
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UploadToolStripMenuItem, Me.CheckUpToolStripMenuItem, Me.BackCheckToolStripMenuItem, Me.SendTapeToolStripMenuItem, Me.WatchUploadToolStripMenuItem, Me.WatchCheckupToolStripMenuItem, Me.FixTimeCodeToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UploadToolStripMenuItem, Me.CheckUpToolStripMenuItem, Me.BackCheckToolStripMenuItem, Me.SendTapeToolStripMenuItem, Me.WatchUploadToolStripMenuItem, Me.WatchCheckupToolStripMenuItem, Me.FixTimeCodeToolStripMenuItem, Me.ToolStripMenuItemRecvTapeConfirm})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(143, 158)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 202)
         '
         'UploadToolStripMenuItem
         '
         Me.UploadToolStripMenuItem.Name = "UploadToolStripMenuItem"
-        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.UploadToolStripMenuItem.Text = "采集"
         '
         'CheckUpToolStripMenuItem
         '
         Me.CheckUpToolStripMenuItem.Name = "CheckUpToolStripMenuItem"
-        Me.CheckUpToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.CheckUpToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.CheckUpToolStripMenuItem.Text = "审核"
         '
         'BackCheckToolStripMenuItem
         '
         Me.BackCheckToolStripMenuItem.Name = "BackCheckToolStripMenuItem"
-        Me.BackCheckToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.BackCheckToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.BackCheckToolStripMenuItem.Text = "回迁审核"
         '
         'SendTapeToolStripMenuItem
         '
         Me.SendTapeToolStripMenuItem.Name = "SendTapeToolStripMenuItem"
-        Me.SendTapeToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.SendTapeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.SendTapeToolStripMenuItem.Text = "发带"
         '
         'WatchUploadToolStripMenuItem
         '
         Me.WatchUploadToolStripMenuItem.Name = "WatchUploadToolStripMenuItem"
-        Me.WatchUploadToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.WatchUploadToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.WatchUploadToolStripMenuItem.Text = "查看采集"
         '
         'WatchCheckupToolStripMenuItem
         '
         Me.WatchCheckupToolStripMenuItem.Name = "WatchCheckupToolStripMenuItem"
-        Me.WatchCheckupToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.WatchCheckupToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.WatchCheckupToolStripMenuItem.Text = "查看审核"
         '
         'FixTimeCodeToolStripMenuItem
         '
         Me.FixTimeCodeToolStripMenuItem.Name = "FixTimeCodeToolStripMenuItem"
-        Me.FixTimeCodeToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.FixTimeCodeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FixTimeCodeToolStripMenuItem.Text = "修改时码信息"
+        '
+        'ToolStripMenuItemRecvTapeConfirm
+        '
+        Me.ToolStripMenuItemRecvTapeConfirm.Name = "ToolStripMenuItemRecvTapeConfirm"
+        Me.ToolStripMenuItemRecvTapeConfirm.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItemRecvTapeConfirm.Text = "确认收带"
         '
         'QueryForm
         '
@@ -337,5 +344,6 @@ Partial Class QueryForm
     Friend WithEvents WatchUploadToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents WatchCheckupToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FixTimeCodeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItemRecvTapeConfirm As System.Windows.Forms.ToolStripMenuItem
 
 End Class

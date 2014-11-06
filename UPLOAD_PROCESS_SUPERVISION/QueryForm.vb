@@ -84,6 +84,10 @@ Public Class QueryForm
         Me.WindowState = FormWindowState.Minimized
     End Sub
 
+    Private Sub ToolStripMenuItemRecvTapeConfirm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItemRecvTapeConfirm.Click
+        TapeRecOnlyRecv.Show()
+    End Sub
+
     Private Sub ButtonQuery_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles ButtonQuery.Click
 
@@ -484,4 +488,6 @@ Public Class QueryForm
         '    'Next
         'Next
     End Sub
+
+ 
 End Class
