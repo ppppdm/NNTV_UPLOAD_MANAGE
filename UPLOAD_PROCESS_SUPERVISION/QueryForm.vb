@@ -1,5 +1,4 @@
 ﻿Imports System.Data.SqlClient
-Imports System.Reflection
 
 Public Class QueryForm
     Public TapeId As Guid = Nothing
@@ -318,9 +317,11 @@ Public Class QueryForm
                 If reader.Read() Then
                     Dim status = reader("tape_status")
                     '如果状态是已发带
-                    UploadToolStripMenuItem.Enabled = False
-                    SendTapeToolStripMenuItem.Enabled = False
-                    FixTimeCodeToolStripMenuItem.Enabled = False
+                    If status = StatusSendedOut Then
+                        UploadToolStripMenuItem.Enabled = False
+                        SendTapeToolStripMenuItem.Enabled = False
+                        FixTimeCodeToolStripMenuItem.Enabled = False
+                    End If
                 End If
             Catch ex As Exception
 
@@ -452,11 +453,11 @@ Public Class QueryForm
     End Sub
 
     Private Sub SetAoQueryByAoSetting()
-        Dim w As Integer
-        Dim i As Integer
+        'Dim w As Integer
+        'Dim i As Integer
 
-        Dim myType As Type = GetType(AdvancedOptions)
-        Dim myFieldInfo() As FieldInfo = myType.GetFields()
+        'Dim myType As Type = GetType(AdvancedOptions)
+        'Dim myFieldInfo() As FieldInfo = myType.GetFields()
 
         'GroupBoxAoQuery.Controls.Clear()
 
