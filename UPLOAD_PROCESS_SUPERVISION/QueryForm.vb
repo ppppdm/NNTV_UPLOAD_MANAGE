@@ -263,6 +263,10 @@ Public Class QueryForm
                     row.DefaultCellStyle.BackColor = Color.AntiqueWhite
                 End If
 
+                If row.Cells("状态").Value = "已送带,未确认" Then
+                    row.DefaultCellStyle.BackColor = Color.FloralWhite
+                End If
+
             Catch ex As Exception
                 Console.WriteLine(ex.Message)
             End Try
@@ -314,6 +318,7 @@ Public Class QueryForm
             CheckUpToolStripMenuItem.Enabled = False
             BackCheckToolStripMenuItem.Enabled = False
             WatchCheckupToolStripMenuItem.Enabled = False
+            ToolStripMenuItemRecvTapeConfirm.Enabled = False
 
             Try
                 sqlconn.Open()
@@ -326,6 +331,14 @@ Public Class QueryForm
                         SendTapeToolStripMenuItem.Enabled = False
                         FixTimeCodeToolStripMenuItem.Enabled = False
                     End If
+
+                    '如果状态是已送带，收带未确认
+                    If status = StatusNotRecvConfirm Then
+                        UploadToolStripMenuItem.Enabled = False
+                        WatchUploadToolStripMenuItem.Enabled = False
+                        ToolStripMenuItemRecvTapeConfirm.Enabled = True
+                    End If
+
                 End If
             Catch ex As Exception
 

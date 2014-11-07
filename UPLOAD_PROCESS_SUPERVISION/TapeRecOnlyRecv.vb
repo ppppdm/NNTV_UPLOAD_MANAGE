@@ -49,7 +49,7 @@ Public Class TapeRecOnlyRecv
                 ComboBoxChannel.Text = reader("channel")
                 ComboBoxMediaType.Text = reader("media_type")
                 TextBoxRecvTime.Text = reader("in_bc_time")
-                TextBoxRecvPerson.Text = reader("in_bc_send_per")
+                TextBoxSendPerson.Text = reader("in_bc_send_per")
                 TextBoxRemark.Text = reader("remark")
                 CheckBoxTape.Checked = reader("identical")
                 inbcsttimecode = reader("start_timecode")

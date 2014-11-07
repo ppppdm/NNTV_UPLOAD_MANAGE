@@ -118,6 +118,7 @@ Module GlobalValues
     ' ReSharper restore InconsistentNaming
 
     'tape, material状态(必须很数据库status表一致)
+    Public StatusNotRecvConfirm As Integer = 0
     Public StatusNotUpload As Integer = 1
     Public StatusNotCheckUp As Integer = 2   'haveUpload
     Public StatusHaveCheckUp As Integer = 3

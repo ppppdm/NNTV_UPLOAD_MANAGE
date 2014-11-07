@@ -75,13 +75,17 @@ Public Class TapeReceive
         Dim channel = ComboBoxChannel.Text
         Dim programType = ComboBoxProgramType.Text
         Dim mediaType = ComboBoxMediaType.Text
+        Dim status = StatusNotUpload
+        If inBcRecvPer = "" Then
+            status = StatusNotRecvConfirm
+        End If
 
         If tapeName = "" Then
             MsgBox("磁带名!")
         ElseIf inBcSendPer = "" Then
             MsgBox("送带人!")
-        ElseIf inBcRecvPer = "" Then
-            MsgBox("收带人!")
+            'ElseIf inBcRecvPer = "" Then
+            '    MsgBox("收带人!")
         ElseIf identical = False Then
             MsgBox("带芯带盒不同!")
         ElseIf _tapeRecvSendPerId = Nothing Then
@@ -101,7 +105,7 @@ Public Class TapeReceive
                      New SqlParameter("@in_bc_recv_per", inBcRecvPer), _
                      New SqlParameter("@in_bc_time", inBcTime), _
                      New SqlParameter("@remark", remark), _
-                     New SqlParameter("@tape_status", StatusNotUpload), _
+                     New SqlParameter("@tape_status", status), _
                      New SqlParameter("@program_type", programType), _
                      New SqlParameter("@identical", identical), _
                      New SqlParameter("@department", _tapeRecvSendPerDepartment), _
