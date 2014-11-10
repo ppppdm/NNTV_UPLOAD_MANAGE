@@ -43,6 +43,12 @@ Public Class QueryForm
         TapeSend.Show()
     End Sub
 
+    Private Sub SendInBatchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SendInBatchToolStripMenuItem.Click
+        ReceiveTapeInBatch.Show()
+        'QueryForm界面最小化
+        Me.WindowState = FormWindowState.Minimized
+    End Sub
+
     Private Sub WatchUploadToolStripMenuItem_Click(ByVal sender As Object, _
                                                    ByVal e As EventArgs) _
         Handles WatchUploadToolStripMenuItem.Click
@@ -501,6 +507,4 @@ Public Class QueryForm
         '    'Next
         'Next
     End Sub
-
- 
 End Class

@@ -140,7 +140,7 @@ Module GlobalValues
     Public DbDbNamme As String = "nntv_ps"
     Public DbUser As String = "sa"
     Public DbPawd As String = "nntv"
-    Public ConnStr = ""
+    Public ConnStr = "Server=USER-20140707NK\SQLEXPRESS;Database=nntv_ps;User ID=sa;Password=nntv"
 
     '指纹机IP和端口
     Public FigurePrintIP As String = "192.168.5.155"
