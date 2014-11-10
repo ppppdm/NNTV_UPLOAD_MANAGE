@@ -133,6 +133,12 @@
     <Compile Include="ReceiveTapeInBatch.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SendTapeInBatch.Designer.vb">
+      <DependentUpon>SendTapeInBatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SendTapeInBatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Setting.designer.vb">
       <DependentUpon>Setting.vb</DependentUpon>
     </Compile>
@@ -211,6 +217,10 @@
     <EmbeddedResource Include="ReceiveTapeInBatch.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ReceiveTapeInBatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SendTapeInBatch.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SendTapeInBatch.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting.resx">
       <DependentUpon>Setting.vb</DependentUpon>

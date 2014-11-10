@@ -40,24 +40,28 @@ Public Class FixTimeCode
             Dim reader As SqlDataReader = com.ExecuteReader()
             If reader.Read() Then
                 Dim arr() As String
-                Dim startTimeCode As String = reader("start_timecode")
-                Dim length As String = reader("length")
 
                 TextBoxTapeName.Text = reader("tape_name")
-                TextBoxOldStartTimeCode.Text = startTimeCode
-                TextBoxOldLength.Text = length
 
-                arr = startTimeCode.Split(":")
-                TextBoxNewStartTimeH.Text = arr(0)
-                TextBoxNewStartTimeM.Text = arr(1)
-                TextBoxNewStartTimeS.Text = arr(2)
-                TextBoxNewStartTimeF.Text = arr(3)
+                If Not TypeName(reader("start_timecode")) = "DBNull" Then
+                    Dim startTimeCode As String = reader("start_timecode")
+                    TextBoxOldStartTimeCode.Text = startTimeCode
+                    arr = startTimeCode.Split(":")
+                    TextBoxNewStartTimeH.Text = arr(0)
+                    TextBoxNewStartTimeM.Text = arr(1)
+                    TextBoxNewStartTimeS.Text = arr(2)
+                    TextBoxNewStartTimeF.Text = arr(3)
+                End If
 
-                arr = length.Split(":")
-                TextBoxNewLengthH.Text = arr(0)
-                TextBoxNewLengthM.Text = arr(1)
-                TextBoxNewLengthS.Text = arr(2)
-                TextBoxNewLengthF.Text = arr(3)
+                If Not TypeName(reader("length")) = "DBNull" Then
+                    Dim length As String = reader("length")
+                    TextBoxOldLength.Text = length
+                    arr = length.Split(":")
+                    TextBoxNewLengthH.Text = arr(0)
+                    TextBoxNewLengthM.Text = arr(1)
+                    TextBoxNewLengthS.Text = arr(2)
+                    TextBoxNewLengthF.Text = arr(3)
+                End If
             Else
                 MsgBox("not found tape!")
             End If

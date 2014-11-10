@@ -531,6 +531,13 @@ Public Class UpLoadForm
         '设置取消上载和完成上载为true
         ButtonStopUpload.Enabled = True
         ButtonFinishUpload.Enabled = True
+
+        'Go Forward 按钮设置为可用
+        ButtonForward.Visible = True
+        ButtonForward.Enabled = True
+
+        '开始上载设置为不可用
+        ButtonStartUpload.Enabled = False
     End Sub
 
     Private Sub ButtonFinishUpload_Click(ByVal sender As Object, _
@@ -1233,4 +1240,20 @@ Public Class UpLoadForm
         'Default value is "1"
         Return "1"
     End Function
+
+    Private Sub ButtonForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonForward.Click
+        '按照panel2和panel3调整窗口大小
+        Me.Height = SystemInformation.CaptionHeight + _
+                    Panel2.Height + Panel3.Height
+        Me.Width = Panel2.Width
+        '调整panel2和panel3在窗口的位置
+        Panel3.Location = New Point(0, 0)
+        Panel2.Location = New Point(0, Panel3.Height)
+
+        '调整窗口位置
+        Me.Left = My.Computer.Screen.WorkingArea.Width - Me.Width
+
+        '将窗口前置
+        Me.TopMost = True
+    End Sub
 End Class
