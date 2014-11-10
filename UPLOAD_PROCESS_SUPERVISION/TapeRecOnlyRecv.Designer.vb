@@ -361,7 +361,7 @@ Partial Class TapeRecOnlyRecv
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(338, 379)
+        Me.ClientSize = New System.Drawing.Size(346, 384)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TextBoxRecvTime)
         Me.Controls.Add(Me.LabelRecvTapeTime)
@@ -399,6 +399,7 @@ Partial Class TapeRecOnlyRecv
         Me.MaximumSize = New System.Drawing.Size(354, 418)
         Me.MinimumSize = New System.Drawing.Size(354, 418)
         Me.Name = "TapeRecOnlyRecv"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "收带确认"
         Me.ResumeLayout(False)
         Me.PerformLayout()

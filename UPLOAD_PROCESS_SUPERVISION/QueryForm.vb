@@ -185,7 +185,8 @@ Public Class QueryForm
 
             '赋值Joinstr
             joinstr = _
-                "INNER JOIN tape_status ON material.status = tape_status.code "
+                "INNER JOIN tape_status ON material.status = tape_status.code " & _
+                "INNER JOIN upload ON material.id = upload.material_id "
 
             '赋值WhereStr
             whereStr = "WHERE material_name LIKE '%"

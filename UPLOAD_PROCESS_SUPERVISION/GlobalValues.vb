@@ -195,8 +195,10 @@ Module GlobalValues
             {{"SwoTapeName", "tape_name", "名称", True}, _
              {"SwoTapeStatus", "tape_status", "状态", True}, _
              {"SwoTapeLength", "length", "时长", True}, _
+             {"SwoTapeStartTimeCode", "start_timecode", "开始时码", True}, _
              {"SwoTapeSendInTime", "in_bc_time", "送带时间", True}, _
-             {"SwoTapeSendInSendPer", "in_bc_send_per", "送带人", False}, _
+             {"SwoTapeMediaType", "media_type", "磁带类型", False}, _
+             {"SwoTapeSendInSendPer", "in_bc_send_per", "送带人", True}, _
              {"SwoTapeSendInRecvPer", "in_bc_recv_per", "接带人", False}, _
              {"SwoTapeSendOutTime", "out_bc_time", "取代时间", False}, _
              {"SwoTapeSendOutSendPer", "out_bc_send_per", "发带人", False}, _
@@ -205,7 +207,8 @@ Module GlobalValues
     Public _
         SwoMaterial As Object(,) = _
             {{"SwoMaterialName", "material_name", "名称", True}, _
-             {"SwoMaterialLength", "length", "时长", True}, _
+             {"SwoMaterialLength", "material.length", "时长", True}, _
+             {"SwoUpLoadPC", "upload_pc", "上载机器", True}, _
              {"SwoMaterialStatus", "status", "状态", True}}
 
     '指纹识别的数据源
