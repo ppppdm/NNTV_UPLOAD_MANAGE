@@ -289,25 +289,62 @@ Public Class QueryForm
         Dim id As Guid
 
         '取消之前选中的行,将鼠标选中单元所在的行设置为选中
-        Console.WriteLine(DataGridView1.SelectedRows.Count)
-        For i = 0 To DataGridView1.SelectedRows.Count - 1
-            mr(i).Selected = False
-        Next
-        If e.RowIndex >= 0 Then
-            DataGridView1.Rows(e.RowIndex).Selected = True
+        'Console.WriteLine(DataGridView1.SelectedRows.Count)
+        'For i = 0 To DataGridView1.SelectedRows.Count - 1
+        '    mr(i).Selected = False
+        'Next
+        'If e.RowIndex >= 0 Then
+        '    DataGridView1.Rows(e.RowIndex).Selected = True
 
-            '记录下所选的行信息
-            'Console.WriteLine(DataGridView1.Rows(e.RowIndex).Cells("名称").Value)
-            id = DataGridView1.Rows(e.RowIndex).Cells("id").Value
-            TapeId = id
-            MaterialId = id
+        '    '记录下所选的行信息
+        '    'Console.WriteLine(DataGridView1.Rows(e.RowIndex).Cells("名称").Value)
+        '    id = DataGridView1.Rows(e.RowIndex).Cells("id").Value
+        '    TapeId = id
+        '    MaterialId = id
 
-            '如果是鼠标右键点击则弹出菜单
-            If e.Button = MouseButtons.Right Then
+        '    '如果是鼠标右键点击则弹出菜单
+        '    If e.Button = MouseButtons.Right Then
+        '        SetContextMenuStripItemStatus(id)
+        '        ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
+        '    End If
+        'End If
+
+
+        Dim dv As DataGridView = CType(sender, DataGridView)
+        Dim selectedRows As DataGridViewSelectedRowCollection = dv.SelectedRows
+        Dim c As Integer = selectedRows.Count
+        Dim ids As ArrayList = New ArrayList()
+
+        '判断是选择了一行还是多行
+        If c = 1 Then
+            Console.WriteLine("select one row")
+            '如果是右键点击则弹出菜单
+            If e.Button = Forms.MouseButtons.Right And dv.Rows(e.RowIndex).Selected Then
+
+                id = selectedRows.Item(0).Cells("id").Value
+                TapeId = id
+                MaterialId = id
+
                 SetContextMenuStripItemStatus(id)
                 ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
             End If
+        ElseIf c > 1 Then
+            Console.WriteLine("select multi rows")
+            '
+            If e.Button = Forms.MouseButtons.Right And dv.Rows(e.RowIndex).Selected Then
+
+                For i = 0 To c - 1
+                    ids.Add(selectedRows.Item(i).Cells("id"))
+                Next
+
+                SetContextMenuStripItemStatusMultiRows(selectedRows)
+                'SetContextMenuStripItemStatusByIds(ids)
+                ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
+            End If
+        Else
+            Console.WriteLine("select " + c.ToString + " row(s)")
         End If
+
     End Sub
 
     Private Sub SetContextMenuStripItemStatus(ByVal id As Guid)
@@ -326,6 +363,7 @@ Public Class QueryForm
             BackCheckToolStripMenuItem.Enabled = False
             WatchCheckupToolStripMenuItem.Enabled = False
             ToolStripMenuItemRecvTapeConfirm.Enabled = False
+            SendTapeInBatchToolStripMenuItem.Enabled = False
 
             Try
                 sqlconn.Open()
@@ -363,6 +401,81 @@ Public Class QueryForm
             CheckUpToolStripMenuItem.Enabled = True
             BackCheckToolStripMenuItem.Enabled = True
             WatchCheckupToolStripMenuItem.Enabled = True
+            SendTapeInBatchToolStripMenuItem.Enabled = False
+        End If
+    End Sub
+
+    Private Sub SetContextMenuStripItemStatusByIds(ByVal ids As ArrayList)
+        If RadioButtonTape.Checked Then
+            '默认情况下查询右键菜单
+            UploadToolStripMenuItem.Enabled = False
+            WatchUploadToolStripMenuItem.Enabled = False
+            FixTimeCodeToolStripMenuItem.Enabled = False
+            SendTapeToolStripMenuItem.Enabled = False
+            CheckUpToolStripMenuItem.Enabled = False
+            BackCheckToolStripMenuItem.Enabled = False
+            WatchCheckupToolStripMenuItem.Enabled = False
+            ToolStripMenuItemRecvTapeConfirm.Enabled = False
+            SendTapeInBatchToolStripMenuItem.Enabled = False
+        End If
+
+        If RadioButtonMaterial.Checked = True Then
+            '设置查询右键菜单
+            UploadToolStripMenuItem.Enabled = False
+            WatchUploadToolStripMenuItem.Enabled = False
+            FixTimeCodeToolStripMenuItem.Enabled = False
+            SendTapeToolStripMenuItem.Enabled = False
+            CheckUpToolStripMenuItem.Enabled = False
+            BackCheckToolStripMenuItem.Enabled = False
+            WatchCheckupToolStripMenuItem.Enabled = False
+            SendTapeInBatchToolStripMenuItem.Enabled = False
+        End If
+    End Sub
+
+    Private Sub SetContextMenuStripItemStatusMultiRows(ByVal selectedRows As DataGridViewSelectedRowCollection)
+        If RadioButtonTape.Checked Then
+            '默认情况下查询右键菜单
+            UploadToolStripMenuItem.Enabled = False
+            WatchUploadToolStripMenuItem.Enabled = False
+            FixTimeCodeToolStripMenuItem.Enabled = False
+            SendTapeToolStripMenuItem.Enabled = False
+            CheckUpToolStripMenuItem.Enabled = False
+            BackCheckToolStripMenuItem.Enabled = False
+            WatchCheckupToolStripMenuItem.Enabled = False
+            ToolStripMenuItemRecvTapeConfirm.Enabled = False
+            SendTapeInBatchToolStripMenuItem.Enabled = False
+
+
+
+            '如果全部都不是 已发带 则 批发带选项可选
+            Dim i As System.Collections.IEnumerator = selectedRows.GetEnumerator
+            Dim st As String
+            Dim flag As Boolean = True
+            While i.MoveNext
+                Dim r As DataGridViewRow = CType(i.Current(), DataGridViewRow)
+                st = r.Cells("状态").Value
+                If st = "已发带" Then
+                    flag = False
+                    Exit While
+                End If
+            End While
+
+            If flag = True Then
+                SendTapeInBatchToolStripMenuItem.Enabled = True
+            End If
+
+        End If
+
+        If RadioButtonMaterial.Checked = True Then
+            '设置查询右键菜单
+            UploadToolStripMenuItem.Enabled = False
+            WatchUploadToolStripMenuItem.Enabled = False
+            FixTimeCodeToolStripMenuItem.Enabled = False
+            SendTapeToolStripMenuItem.Enabled = False
+            CheckUpToolStripMenuItem.Enabled = False
+            BackCheckToolStripMenuItem.Enabled = False
+            WatchCheckupToolStripMenuItem.Enabled = False
+            SendTapeInBatchToolStripMenuItem.Enabled = False
         End If
     End Sub
 
@@ -507,5 +620,10 @@ Public Class QueryForm
         '    '    fi.GetValue(myFieldInfo(i))
         '    'Next
         'Next
+    End Sub
+
+    Private Sub SendTapeInBatchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SendTapeInBatchToolStripMenuItem.Click
+        SendTapeInBatch.Show()
+        WindowState = FormWindowState.Minimized
     End Sub
 End Class
