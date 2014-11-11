@@ -3,6 +3,7 @@
 Public Class QueryForm
     Public TapeId As Guid = Nothing
     Public MaterialId As Guid = Nothing
+    Public IdLIst As ArrayList = New ArrayList()
 
     Private Sub QueryForm_load(ByVal sender As Object, ByVal e As EventArgs) _
         Handles Me.Load
@@ -313,7 +314,6 @@ Public Class QueryForm
         Dim dv As DataGridView = CType(sender, DataGridView)
         Dim selectedRows As DataGridViewSelectedRowCollection = dv.SelectedRows
         Dim c As Integer = selectedRows.Count
-        Dim ids As ArrayList = New ArrayList()
 
         '判断是选择了一行还是多行
         If c = 1 Then
@@ -334,11 +334,11 @@ Public Class QueryForm
             If e.Button = Forms.MouseButtons.Right And dv.Rows(e.RowIndex).Selected Then
 
                 For i = 0 To c - 1
-                    ids.Add(selectedRows.Item(i).Cells("id"))
+                    IdLIst.Add(selectedRows.Item(i).Cells("id"))
                 Next
 
                 SetContextMenuStripItemStatusMultiRows(selectedRows)
-                'SetContextMenuStripItemStatusByIds(ids)
+                'SetContextMenuStripItemStatusByIds(IdLIst)
                 ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
             End If
         Else
