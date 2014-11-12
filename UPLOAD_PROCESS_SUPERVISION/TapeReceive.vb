@@ -19,9 +19,15 @@ Public Class TapeReceive
         '启动后台线程
         StartThread()
 
+        Dim uc As New TapeRecvPanel.UserControl1
+        uc.Location = New Point(Me.Width, 0)
+        Me.Width = Me.Width + uc.Width + 20
+        Me.Controls.Add(uc)
+
         '使窗口居中
         Me.Left = (My.Computer.Screen.WorkingArea.Width - Me.Width) / 2
         Me.Top = (My.Computer.Screen.WorkingArea.Height - Me.Height) / 2
+
     End Sub
 
     Private Sub TapeReceive_Disposed(ByVal sender As Object, _

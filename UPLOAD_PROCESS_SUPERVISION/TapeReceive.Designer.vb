@@ -376,7 +376,7 @@ Partial Class TapeReceive
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(338, 379)
+        Me.ClientSize = New System.Drawing.Size(346, 384)
         Me.Controls.Add(Me.ListBoxTapeName)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TextBoxRecvTime)
@@ -412,7 +412,6 @@ Partial Class TapeReceive
         Me.Controls.Add(Me.LabelEndTimeCode)
         Me.Controls.Add(Me.LabelStartTimeCode)
         Me.Controls.Add(Me.LabelTapeName)
-        Me.MaximumSize = New System.Drawing.Size(354, 418)
         Me.MinimumSize = New System.Drawing.Size(354, 418)
         Me.Name = "TapeReceive"
         Me.Text = "送带"
