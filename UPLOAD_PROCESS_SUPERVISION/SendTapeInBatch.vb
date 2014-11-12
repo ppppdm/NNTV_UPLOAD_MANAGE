@@ -67,10 +67,12 @@ Public Class SendTapeInBatch
         Dim whereStr As String = "where "
         Dim queryString As String = "update tape set tape_status=@tape_status, " & _
                                     "out_bc_send_per=@out_bc_send_per, " & _
-                                    "out_bc_recv_per=@out_bc_recv_per "
+                                    "out_bc_recv_per=@out_bc_recv_per, " & _
+                                    "out_bc_time=@out_bc_time "
 
         Dim outBcSendPer As String = TextBoxSendPerson.Text
         Dim outBcRecvPer As String = TextBoxRecvPerson.Text
+        Dim outBcTime As String = TextBoxSendTime.Text
         Dim connection As New SqlConnection(ConnStr)
         Dim command As New SqlCommand()
 
@@ -97,6 +99,7 @@ Public Class SendTapeInBatch
             command.Parameters.Add(New SqlParameter("@tape_status", StatusSendedOut))
             command.Parameters.Add(New SqlParameter("@out_bc_send_per", outBcSendPer))
             command.Parameters.Add(New SqlParameter("@out_bc_recv_per", outBcRecvPer))
+            command.Parameters.Add(New SqlParameter("@out_bc_time", outBcTime))
 
             Try
                 connection.Open()
