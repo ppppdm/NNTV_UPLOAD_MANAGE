@@ -29,6 +29,7 @@ Partial Class SendTapeInBatch
         Me.TextBoxTapeName = New System.Windows.Forms.TextBox
         Me.ButtonOK = New System.Windows.Forms.Button
         Me.ButtonCancel = New System.Windows.Forms.Button
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker
         Me.SuspendLayout()
         '
         'LabelTapeName
@@ -95,7 +96,7 @@ Partial Class SendTapeInBatch
         Me.TextBoxTapeName.Location = New System.Drawing.Point(93, 12)
         Me.TextBoxTapeName.Multiline = True
         Me.TextBoxTapeName.Name = "TextBoxTapeName"
-        Me.TextBoxTapeName.Size = New System.Drawing.Size(100, 21)
+        Me.TextBoxTapeName.Size = New System.Drawing.Size(100, 87)
         Me.TextBoxTapeName.TabIndex = 42
         '
         'ButtonOK
@@ -147,4 +148,5 @@ Partial Class SendTapeInBatch
     Friend WithEvents TextBoxTapeName As System.Windows.Forms.TextBox
     Friend WithEvents ButtonOK As System.Windows.Forms.Button
     Friend WithEvents ButtonCancel As System.Windows.Forms.Button
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class

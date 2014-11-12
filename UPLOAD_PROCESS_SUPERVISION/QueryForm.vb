@@ -333,6 +333,7 @@ Public Class QueryForm
             '
             If e.Button = Forms.MouseButtons.Right And dv.Rows(e.RowIndex).Selected Then
 
+                IdLIst.Clear()
                 For i = 0 To c - 1
                     IdLIst.Add(selectedRows.Item(i).Cells("id"))
                 Next
