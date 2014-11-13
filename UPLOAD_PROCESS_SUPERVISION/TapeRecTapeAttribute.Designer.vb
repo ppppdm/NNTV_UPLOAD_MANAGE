@@ -41,14 +41,14 @@ Partial Class TapeRecTapeAttribute
         Me.LabelEndTimeCode = New System.Windows.Forms.Label
         Me.LabelStartTimeCode = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
-        Me.TextBox1 = New System.Windows.Forms.TextBox
+        Me.TextBoxTapeName = New System.Windows.Forms.TextBox
         Me.ButtonClose = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(4, 118)
+        Me.Label3.Location = New System.Drawing.Point(1, 89)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(53, 12)
         Me.Label3.TabIndex = 64
@@ -58,7 +58,7 @@ Partial Class TapeRecTapeAttribute
         '
         Me.ComboBoxMediaType.FormattingEnabled = True
         Me.ComboBoxMediaType.Items.AddRange(New Object() {"磁带", "蓝光", "DVD", "非编", "媒资"})
-        Me.ComboBoxMediaType.Location = New System.Drawing.Point(66, 115)
+        Me.ComboBoxMediaType.Location = New System.Drawing.Point(63, 86)
         Me.ComboBoxMediaType.Name = "ComboBoxMediaType"
         Me.ComboBoxMediaType.Size = New System.Drawing.Size(164, 20)
         Me.ComboBoxMediaType.TabIndex = 65
@@ -67,7 +67,7 @@ Partial Class TapeRecTapeAttribute
         '
         Me.ComboBoxProgramType.FormattingEnabled = True
         Me.ComboBoxProgramType.Items.AddRange(New Object() {"日用广告", "新闻", "专题", "宣传片", "电视剧", "现场直播", "节目预告", "电影", "综艺节目", "电视购物", "探索", "歌曲", "青少", "法制", "生活服务", "广告包", "其他"})
-        Me.ComboBoxProgramType.Location = New System.Drawing.Point(67, 63)
+        Me.ComboBoxProgramType.Location = New System.Drawing.Point(64, 34)
         Me.ComboBoxProgramType.Name = "ComboBoxProgramType"
         Me.ComboBoxProgramType.Size = New System.Drawing.Size(163, 20)
         Me.ComboBoxProgramType.TabIndex = 61
@@ -75,7 +75,7 @@ Partial Class TapeRecTapeAttribute
         'LabelProgramType
         '
         Me.LabelProgramType.AutoSize = True
-        Me.LabelProgramType.Location = New System.Drawing.Point(5, 66)
+        Me.LabelProgramType.Location = New System.Drawing.Point(2, 37)
         Me.LabelProgramType.Name = "LabelProgramType"
         Me.LabelProgramType.Size = New System.Drawing.Size(53, 12)
         Me.LabelProgramType.TabIndex = 60
@@ -84,7 +84,7 @@ Partial Class TapeRecTapeAttribute
         'LabelChannel
         '
         Me.LabelChannel.AutoSize = True
-        Me.LabelChannel.Location = New System.Drawing.Point(5, 93)
+        Me.LabelChannel.Location = New System.Drawing.Point(2, 64)
         Me.LabelChannel.Name = "LabelChannel"
         Me.LabelChannel.Size = New System.Drawing.Size(53, 12)
         Me.LabelChannel.TabIndex = 62
@@ -94,14 +94,14 @@ Partial Class TapeRecTapeAttribute
         '
         Me.ComboBoxChannel.FormattingEnabled = True
         Me.ComboBoxChannel.Items.AddRange(New Object() {"新闻综合", "都市生活", "影视娱乐", "南宁公共"})
-        Me.ComboBoxChannel.Location = New System.Drawing.Point(67, 89)
+        Me.ComboBoxChannel.Location = New System.Drawing.Point(64, 60)
         Me.ComboBoxChannel.Name = "ComboBoxChannel"
         Me.ComboBoxChannel.Size = New System.Drawing.Size(163, 20)
         Me.ComboBoxChannel.TabIndex = 63
         '
         'TextBoxLengthF
         '
-        Me.TextBoxLengthF.Location = New System.Drawing.Point(148, 172)
+        Me.TextBoxLengthF.Location = New System.Drawing.Point(148, 143)
         Me.TextBoxLengthF.MaxLength = 2
         Me.TextBoxLengthF.Name = "TextBoxLengthF"
         Me.TextBoxLengthF.Size = New System.Drawing.Size(20, 21)
@@ -109,7 +109,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxLengthS
         '
-        Me.TextBoxLengthS.Location = New System.Drawing.Point(121, 172)
+        Me.TextBoxLengthS.Location = New System.Drawing.Point(121, 143)
         Me.TextBoxLengthS.MaxLength = 2
         Me.TextBoxLengthS.Name = "TextBoxLengthS"
         Me.TextBoxLengthS.Size = New System.Drawing.Size(20, 21)
@@ -117,7 +117,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxLengthM
         '
-        Me.TextBoxLengthM.Location = New System.Drawing.Point(94, 172)
+        Me.TextBoxLengthM.Location = New System.Drawing.Point(94, 143)
         Me.TextBoxLengthM.MaxLength = 2
         Me.TextBoxLengthM.Name = "TextBoxLengthM"
         Me.TextBoxLengthM.Size = New System.Drawing.Size(20, 21)
@@ -125,7 +125,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxLengthH
         '
-        Me.TextBoxLengthH.Location = New System.Drawing.Point(68, 172)
+        Me.TextBoxLengthH.Location = New System.Drawing.Point(68, 143)
         Me.TextBoxLengthH.MaxLength = 2
         Me.TextBoxLengthH.Name = "TextBoxLengthH"
         Me.TextBoxLengthH.Size = New System.Drawing.Size(20, 21)
@@ -133,7 +133,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxEndTimeF
         '
-        Me.TextBoxEndTimeF.Location = New System.Drawing.Point(148, 199)
+        Me.TextBoxEndTimeF.Location = New System.Drawing.Point(148, 170)
         Me.TextBoxEndTimeF.MaxLength = 20
         Me.TextBoxEndTimeF.Name = "TextBoxEndTimeF"
         Me.TextBoxEndTimeF.ReadOnly = True
@@ -143,7 +143,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxEndTimeS
         '
-        Me.TextBoxEndTimeS.Location = New System.Drawing.Point(121, 199)
+        Me.TextBoxEndTimeS.Location = New System.Drawing.Point(121, 170)
         Me.TextBoxEndTimeS.MaxLength = 20
         Me.TextBoxEndTimeS.Name = "TextBoxEndTimeS"
         Me.TextBoxEndTimeS.ReadOnly = True
@@ -153,7 +153,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxEndTimeM
         '
-        Me.TextBoxEndTimeM.Location = New System.Drawing.Point(94, 199)
+        Me.TextBoxEndTimeM.Location = New System.Drawing.Point(94, 170)
         Me.TextBoxEndTimeM.MaxLength = 20
         Me.TextBoxEndTimeM.Name = "TextBoxEndTimeM"
         Me.TextBoxEndTimeM.ReadOnly = True
@@ -163,7 +163,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxEndTimeH
         '
-        Me.TextBoxEndTimeH.Location = New System.Drawing.Point(68, 199)
+        Me.TextBoxEndTimeH.Location = New System.Drawing.Point(68, 170)
         Me.TextBoxEndTimeH.MaxLength = 20
         Me.TextBoxEndTimeH.Name = "TextBoxEndTimeH"
         Me.TextBoxEndTimeH.ReadOnly = True
@@ -173,7 +173,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxStartTimeF
         '
-        Me.TextBoxStartTimeF.Location = New System.Drawing.Point(149, 145)
+        Me.TextBoxStartTimeF.Location = New System.Drawing.Point(149, 116)
         Me.TextBoxStartTimeF.MaxLength = 2
         Me.TextBoxStartTimeF.Name = "TextBoxStartTimeF"
         Me.TextBoxStartTimeF.Size = New System.Drawing.Size(20, 21)
@@ -181,7 +181,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxStartTimeS
         '
-        Me.TextBoxStartTimeS.Location = New System.Drawing.Point(122, 145)
+        Me.TextBoxStartTimeS.Location = New System.Drawing.Point(122, 116)
         Me.TextBoxStartTimeS.MaxLength = 2
         Me.TextBoxStartTimeS.Name = "TextBoxStartTimeS"
         Me.TextBoxStartTimeS.Size = New System.Drawing.Size(20, 21)
@@ -189,7 +189,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxStartTimeM
         '
-        Me.TextBoxStartTimeM.Location = New System.Drawing.Point(95, 145)
+        Me.TextBoxStartTimeM.Location = New System.Drawing.Point(95, 116)
         Me.TextBoxStartTimeM.MaxLength = 2
         Me.TextBoxStartTimeM.Name = "TextBoxStartTimeM"
         Me.TextBoxStartTimeM.Size = New System.Drawing.Size(20, 21)
@@ -197,7 +197,7 @@ Partial Class TapeRecTapeAttribute
         '
         'TextBoxStartTimeH
         '
-        Me.TextBoxStartTimeH.Location = New System.Drawing.Point(68, 145)
+        Me.TextBoxStartTimeH.Location = New System.Drawing.Point(68, 116)
         Me.TextBoxStartTimeH.MaxLength = 2
         Me.TextBoxStartTimeH.Name = "TextBoxStartTimeH"
         Me.TextBoxStartTimeH.Size = New System.Drawing.Size(20, 21)
@@ -206,7 +206,7 @@ Partial Class TapeRecTapeAttribute
         'LabelLength
         '
         Me.LabelLength.AutoSize = True
-        Me.LabelLength.Location = New System.Drawing.Point(3, 178)
+        Me.LabelLength.Location = New System.Drawing.Point(3, 149)
         Me.LabelLength.Name = "LabelLength"
         Me.LabelLength.Size = New System.Drawing.Size(53, 12)
         Me.LabelLength.TabIndex = 71
@@ -215,7 +215,7 @@ Partial Class TapeRecTapeAttribute
         'LabelEndTimeCode
         '
         Me.LabelEndTimeCode.AutoSize = True
-        Me.LabelEndTimeCode.Location = New System.Drawing.Point(2, 206)
+        Me.LabelEndTimeCode.Location = New System.Drawing.Point(2, 177)
         Me.LabelEndTimeCode.Name = "LabelEndTimeCode"
         Me.LabelEndTimeCode.Size = New System.Drawing.Size(53, 12)
         Me.LabelEndTimeCode.TabIndex = 76
@@ -224,7 +224,7 @@ Partial Class TapeRecTapeAttribute
         'LabelStartTimeCode
         '
         Me.LabelStartTimeCode.AutoSize = True
-        Me.LabelStartTimeCode.Location = New System.Drawing.Point(3, 152)
+        Me.LabelStartTimeCode.Location = New System.Drawing.Point(3, 123)
         Me.LabelStartTimeCode.Name = "LabelStartTimeCode"
         Me.LabelStartTimeCode.Size = New System.Drawing.Size(53, 12)
         Me.LabelStartTimeCode.TabIndex = 66
@@ -233,33 +233,40 @@ Partial Class TapeRecTapeAttribute
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(5, 37)
+        Me.Label1.Location = New System.Drawing.Point(2, 8)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(53, 12)
         Me.Label1.TabIndex = 59
         Me.Label1.Text = "节目名称"
         '
-        'TextBox1
+        'TextBoxTapeName
         '
-        Me.TextBox1.Location = New System.Drawing.Point(69, 34)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(161, 21)
-        Me.TextBox1.TabIndex = 58
+        Me.TextBoxTapeName.Location = New System.Drawing.Point(66, 5)
+        Me.TextBoxTapeName.Name = "TextBoxTapeName"
+        Me.TextBoxTapeName.Size = New System.Drawing.Size(161, 21)
+        Me.TextBoxTapeName.TabIndex = 58
         '
         'ButtonClose
         '
         Me.ButtonClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonClose.Location = New System.Drawing.Point(231, 5)
+        Me.ButtonClose.BackColor = System.Drawing.Color.Transparent
+        Me.ButtonClose.BackgroundImage = Global.UploadProcessSupervision.My.Resources.Resources.mini_red_close
+        Me.ButtonClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.ButtonClose.FlatAppearance.BorderSize = 0
+        Me.ButtonClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
+        Me.ButtonClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green
+        Me.ButtonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonClose.Location = New System.Drawing.Point(227, 0)
         Me.ButtonClose.Name = "ButtonClose"
-        Me.ButtonClose.Size = New System.Drawing.Size(34, 23)
+        Me.ButtonClose.Size = New System.Drawing.Size(20, 20)
         Me.ButtonClose.TabIndex = 57
-        Me.ButtonClose.Text = "x"
-        Me.ButtonClose.UseVisualStyleBackColor = True
+        Me.ButtonClose.UseVisualStyleBackColor = False
         '
         'TapeRecTapeAttribute
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.ComboBoxMediaType)
         Me.Controls.Add(Me.ComboBoxProgramType)
@@ -282,10 +289,10 @@ Partial Class TapeRecTapeAttribute
         Me.Controls.Add(Me.LabelEndTimeCode)
         Me.Controls.Add(Me.LabelStartTimeCode)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.TextBoxTapeName)
         Me.Controls.Add(Me.ButtonClose)
         Me.Name = "TapeRecTapeAttribute"
-        Me.Size = New System.Drawing.Size(268, 226)
+        Me.Size = New System.Drawing.Size(246, 196)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -312,7 +319,7 @@ Partial Class TapeRecTapeAttribute
     Friend WithEvents LabelEndTimeCode As System.Windows.Forms.Label
     Friend WithEvents LabelStartTimeCode As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxTapeName As System.Windows.Forms.TextBox
     Friend WithEvents ButtonClose As System.Windows.Forms.Button
 
 End Class

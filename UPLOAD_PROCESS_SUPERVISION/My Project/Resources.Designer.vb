@@ -60,6 +60,13 @@ Namespace My.Resources
             End Set
         End Property
         
+        Friend ReadOnly Property add2() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("add2", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property car() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("car", resourceCulture)
@@ -77,6 +84,13 @@ Namespace My.Resources
         Friend ReadOnly Property left() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("left", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property mini_red_close() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("mini_red_close", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
