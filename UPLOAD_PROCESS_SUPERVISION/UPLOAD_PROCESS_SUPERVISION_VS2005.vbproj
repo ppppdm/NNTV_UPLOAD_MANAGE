@@ -163,6 +163,12 @@
     <Compile Include="TapeRecOnlyRecv.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="TapeRecTapeAttribute.Designer.vb">
+      <DependentUpon>TapeRecTapeAttribute.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TapeRecTapeAttribute.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="tape_send.designer.vb">
       <DependentUpon>tape_send.vb</DependentUpon>
     </Compile>
@@ -244,6 +250,10 @@
       <DependentUpon>TapeRecOnlyRecv.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="TapeRecTapeAttribute.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TapeRecTapeAttribute.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="tape_send.resx">
       <DependentUpon>tape_send.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -284,12 +294,6 @@
       <ProductName>.NET Framework 2.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TapeRecvPanel\TapeRecvPanel.vbproj">
-      <Project>{F6438FF8-B7B0-4193-972A-AC22E0DC0CAF}</Project>
-      <Name>TapeRecvPanel</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

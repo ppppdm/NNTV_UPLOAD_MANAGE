@@ -19,15 +19,21 @@ Public Class TapeReceive
         '启动后台线程
         StartThread()
 
-        Dim uc As New TapeRecvPanel.UserControl1
+        Dim uc As New TapeRecTapeAttribute
         uc.Location = New Point(Me.Width, 0)
         Me.Width = Me.Width + uc.Width + 20
         Me.Controls.Add(uc)
+
+        AddHandler uc.ButtonCloseClick, AddressOf UC_ButtonCloseClick
 
         '使窗口居中
         Me.Left = (My.Computer.Screen.WorkingArea.Width - Me.Width) / 2
         Me.Top = (My.Computer.Screen.WorkingArea.Height - Me.Height) / 2
 
+    End Sub
+
+    Private Sub UC_ButtonCloseClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Me.Width = 354
     End Sub
 
     Private Sub TapeReceive_Disposed(ByVal sender As Object, _
