@@ -152,104 +152,122 @@ Public Class TapeReceive
     Private Sub ButtonOK_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles ButtonOK.Click
         'Time8() '时码补足8位
-        'Dim id = Guid.NewGuid()
-        'Dim tapeName = TextBoxTapeName.Text
-        'Dim startTimecode = TextBoxStartTimeH.Text & ":" & _
-        '                    TextBoxStartTimeM.Text & ":" & _
-        '                    TextBoxStartTimeS.Text & ":" & _
-        '                    TextBoxStartTimeF.Text
-        'Dim endTimecode = TextBoxEndTimeH.Text & ":" & TextBoxEndTimeM.Text & _
-        '                  ":" & TextBoxEndTimeS.Text & ":" & _
-        '                  TextBoxEndTimeF.Text
-        'Dim length = TextBoxLengthH.Text & ":" & TextBoxLengthM.Text & ":" & _
-        '             TextBoxLengthS.Text & ":" & TextBoxLengthF.Text
-        'Dim inBcTime = TextBoxRecvTime.Text
-        'Dim inBcSendPer = TextBoxSendPerson.Text
-        'Dim inBcRecvPer = TextBoxRecvPerson.Text
-        'Dim remark = TextBoxRemark.Text
-        'Dim identical = CheckBoxTape.Checked
-        'Dim channel = ComboBoxChannel.Text
-        'Dim programType = ComboBoxProgramType.Text
-        'Dim mediaType = ComboBoxMediaType.Text
-        'Dim status = StatusNotUpload
-        'If inBcRecvPer = "" Then
-        '    status = StatusNotRecvConfirm
-        'End If
 
-        'If tapeName = "" Then
-        '    MsgBox("磁带名!")
-        'ElseIf inBcSendPer = "" Then
-        '    MsgBox("送带人!")
-        '    'ElseIf inBcRecvPer = "" Then
-        '    '    MsgBox("收带人!")
-        'ElseIf identical = False Then
-        '    MsgBox("带芯带盒不同!")
-        'ElseIf _tapeRecvSendPerId = Nothing Then
-        '    MsgBox("请按指纹机确认送带人")
-        'Else
-        '    '存入数据库
+        Dim i As Integer
+        Dim tapeTotal As Integer = TapeViewList.Count
 
-        '    Dim connection As New SqlConnection(ConnStr)
+        Dim inBcTime = TextBoxRecvTime.Text
+        Dim inBcSendPer = TextBoxSendPerson.Text
+        Dim inBcRecvPer = TextBoxRecvPerson.Text
+        Dim remark = TextBoxRemark.Text
+        Dim identical = CheckBoxTape.Checked
+        Dim status = StatusNotUpload
+        If inBcRecvPer = "" Then
+            status = StatusNotRecvConfirm
+        End If
 
-        '    Dim paras() As SqlParameter = _
-        '            {New SqlParameter("@id", id), _
-        '             New SqlParameter("@tape_name", tapeName), _
-        '             New SqlParameter("@start_timecode", startTimecode), _
-        '             New SqlParameter("@end_timecode", endTimecode), _
-        '             New SqlParameter("@length", length), _
-        '             New SqlParameter("@in_bc_send_per", inBcSendPer), _
-        '             New SqlParameter("@in_bc_recv_per", inBcRecvPer), _
-        '             New SqlParameter("@in_bc_time", inBcTime), _
-        '             New SqlParameter("@remark", remark), _
-        '             New SqlParameter("@tape_status", status), _
-        '             New SqlParameter("@program_type", programType), _
-        '             New SqlParameter("@identical", identical), _
-        '             New SqlParameter("@department", _tapeRecvSendPerDepartment), _
-        '             New SqlParameter("@in_bc_send_per_id", _tapeRecvSendPerId), _
-        '             New SqlParameter("@media_type", mediaType), _
-        '             New SqlParameter("@channel", channel)}
+       If inBcSendPer = "" Then
+            MsgBox("送带人!")
+            'ElseIf inBcRecvPer = "" Then
+            '    MsgBox("收带人!")
+        ElseIf identical = False Then
+            MsgBox("带芯带盒不同!")
+        ElseIf _tapeRecvSendPerId = Nothing Then
+            MsgBox("请按指纹机确认送带人")
+        Else
+            Dim connection As New SqlConnection(ConnStr)
+            Const queryString As String = "insert into tape( " & "id, " & _
+                                          "tape_name, " & "start_timecode,  " & _
+                                              "end_timecode, " & "length, " & _
+                                              "in_bc_send_per, " & _
+                                              "in_bc_recv_per, " & "remark, " & _
+                                              "tape_status, " & "in_bc_time, " & _
+                                              "program_type, " & "identical, " & _
+                                              "department, " & "in_bc_send_per_id, " & _
+                                              "media_type, " & "channel ) " & _
+                                              "values ( " & "@id, " & "@tape_name, " & _
+                                              "@start_timecode, " & _
+                                              "@end_timecode, " & "@length, " & _
+                                              "@in_bc_send_per, " & _
+                                              "@in_bc_recv_per, " & "@remark, " & _
+                                              "@tape_status, " & "@in_bc_time, " & _
+                                              "@program_type, " & "@identical, " & _
+                                              "@department, " & _
+                                              "@in_bc_send_per_id, " & _
+                                              "@media_type, " & "@channel)"
 
+            Dim command As New SqlCommand(queryString, connection)
 
-        '    Const queryString As String = "insert into tape( " & "id, " & _
-        '                                  "tape_name, " & "start_timecode,  " & _
-        '                                  "end_timecode, " & "length, " & _
-        '                                  "in_bc_send_per, " & _
-        '                                  "in_bc_recv_per, " & "remark, " & _
-        '                                  "tape_status, " & "in_bc_time, " & _
-        '                                  "program_type, " & "identical, " & _
-        '                                  "department, " & "in_bc_send_per_id, " & _
-        '                                  "media_type, " & "channel ) " & _
-        '                                  "values ( " & "@id, " & "@tape_name, " & _
-        '                                  "@start_timecode, " & _
-        '                                  "@end_timecode, " & "@length, " & _
-        '                                  "@in_bc_send_per, " & _
-        '                                  "@in_bc_recv_per, " & "@remark, " & _
-        '                                  "@tape_status, " & "@in_bc_time, " & _
-        '                                  "@program_type, " & "@identical, " & _
-        '                                  "@department, " & _
-        '                                  "@in_bc_send_per_id, " & _
-        '                                  "@media_type, " & "@channel)"
+            Try
 
-        '    Dim command As New SqlCommand(queryString, connection)
+                connection.Open()
 
-        '    command.Parameters.AddRange(paras)
+                For i = 0 To TapeViewList.Count - 1
+                    command.Parameters.Clear()
 
-        '    Console.WriteLine(queryString)
+                    Dim uc As TapeRecTapeAttribute = TapeViewList(i)
+                    Dim id = Guid.NewGuid()
+                    Dim tapeName = uc.TextBoxTapeName.Text
+                    Dim startTimecode = uc.TextBoxStartTimeH.Text & ":" & _
+                                        uc.TextBoxStartTimeM.Text & ":" & _
+                                        uc.TextBoxStartTimeS.Text & ":" & _
+                                        uc.TextBoxStartTimeF.Text
+                    Dim endTimecode = uc.TextBoxEndTimeH.Text & ":" & uc.TextBoxEndTimeM.Text & _
+                                      ":" & uc.TextBoxEndTimeS.Text & ":" & _
+                                      uc.TextBoxEndTimeF.Text
+                    Dim length = uc.TextBoxLengthH.Text & ":" & uc.TextBoxLengthM.Text & ":" & _
+                                 uc.TextBoxLengthS.Text & ":" & uc.TextBoxLengthF.Text
 
-        '    Try
-        '        '打开数据库
-        '        connection.Open()
-        '        command.ExecuteNonQuery()
+                    Dim channel = uc.ComboBoxChannel.Text
+                    Dim programType = uc.ComboBoxProgramType.Text
+                    Dim mediaType = uc.ComboBoxMediaType.Text
 
-        '    Catch ex As Exception
-        '        MsgBox(ex.Message)
-        '    Finally
-        '        connection.Close()
-        '    End Try
+                    If CheckTapeName(tapeName) = True Then
 
-        '    Dispose()
-        'End If
+                        Dim paras() As SqlParameter = _
+                                {New SqlParameter("@id", id), _
+                                 New SqlParameter("@tape_name", tapeName), _
+                                 New SqlParameter("@start_timecode", startTimecode), _
+                                 New SqlParameter("@end_timecode", endTimecode), _
+                                 New SqlParameter("@length", length), _
+                                 New SqlParameter("@in_bc_send_per", inBcSendPer), _
+                                 New SqlParameter("@in_bc_recv_per", inBcRecvPer), _
+                                 New SqlParameter("@in_bc_time", inBcTime), _
+                                 New SqlParameter("@remark", remark), _
+                                 New SqlParameter("@tape_status", status), _
+                                 New SqlParameter("@program_type", programType), _
+                                 New SqlParameter("@identical", identical), _
+                                 New SqlParameter("@department", _tapeRecvSendPerDepartment), _
+                                 New SqlParameter("@in_bc_send_per_id", _tapeRecvSendPerId), _
+                                 New SqlParameter("@media_type", mediaType), _
+                                 New SqlParameter("@channel", channel)}
+
+                        command.Parameters.AddRange(paras)
+                        Try
+                            command.ExecuteNonQuery()
+                        Catch ex As Exception
+                            Console.WriteLine(ex.Message)
+                        End Try
+                    End If
+
+                Next
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            Finally
+                connection.Close()
+            End Try
+        End If
+
+        Dispose()
     End Sub
+
+    Private Function CheckTapeName(ByVal tapeName As String) As Boolean
+        If tapeName = "" Then
+            Return False
+        Else
+            Return True
+        End If
+    End Function
 
     ''输入时码时调用函数验证输入、计算出点、切换输入焦点
     'Private Sub TextBoxStartTimeH_TextChanged(ByVal sender As Object, _
@@ -675,7 +693,7 @@ Public Class TapeReceive
                                          ListBoxTapeName.ItemHeight + 4
                 ListBoxTapeName.Show()
             Else
-                'ListBoxTapeName.Height = ListBoxTapeName.ItemHeight
+                ListBoxTapeName.Height = ListBoxTapeName.ItemHeight
                 ListBoxTapeName.Hide()
             End If
 
@@ -782,7 +800,6 @@ Public Class TapeReceive
     Private Sub Button1_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonAdd.MouseLeave
         ButtonAdd.FlatAppearance.BorderSize = 0
     End Sub
-
 
 End Class
 

@@ -2,51 +2,158 @@ Public Class TapeRecTapeAttribute
 
     Public Event ButtonCloseClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
-    Property pTextBoxLengthH() As TextBox
-        Get
-            Return Me.TextBoxEndTimeH
-        End Get
-        Set(ByVal value As TextBox)
-            Me.TextBoxEndTimeH = value
-        End Set
-    End Property
+    'Property pTextBoxLengthH() As TextBox
+    '    Get
+    '        Return Me.TextBoxLengthH
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxLengthH = value
+    '    End Set
+    'End Property
 
-    Property pTextBoxLengthM() As TextBox
-        Get
-            Return Me.TextBoxEndTimeM
-        End Get
-        Set(ByVal value As TextBox)
-            Me.TextBoxEndTimeM = value
-        End Set
-    End Property
+    'Property pTextBoxLengthM() As TextBox
+    '    Get
+    '        Return Me.TextBoxLengthM
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxLengthM = value
+    '    End Set
+    'End Property
 
-    Property pTextBoxLengthS() As TextBox
-        Get
-            Return Me.TextBoxEndTimeS
-        End Get
-        Set(ByVal value As TextBox)
-            Me.TextBoxEndTimeS = value
-        End Set
-    End Property
+    'Property pTextBoxLengthS() As TextBox
+    '    Get
+    '        Return Me.TextBoxLengthS
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxLengthS = value
+    '    End Set
+    'End Property
 
-    Property pTextBoxLengthF() As TextBox
-        Get
-            Return Me.TextBoxEndTimeF
-        End Get
-        Set(ByVal value As TextBox)
-            Me.TextBoxEndTimeF = value
-        End Set
-    End Property
+    'Property pTextBoxLengthF() As TextBox
+    '    Get
+    '        Return Me.TextBoxLengthF
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxLengthF = value
+    '    End Set
+    'End Property
 
-    Property pButtonClose() As Button
-        Get
-            Return Me.ButtonClose
-        End Get
-        Set(ByVal value As Button)
-            Me.ButtonClose = value
-        End Set
-    End Property
+    'Property pTextBoxStartTimeH() As TextBox
+    '    Get
+    '        Return Me.TextBoxStartTimeH
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxStartTimeH = value
+    '    End Set
+    'End Property
 
+    'Property pTextBoxStartTimeM() As TextBox
+    '    Get
+    '        Return Me.TextBoxStartTimeM
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxStartTimeM = value
+    '    End Set
+    'End Property
+
+    'Property pTextBoxStartTimeS() As TextBox
+    '    Get
+    '        Return Me.TextBoxStartTimeS
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxStartTimeS = value
+    '    End Set
+    'End Property
+
+    'Property pTextBoxStartTimeF() As TextBox
+    '    Get
+    '        Return Me.TextBoxStartTimeF
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxStartTimeF = value
+    '    End Set
+    'End Property
+
+    'Property pTextBoxEndTimeH() As TextBox
+    '    Get
+    '        Return Me.TextBoxEndTimeH
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxEndTimeH = value
+    '    End Set
+    'End Property
+
+    'Property pTextBoxEndTimeM() As TextBox
+    '    Get
+    '        Return Me.TextBoxEndTimeM
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxEndTimeM = value
+    '    End Set
+    'End Property
+
+    'Property pTextBoxEndTimeS() As TextBox
+    '    Get
+    '        Return Me.TextBoxEndTimeS
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxEndTimeS = value
+    '    End Set
+    'End Property
+
+    'Property pTextBoxEndTimeF() As TextBox
+    '    Get
+    '        Return Me.TextBoxEndTimeF
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxEndTimeF = value
+    '    End Set
+    'End Property
+
+    'Property pButtonClose() As Button
+    '    Get
+    '        Return Me.ButtonClose
+    '    End Get
+    '    Set(ByVal value As Button)
+    '        Me.ButtonClose = value
+    '    End Set
+    'End Property
+
+    'Property pTextBoxTapeName() As TextBox
+    '    Get
+    '        Return Me.TextBoxTapeName
+    '    End Get
+    '    Set(ByVal value As TextBox)
+    '        Me.TextBoxTapeName = value
+    '    End Set
+    'End Property
+
+    'Property pComboBoxProgramType() As ComboBox
+    '    Get
+    '        Return Me.ComboBoxProgramType
+    '    End Get
+    '    Set(ByVal value As ComboBox)
+    '        Me.ComboBoxProgramType = value
+    '    End Set
+    'End Property
+
+    'Property pComboBoxChannel() As ComboBox
+    '    Get
+    '        Return Me.ComboBoxChannel
+    '    End Get
+    '    Set(ByVal value As ComboBox)
+    '        Me.ComboBoxChannel = value
+    '    End Set
+    'End Property
+
+    'Property pComboBoxMediaType() As ComboBox
+    '    Get
+    '        Return Me.ComboBoxMediaType
+    '    End Get
+    '    Set(ByVal value As ComboBox)
+    '        Me.ComboBoxMediaType = value
+    '    End Set
+    'End Property
 
     Private Sub ButtonClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClose.Click
         Dispose()
