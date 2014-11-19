@@ -48,7 +48,8 @@ Public Class TapeReceive
         _unitH = TapeViewList(0).Height
     End Sub
 
-    Private Sub AddOneTapeRecAttribute()
+    Private Function AddOneTapeRecAttribute() As TapeRecTapeAttribute
+
         If TapeViewList.Count < 5 Then
             Dim uc As New TapeRecTapeAttribute
             Me.Controls.Add(uc)
@@ -56,8 +57,10 @@ Public Class TapeReceive
             TapeViewList.Add(uc)
             ReLocateTapeRecAttribute()
             ReSizeTapeRecieve()
+            Return uc
         End If
-    End Sub
+        Return Nothing
+    End Function
 
     Private Sub RemoveOneTapeRecAttribute(ByVal uc As TapeRecTapeAttribute)
 
@@ -715,78 +718,99 @@ Public Class TapeReceive
 
     '选定的磁带名填入磁带名框
     Private Sub ListToText()
-        'TextBoxTapeName.Text = ListBoxTapeName.Text
-        'ListBoxTapeName.Hide()
 
-        ''如果磁带名如“六位日期+节目名称”则自动填入已知信息
-        'If _
-        '    IsNumeric(Mid(TextBoxTapeName.Text, 1, 6)) And _
-        '    Mid(TextBoxTapeName.Text, 7, 1) <> "" Then
-        '    Dim truename = Mid(TextBoxTapeName.Text, 7)
-        '    Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
-        '    Dim sqlstr = _
-        '            "SELECT TOP 2 * FROM tape Where tape_name LIKE '%" + _
-        '            truename + "' ORDER by in_bc_time DESC;"
-        '    Dim command As New SqlCommand(sqlstr, sqlconn)
-        '    Try
-        '        sqlconn.Open()
+        Dim uc As TapeRecTapeAttribute = Nothing
 
-        '        Dim reader As SqlDataReader = command.ExecuteReader()
-        '        Dim Achannel(2) As String
-        '        Dim Astart(2) As String
-        '        Dim Alength(2) As String
-        '        Dim aProgramType(2) As String
-        '        Dim aMediaType(2) As String
-        '        Dim i = 0
-        '        While reader.Read()
-        '            Achannel(i) = reader("channel").ToString()
-        '            Astart(i) = reader("start_timecode").ToString()
-        '            Alength(i) = reader("length").ToString()
-        '            aProgramType(i) = reader("program_type").ToString()
-        '            aMediaType(i) = reader("media_type").ToString()
-        '            i += 1
-        '        End While
-        '        reader.Close()
+        If TapeViewList.Count > 1 Then
+            uc = AddOneTapeRecAttribute()
+        End If
 
-        '        '若最后2次收到该节目的频道、时码、长度相同，则自动填入
-        '        If Achannel(0) = Achannel(1) Then
-        '            ComboBoxChannel.Text = Achannel(0)
-        '        Else
-        '            ComboBoxChannel.Text = ""
-        '        End If
-        '        If Astart(0) = Astart(1) Then
-        '            TextBoxStartTimeH.Text = Mid(Astart(0), 1, 2)
-        '            TextBoxStartTimeM.Text = Mid(Astart(0), 4, 2)
-        '            TextBoxStartTimeS.Text = Mid(Astart(0), 7, 2)
-        '            TextBoxStartTimeF.Text = Mid(Astart(0), 10, 2)
-        '        Else
-        '            SetStartTimeZero()
-        '        End If
-        '        If Alength(0) = Alength(1) Then
-        '            TextBoxLengthH.Text = Mid(Alength(0), 1, 2)
-        '            TextBoxLengthM.Text = Mid(Alength(0), 4, 2)
-        '            TextBoxLengthS.Text = Mid(Alength(0), 7, 2)
-        '            TextBoxLengthF.Text = Mid(Alength(0), 10, 2)
-        '        Else
-        '            SetLengthZero()
-        '        End If
+        If TapeViewList.Count = 1 Then
+            uc = TapeViewList(0)
+            If Not uc.TextBoxTapeName.Text = "" Then
+                uc = AddOneTapeRecAttribute()
+            End If
+        End If
 
-        '        If aProgramType(0) = aProgramType(1) Then
-        '            ComboBoxProgramType.Text = aProgramType(0)
-        '        End If
+        If Not TypeName(uc) = "Nothing" Then
+            uc.TextBoxTapeName.Text = ListBoxTapeName.Text
+            ''如果磁带名如“六位日期+节目名称”则自动填入已知信息
+            If _
+                IsNumeric(Mid(uc.TextBoxTapeName.Text, 1, 6)) And _
+                Mid(uc.TextBoxTapeName.Text, 7, 1) <> "" Then
+                Dim truename = Mid(uc.TextBoxTapeName.Text, 7)
+                Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
+                Dim sqlstr = _
+                        "SELECT TOP 2 * FROM tape Where tape_name LIKE '%" + _
+                        truename + "' ORDER by in_bc_time DESC;"
+                Dim command As New SqlCommand(sqlstr, sqlconn)
+                Try
+                    sqlconn.Open()
 
-        '        If aMediaType(0) = aMediaType(1) Then
-        '            ComboBoxMediaType.Text = aMediaType(0)
-        '        End If
+                    Dim reader As SqlDataReader = command.ExecuteReader()
+                    Dim Achannel(2) As String
+                    Dim Astart(2) As String
+                    Dim Alength(2) As String
+                    Dim aProgramType(2) As String
+                    Dim aMediaType(2) As String
+                    Dim i = 0
+                    While reader.Read()
+                        Achannel(i) = reader("channel").ToString()
+                        Astart(i) = reader("start_timecode").ToString()
+                        Alength(i) = reader("length").ToString()
+                        aProgramType(i) = reader("program_type").ToString()
+                        aMediaType(i) = reader("media_type").ToString()
+                        i += 1
+                    End While
+                    reader.Close()
 
-        '        TextBoxTapeName.Focus()
-        '        TextBoxTapeName.SelectionLength = 6 '选中前6个字符，即日期
-        '    Catch ex As Exception
-        '        Console.WriteLine(ex.Message)
-        '    Finally
-        '        sqlconn.Close()
-        '    End Try
-        'End If
+                    '若最后2次收到该节目的频道、时码、长度相同，则自动填入
+                    If Achannel(0) = Achannel(1) Then
+                        uc.ComboBoxChannel.Text = Achannel(0)
+                    Else
+                        uc.ComboBoxChannel.Text = ""
+                    End If
+                    If Astart(0) = Astart(1) Then
+                        uc.TextBoxStartTimeH.Text = Mid(Astart(0), 1, 2)
+                        uc.TextBoxStartTimeM.Text = Mid(Astart(0), 4, 2)
+                        uc.TextBoxStartTimeS.Text = Mid(Astart(0), 7, 2)
+                        uc.TextBoxStartTimeF.Text = Mid(Astart(0), 10, 2)
+                    Else
+                        uc.TextBoxStartTimeH.Text = "00"
+                        uc.TextBoxStartTimeM.Text = "00"
+                        uc.TextBoxStartTimeS.Text = "00"
+                        uc.TextBoxStartTimeF.Text = "00"
+                    End If
+                    If Alength(0) = Alength(1) Then
+                        uc.TextBoxLengthH.Text = Mid(Alength(0), 1, 2)
+                        uc.TextBoxLengthM.Text = Mid(Alength(0), 4, 2)
+                        uc.TextBoxLengthS.Text = Mid(Alength(0), 7, 2)
+                        uc.TextBoxLengthF.Text = Mid(Alength(0), 10, 2)
+                    Else
+                        uc.TextBoxLengthH.Text = "00"
+                        uc.TextBoxLengthM.Text = "00"
+                        uc.TextBoxLengthS.Text = "00"
+                        uc.TextBoxLengthF.Text = "00"
+                    End If
+
+                    If aProgramType(0) = aProgramType(1) Then
+                        uc.ComboBoxProgramType.Text = aProgramType(0)
+                    End If
+
+                    If aMediaType(0) = aMediaType(1) Then
+                        uc.ComboBoxMediaType.Text = aMediaType(0)
+                    End If
+
+                    uc.TextBoxTapeName.Focus()
+                    uc.TextBoxTapeName.SelectionLength = 6 '选中前6个字符，即日期
+                Catch ex As Exception
+                    Console.WriteLine(ex.Message)
+                Finally
+                    sqlconn.Close()
+                End Try
+            End If
+        End If
+
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonAdd.Click
