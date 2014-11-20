@@ -112,6 +112,7 @@ Partial Class UpLoadForm
         Me.ButtonGoBack = New System.Windows.Forms.Button
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.ButtonForward = New System.Windows.Forms.Button
         CType(Me.PictureBoxScreenShotOfDaYangUpload, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBoxScreenShotOfCamera, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBoxCamera, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -262,6 +263,7 @@ Partial Class UpLoadForm
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.ButtonForward)
         Me.Panel1.Controls.Add(Me.ComboBoxTaskType)
         Me.Panel1.Controls.Add(Me.LabelTaskType)
         Me.Panel1.Controls.Add(Me.ButtonStartUpload)
@@ -966,6 +968,17 @@ Partial Class UpLoadForm
         'Timer1
         '
         '
+        'ButtonForward
+        '
+        Me.ButtonForward.Enabled = False
+        Me.ButtonForward.Location = New System.Drawing.Point(227, 452)
+        Me.ButtonForward.Name = "ButtonForward"
+        Me.ButtonForward.Size = New System.Drawing.Size(86, 28)
+        Me.ButtonForward.TabIndex = 102
+        Me.ButtonForward.Text = " >>"
+        Me.ButtonForward.UseVisualStyleBackColor = True
+        Me.ButtonForward.Visible = False
+        '
         'UpLoadForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -1081,5 +1094,6 @@ Partial Class UpLoadForm
     Friend WithEvents ComboBoxTaskType As System.Windows.Forms.ComboBox
     Friend WithEvents LabelTaskType As System.Windows.Forms.Label
     Friend WithEvents Timer1 As System.Windows.Forms.Timer
+    Friend WithEvents ButtonForward As System.Windows.Forms.Button
 
 End Class

@@ -39,6 +39,8 @@ Public Class WatchUpload
                 LabelStartTimeCodeText.Text = reader("start_timecode")
                 LabelEndTimeCodeText.Text = reader("end_timecode")
                 LabelLengthText.Text = reader("length")
+                LabelInBcSendPer.Text = reader("in_bc_send_per")
+                Label1InBcRecvPer.Text = reader("in_bc_recv_per")
             Else
                 MsgBox("没有找到磁带信息")
             End If
