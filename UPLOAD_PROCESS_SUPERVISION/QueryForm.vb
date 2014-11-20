@@ -308,6 +308,9 @@ Public Class QueryForm
                 ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
             End If
         End If
+
+        Dim dv As DataGridView = CType(sender, DataGridView)
+        Console.WriteLine(dv.Width)
     End Sub
 
     Private Sub SetContextMenuStripItemStatus(ByVal id As Guid)
