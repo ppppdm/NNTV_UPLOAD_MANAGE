@@ -22,6 +22,13 @@ Public Class TapeReceive
     Private _unitW As Integer
     Private _unitH As Integer
 
+    Structure TapeNameModler
+        Dim DateStr As String
+        Dim TapeNameStr As String
+    End Structure
+
+    Private _lastTapeNameModler As TapeNameModler = New TapeNameModler
+
     Private _workAcq As AccessControlQuery
 
     Private Sub TapeReceive_Load(ByVal sender As Object, ByVal e As EventArgs) _
@@ -169,7 +176,7 @@ Public Class TapeReceive
             status = StatusNotRecvConfirm
         End If
 
-       If inBcSendPer = "" Then
+        If inBcSendPer = "" Then
             MsgBox("送带人!")
             'ElseIf inBcRecvPer = "" Then
             '    MsgBox("收带人!")
@@ -498,7 +505,7 @@ Public Class TapeReceive
     'End Sub
 
     Private Sub BackgroundWorker1_RunWorkerCompleted(ByVal sender As Object, _
-                                                     ByVal e As _
+                                                     ByVal e As  _
                                                         RunWorkerCompletedEventArgs) _
         Handles BackgroundWorker1.RunWorkerCompleted
 
@@ -515,7 +522,7 @@ Public Class TapeReceive
     End Sub
 
     Private Sub BackgroundWorker1_ProgressChanged(ByVal sender As Object, _
-                                                  ByVal e As _
+                                                  ByVal e As  _
                                                      ProgressChangedEventArgs) _
         Handles BackgroundWorker1.ProgressChanged
 
@@ -523,7 +530,7 @@ Public Class TapeReceive
         ' reads a line from the source file.
         ' This method runs on the main thread.
 
-        Dim result As AccessControlQuery.AccessControlResult = CType(e.UserState, _
+        Dim result As AccessControlQuery.AccessControlResult = CType(e.UserState,  _
                                                                      AccessControlQuery.AccessControlResult)
         Dim id As String = result.Name
 
@@ -733,12 +740,28 @@ Public Class TapeReceive
         End If
 
         If Not TypeName(uc) = "Nothing" Then
-            uc.TextBoxTapeName.Text = ListBoxTapeName.Text
+            Dim tapeName As String = ListBoxTapeName.Text
+
             ''如果磁带名如“六位日期+节目名称”则自动填入已知信息
             If _
-                IsNumeric(Mid(uc.TextBoxTapeName.Text, 1, 6)) And _
-                Mid(uc.TextBoxTapeName.Text, 7, 1) <> "" Then
-                Dim truename = Mid(uc.TextBoxTapeName.Text, 7)
+                IsNumeric(Mid(tapeName, 1, 6)) And _
+                Mid(tapeName, 7, 1) <> "" Then
+
+                Dim dateStr As String = Mid(tapeName, 1, 6)
+                Dim tapeNameStr As String = Mid(tapeName, 7)
+                If _lastTapeNameModler.TapeNameStr = tapeNameStr Then
+                    dateStr = _lastTapeNameModler.DateStr
+                End If
+
+                'dateStr 增加一天
+                dateStr = AddedOneDay(dateStr)
+
+                _lastTapeNameModler.TapeNameStr = tapeNameStr
+                _lastTapeNameModler.DateStr = dateStr
+
+                uc.TextBoxTapeName.Text = dateStr + tapeNameStr
+
+                Dim truename = Mid(tapeName, 7)
                 Dim sqlconn As SqlConnection = New SqlConnection(ConnStr)
                 Dim sqlstr = _
                         "SELECT TOP 2 * FROM tape Where tape_name LIKE '%" + _
@@ -808,10 +831,25 @@ Public Class TapeReceive
                 Finally
                     sqlconn.Close()
                 End Try
+            Else ''磁带名自动填入
+                uc.TextBoxTapeName.Text = tapeName
             End If
         End If
 
     End Sub
+
+    Private Function AddedOneDay(ByVal dateStr As String) As String
+        Try
+            Dim ds As String = "20" + dateStr
+            Dim dt As Date = CDate(Strings.Format(CInt(ds), "0000-00-00"))
+            dt = dt.AddDays(1)
+            dateStr = dt.ToString("yyMMdd")
+        Catch ex As Exception
+            Console.WriteLine(ex.Message)
+        End Try
+        
+        Return dateStr
+    End Function
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonAdd.Click
         AddOneTapeRecAttribute()

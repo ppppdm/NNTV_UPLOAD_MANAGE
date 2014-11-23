@@ -134,6 +134,18 @@
     <Compile Include="QueryForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ReceiveTapeInBatch.Designer.vb">
+      <DependentUpon>ReceiveTapeInBatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ReceiveTapeInBatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendTapeInBatch.Designer.vb">
+      <DependentUpon>SendTapeInBatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SendTapeInBatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Setting.designer.vb">
       <DependentUpon>Setting.vb</DependentUpon>
     </Compile>
@@ -157,6 +169,12 @@
     </Compile>
     <Compile Include="TapeRecOnlyRecv.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TapeRecTapeAttribute.Designer.vb">
+      <DependentUpon>TapeRecTapeAttribute.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TapeRecTapeAttribute.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="tape_send.designer.vb">
       <DependentUpon>tape_send.vb</DependentUpon>
@@ -214,6 +232,12 @@
       <DependentUpon>QueryForm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ReceiveTapeInBatch.resx">
+      <DependentUpon>ReceiveTapeInBatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SendTapeInBatch.resx">
+      <DependentUpon>SendTapeInBatch.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Setting.resx">
       <DependentUpon>Setting.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -228,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TapeRecOnlyRecv.resx">
       <DependentUpon>TapeRecOnlyRecv.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TapeRecTapeAttribute.resx">
+      <DependentUpon>TapeRecTapeAttribute.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="tape_send.resx">
       <DependentUpon>tape_send.vb</DependentUpon>
