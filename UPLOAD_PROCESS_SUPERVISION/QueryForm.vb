@@ -102,7 +102,7 @@ Public Class QueryForm
         'Dim connStr As String = "Server=" & DbServer & ";Database=" & DbDbNamme & _
         '                        ";User ID=" & DbUser & ";Password=" & DbPawd & _
         '                        ";"
-        Dim connection As New SqlConnection(connStr)
+        Dim connection As New SqlConnection(ConnStr)
 
         Try
             '打开数据库
