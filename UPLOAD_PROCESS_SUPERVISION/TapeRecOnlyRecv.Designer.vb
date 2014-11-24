@@ -56,6 +56,7 @@ Partial Class TapeRecOnlyRecv
         Me.LabelEndTimeCode = New System.Windows.Forms.Label
         Me.LabelStartTimeCode = New System.Windows.Forms.Label
         Me.LabelTapeName = New System.Windows.Forms.Label
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker
         Me.SuspendLayout()
         '
         'Label2
@@ -357,11 +358,16 @@ Partial Class TapeRecOnlyRecv
         Me.LabelTapeName.TabIndex = 34
         Me.LabelTapeName.Text = "节目名称"
         '
+        'BackgroundWorker1
+        '
+        Me.BackgroundWorker1.WorkerReportsProgress = True
+        Me.BackgroundWorker1.WorkerSupportsCancellation = True
+        '
         'TapeRecOnlyRecv
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(346, 384)
+        Me.ClientSize = New System.Drawing.Size(338, 379)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TextBoxRecvTime)
         Me.Controls.Add(Me.LabelRecvTapeTime)
@@ -439,4 +445,5 @@ Partial Class TapeRecOnlyRecv
     Friend WithEvents LabelEndTimeCode As System.Windows.Forms.Label
     Friend WithEvents LabelStartTimeCode As System.Windows.Forms.Label
     Friend WithEvents LabelTapeName As System.Windows.Forms.Label
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class

@@ -1,8 +1,11 @@
 ﻿Imports System.Data.SqlClient
+Imports System.ComponentModel
 
 Public Class TapeRecOnlyRecv
 
     Private _tapeId As Guid = Nothing
+
+    Private _workAcq As AccessControlQuery
 
     Private Sub ButtonCancel_Click(ByVal sender As System.Object, _
                                    ByVal e As EventArgs) _
@@ -363,5 +366,86 @@ Public Class TapeRecOnlyRecv
                                      ByVal e As EventArgs) _
         Handles TextBoxLengthF.Click
         TextBoxLengthF.SelectAll()
+    End Sub
+
+    Private Sub BackgroundWorker1_ProgressChanged(ByVal sender As Object, _
+                                                ByVal e As  _
+                                                   ProgressChangedEventArgs) _
+      Handles BackgroundWorker1.ProgressChanged
+
+        ' This event handler is called after the background thread
+        ' reads a line from the source file.
+        ' This method runs on the main thread.
+
+        Dim result As AccessControlQuery.AccessControlResult = CType(e.UserState,  _
+                                                                     AccessControlQuery.AccessControlResult)
+
+        '查询数据库 根据name获取信息
+        Dim connStr As String = "Server=" & DbServer & ";Database=" & DbDbNamme & _
+                                ";User ID=" & DbUser & ";Password=" & DbPawd & _
+                                ";"
+        Dim connection As New SqlConnection(connStr)
+        Const queryString As String = _
+                  "select name, department from person where id = @id"
+        Dim command As New SqlCommand(queryString, connection)
+        Dim pname As String
+        Dim department As String
+
+        command.Parameters.Add(New SqlParameter("@id", result.Name))
+
+        Try
+            connection.Open()
+            Dim reader As SqlDataReader = command.ExecuteReader()
+            If reader.Read Then
+                pname = reader("name")
+                department = reader("department")
+
+                If department = "播出部" Then
+                    TextBoxRecvPerson.Text = pname
+                Else
+                    MsgBox("非播出部人员")
+                End If
+
+            Else
+                MsgBox("数据库无此信息,请手动输入")
+            End If
+            reader.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            connection.Close()
+        End Try
+    End Sub
+
+    Private Sub BackgroundWorker1_DoWork(ByVal sender As Object, _
+                                         ByVal e As DoWorkEventArgs) _
+        Handles BackgroundWorker1.DoWork
+
+        ' This event handler is where the actual work is done.
+        ' This method runs on the background thread.
+
+        ' Get the BackgroundWorker object that raised this event.
+        Dim worker As BackgroundWorker
+        worker = CType(sender, BackgroundWorker)
+
+        ' Get the Works object and call the main method.
+        Dim workAcq As AccessControlQuery = CType(e.Argument, AccessControlQuery)
+        workAcq.StartAccessControl(worker)
+    End Sub
+
+    '载入界面时调用此方法调用后台线程
+    Sub StartThread()
+        ' This method runs on the main thread.
+
+        ' Initialize the object that the background worker calls.
+        _workAcq = New AccessControlQuery
+
+        ' Start the asynchronous operation.
+        BackgroundWorker1.RunWorkerAsync(_workAcq)
+    End Sub
+
+    '销毁界面前调用此方法调用后台线程
+    Sub EndThread()
+        _workAcq.EndAccessControl()
     End Sub
 End Class
