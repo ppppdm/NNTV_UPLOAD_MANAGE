@@ -13,6 +13,10 @@ Public Class TapeRecOnlyRecv
         Dispose()
     End Sub
 
+    Private Sub TapeRecOnlyRecv_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
+        EndThread()
+    End Sub
+
     Private Sub TapeRecOnlyRecv_Load(ByVal sender As Object, _
                                      ByVal e As EventArgs) _
         Handles Me.Load
@@ -23,6 +27,8 @@ Public Class TapeRecOnlyRecv
         If Not _tapeId = Nothing Then
             SetTapeInfo()
         End If
+
+        StartThread()
     End Sub
 
     Private Sub SetTapeInfo()
@@ -131,7 +137,7 @@ Public Class TapeRecOnlyRecv
                  New SqlParameter("@channel", channel)}
 
 
-        Const queryString As String = "update tape set( " & _
+        Const queryString As String = "update tape set " & _
         "tape_name=@tape_name, " & _
         "start_timecode=@start_timecode, " & _
         "end_timecode=@end_timecode, " & _
@@ -143,7 +149,7 @@ Public Class TapeRecOnlyRecv
         "program_type=@program_type, " & _
         "identical=@identical, " & _
         "media_type=@media_type, " & _
-        "channel=@channel )" & _
+        "channel=@channel " & _
         "where " & _
         "id=@id"
 
@@ -157,7 +163,7 @@ Public Class TapeRecOnlyRecv
             '打开数据库
             connection.Open()
             command.ExecuteNonQuery()
-
+            MsgBox("已确认收带")
         Catch ex As Exception
             MsgBox(ex.Message)
         Finally
