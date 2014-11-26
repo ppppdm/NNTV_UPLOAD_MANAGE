@@ -48,7 +48,7 @@ Public Class SendTapeInBatch
             connection.Open()
             Dim reader As SqlDataReader = Command.ExecuteReader()
             While reader.Read()
-                TextBoxTapeName.Text += reader("tape_name")
+                TextBoxTapeName.Text += reader("tape_name") + vbCrLf
             End While
 
         Catch ex As Exception

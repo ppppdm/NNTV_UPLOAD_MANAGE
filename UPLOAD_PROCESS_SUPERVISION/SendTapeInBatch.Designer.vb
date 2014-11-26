@@ -96,7 +96,8 @@ Partial Class SendTapeInBatch
         Me.TextBoxTapeName.Location = New System.Drawing.Point(93, 12)
         Me.TextBoxTapeName.Multiline = True
         Me.TextBoxTapeName.Name = "TextBoxTapeName"
-        Me.TextBoxTapeName.Size = New System.Drawing.Size(100, 87)
+        Me.TextBoxTapeName.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.TextBoxTapeName.Size = New System.Drawing.Size(309, 87)
         Me.TextBoxTapeName.TabIndex = 42
         '
         'ButtonOK
@@ -116,6 +117,9 @@ Partial Class SendTapeInBatch
         Me.ButtonCancel.TabIndex = 50
         Me.ButtonCancel.Text = "取消"
         Me.ButtonCancel.UseVisualStyleBackColor = True
+        '
+        'BackgroundWorker1
+        '
         '
         'SendTapeInBatch
         '
