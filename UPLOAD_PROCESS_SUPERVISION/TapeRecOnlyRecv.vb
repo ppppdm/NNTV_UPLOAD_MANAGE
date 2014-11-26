@@ -63,7 +63,7 @@ Public Class TapeRecOnlyRecv
                 CheckBoxTape.Checked = reader("identical")
 
                 '显示创建的起始时码
-                If Not TypeName(reader("start_timecode")) = "DBNull" Then
+                If Not reader("start_timecode") = "" Then
                     inbcsttimecode = reader("start_timecode")
                     arr = inbcsttimecode.Split(":")
                     TextBoxStartTimeH.Text = arr(0)
@@ -73,7 +73,7 @@ Public Class TapeRecOnlyRecv
                 End If
 
                 '显示创建的时长
-                If Not TypeName(reader("length")) = "DBNull" Then
+                If Not reader("length") = "" Then
                     inbclengthcode = reader("length")
                     arr = inbclengthcode.Split(":")
                     TextBoxLengthH.Text = arr(0)
@@ -82,7 +82,7 @@ Public Class TapeRecOnlyRecv
                     TextBoxLengthF.Text = arr(3)
                 End If
 
-                If Not TypeName(reader("end_timecode")) = "DBNull" Then
+                If Not reader("end_timecode") = "" Then
                     '显示创建的终止时码
                     inbcendtimecode = reader("end_timecode")
                     arr = inbcendtimecode.Split(":")

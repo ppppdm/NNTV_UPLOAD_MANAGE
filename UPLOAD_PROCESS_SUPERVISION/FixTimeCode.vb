@@ -43,7 +43,7 @@ Public Class FixTimeCode
 
                 TextBoxTapeName.Text = reader("tape_name")
 
-                If Not TypeName(reader("start_timecode")) = "DBNull" Then
+                If Not (reader("start_timecode")) = "" Then
                     Dim startTimeCode As String = reader("start_timecode")
                     TextBoxOldStartTimeCode.Text = startTimeCode
                     arr = startTimeCode.Split(":")
@@ -53,7 +53,7 @@ Public Class FixTimeCode
                     TextBoxNewStartTimeF.Text = arr(3)
                 End If
 
-                If Not TypeName(reader("length")) = "DBNull" Then
+                If Not (reader("length")) = "" Then
                     Dim length As String = reader("length")
                     TextBoxOldLength.Text = length
                     arr = length.Split(":")
