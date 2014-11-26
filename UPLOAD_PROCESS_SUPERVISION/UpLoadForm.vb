@@ -215,12 +215,12 @@ Public Class UpLoadForm
         Sleep(300) '延迟0.3秒
 
         '获取屏幕截图bmp图片
-        Dim w As Integer = Screen.PrimaryScreen.WorkingArea.Width
-        Dim h As Integer = Screen.PrimaryScreen.WorkingArea.Height
+        Dim w As Integer = Screen.PrimaryScreen.Bounds.Width
+        Dim h As Integer = Screen.PrimaryScreen.Bounds.Height
         Dim bmp As New Bitmap(w, h)
         Dim gs As Graphics = Graphics.FromImage(bmp)
 
-        gs.CopyFromScreen(0, 0, 0, 0, My.Computer.Screen.WorkingArea.Size)
+        gs.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size)
         PictureBoxScreenShotOfDaYangUpload.Image = bmp
 
         bmp.Save(ScreenShotBmp)

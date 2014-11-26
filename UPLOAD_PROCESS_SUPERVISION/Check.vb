@@ -133,12 +133,12 @@ Public Class Check
                              ByVal dbcolumn As String)
         WindowState = 1  '最小化程序窗口
         '获取屏幕截图bmp图片
-        Dim w As Integer = Screen.PrimaryScreen.WorkingArea.Width
-        Dim h As Integer = Screen.PrimaryScreen.WorkingArea.Height
+        Dim w As Integer = Screen.PrimaryScreen.Bounds.Width
+        Dim h As Integer = Screen.PrimaryScreen.Bounds.Height
         Dim bmp As New Bitmap(w, h)
         Dim gs As Graphics = Graphics.FromImage(bmp)
 
-        gs.CopyFromScreen(0, 0, 0, 0, My.Computer.Screen.WorkingArea.Size)
+        gs.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size)
         picBox.Image = bmp
 
         '图片存储到数据库中
@@ -215,12 +215,12 @@ Public Class Check
         WindowState = 1  '最小化程序窗口
 
         '获取屏幕截图bmp图片
-        Dim w As Integer = Screen.PrimaryScreen.WorkingArea.Width
-        Dim h As Integer = Screen.PrimaryScreen.WorkingArea.Height
+        Dim w As Integer = Screen.PrimaryScreen.Bounds.Width
+        Dim h As Integer = Screen.PrimaryScreen.Bounds.Height
         Dim bmp As New Bitmap(w, h)
         Dim gs As Graphics = Graphics.FromImage(bmp)
 
-        gs.CopyFromScreen(0, 0, 0, 0, My.Computer.Screen.WorkingArea.Size)
+        gs.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size)
         PictureBox1.Image = bmp
 
         '图片存储到数据库中
@@ -245,12 +245,12 @@ Public Class Check
         WindowState = 1  '最小化程序窗口
 
         '获取屏幕截图bmp图片
-        Dim w As Integer = Screen.PrimaryScreen.WorkingArea.Width
-        Dim h As Integer = Screen.PrimaryScreen.WorkingArea.Height
+        Dim w As Integer = Screen.PrimaryScreen.Bounds.Width
+        Dim h As Integer = Screen.PrimaryScreen.Bounds.Height
         Dim bmp As New Bitmap(w, h)
         Dim gs As Graphics = Graphics.FromImage(bmp)
 
-        gs.CopyFromScreen(0, 0, 0, 0, My.Computer.Screen.WorkingArea.Size)
+        gs.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size)
         PictureBox2.Image = bmp
 
         '图片存储到数据库中
@@ -275,12 +275,12 @@ Public Class Check
         WindowState = 1  '最小化程序窗口
 
         '获取屏幕截图bmp图片
-        Dim w As Integer = Screen.PrimaryScreen.WorkingArea.Width
-        Dim h As Integer = Screen.PrimaryScreen.WorkingArea.Height
+        Dim w As Integer = Screen.PrimaryScreen.Bounds.Width
+        Dim h As Integer = Screen.PrimaryScreen.Bounds.Height
         Dim bmp As New Bitmap(w, h)
         Dim gs As Graphics = Graphics.FromImage(bmp)
 
-        gs.CopyFromScreen(0, 0, 0, 0, My.Computer.Screen.WorkingArea.Size)
+        gs.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size)
         PictureBox3.Image = bmp
 
         '图片存储到数据库中
@@ -305,12 +305,12 @@ Public Class Check
         WindowState = 1  '最小化程序窗口
 
         '获取屏幕截图bmp图片
-        Dim w As Integer = Screen.PrimaryScreen.WorkingArea.Width
-        Dim h As Integer = Screen.PrimaryScreen.WorkingArea.Height
+        Dim w As Integer = Screen.PrimaryScreen.Bounds.Width
+        Dim h As Integer = Screen.PrimaryScreen.Bounds.Height
         Dim bmp As New Bitmap(w, h)
         Dim gs As Graphics = Graphics.FromImage(bmp)
 
-        gs.CopyFromScreen(0, 0, 0, 0, My.Computer.Screen.WorkingArea.Size)
+        gs.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size)
         PictureBox4.Image = bmp
 
         '图片存储到数据库中
