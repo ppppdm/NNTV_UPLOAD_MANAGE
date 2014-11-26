@@ -316,34 +316,36 @@ Public Class QueryForm
         Dim c As Integer = selectedRows.Count
 
         '判断是选择了一行还是多行
-        If c = 1 Then
-            Console.WriteLine("select one row")
-            '如果是右键点击则弹出菜单
-            If e.Button = Forms.MouseButtons.Right And dv.Rows(e.RowIndex).Selected Then
+        If e.RowIndex >= 0 Then
+            If c = 1 Then
+                Console.WriteLine("select one row")
+                '如果是右键点击则弹出菜单
+                If e.Button = Forms.MouseButtons.Right And dv.Rows(e.RowIndex).Selected Then
 
-                id = selectedRows.Item(0).Cells("id").Value
-                TapeId = id
-                MaterialId = id
+                    id = selectedRows.Item(0).Cells("id").Value
+                    TapeId = id
+                    MaterialId = id
 
-                SetContextMenuStripItemStatus(id)
-                ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
+                    SetContextMenuStripItemStatus(id)
+                    ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
+                End If
+            ElseIf c > 1 Then
+                Console.WriteLine("select multi rows")
+                '
+                If e.Button = Forms.MouseButtons.Right And dv.Rows(e.RowIndex).Selected Then
+
+                    IdLIst.Clear()
+                    For i = 0 To c - 1
+                        IdLIst.Add(selectedRows.Item(i).Cells("id"))
+                    Next
+
+                    SetContextMenuStripItemStatusMultiRows(selectedRows)
+                    'SetContextMenuStripItemStatusByIds(IdLIst)
+                    ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
+                End If
+            Else
+                Console.WriteLine("select " + c.ToString + " row(s)")
             End If
-        ElseIf c > 1 Then
-            Console.WriteLine("select multi rows")
-            '
-            If e.Button = Forms.MouseButtons.Right And dv.Rows(e.RowIndex).Selected Then
-
-                IdLIst.Clear()
-                For i = 0 To c - 1
-                    IdLIst.Add(selectedRows.Item(i).Cells("id"))
-                Next
-
-                SetContextMenuStripItemStatusMultiRows(selectedRows)
-                'SetContextMenuStripItemStatusByIds(IdLIst)
-                ContextMenuStrip1.Show(MousePosition.X, MousePosition.Y)
-            End If
-        Else
-            Console.WriteLine("select " + c.ToString + " row(s)")
         End If
 
     End Sub

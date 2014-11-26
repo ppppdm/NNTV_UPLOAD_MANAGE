@@ -61,30 +61,36 @@ Public Class TapeRecOnlyRecv
                 TextBoxSendPerson.Text = reader("in_bc_send_per")
                 TextBoxRemark.Text = reader("remark")
                 CheckBoxTape.Checked = reader("identical")
-                inbcsttimecode = reader("start_timecode")
-                inbclengthcode = reader("length")
-                inbcendtimecode = reader("end_timecode")
 
                 '显示创建的起始时码
-                arr = inbcsttimecode.Split(":")
-                TextBoxStartTimeH.Text = arr(0)
-                TextBoxStartTimeM.Text = arr(1)
-                TextBoxStartTimeS.Text = arr(2)
-                TextBoxStartTimeF.Text = arr(3)
+                If Not TypeName(reader("start_timecode")) = "DBNull" Then
+                    inbcsttimecode = reader("start_timecode")
+                    arr = inbcsttimecode.Split(":")
+                    TextBoxStartTimeH.Text = arr(0)
+                    TextBoxStartTimeM.Text = arr(1)
+                    TextBoxStartTimeS.Text = arr(2)
+                    TextBoxStartTimeF.Text = arr(3)
+                End If
 
                 '显示创建的时长
-                arr = inbclengthcode.Split(":")
-                TextBoxLengthH.Text = arr(0)
-                TextBoxLengthM.Text = arr(1)
-                TextBoxLengthS.Text = arr(2)
-                TextBoxLengthF.Text = arr(3)
+                If Not TypeName(reader("length")) = "DBNull" Then
+                    inbclengthcode = reader("length")
+                    arr = inbclengthcode.Split(":")
+                    TextBoxLengthH.Text = arr(0)
+                    TextBoxLengthM.Text = arr(1)
+                    TextBoxLengthS.Text = arr(2)
+                    TextBoxLengthF.Text = arr(3)
+                End If
 
-                '显示创建的终止时码
-                arr = inbcendtimecode.Split(":")
-                TextBoxEndTimeH.Text = arr(0)
-                TextBoxEndTimeM.Text = arr(1)
-                TextBoxEndTimeS.Text = arr(2)
-                TextBoxEndTimeF.Text = arr(3)
+                If Not TypeName(reader("end_timecode")) = "DBNull" Then
+                    '显示创建的终止时码
+                    inbcendtimecode = reader("end_timecode")
+                    arr = inbcendtimecode.Split(":")
+                    TextBoxEndTimeH.Text = arr(0)
+                    TextBoxEndTimeM.Text = arr(1)
+                    TextBoxEndTimeS.Text = arr(2)
+                    TextBoxEndTimeF.Text = arr(3)
+                End If
             End If
 
             reader.Close()
